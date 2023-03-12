@@ -1,15 +1,10 @@
 ﻿namespace SO1.Algorithms;
 
-public class FCFSAlgorithm : IAlgorithm {
-    private List<Process> processList;
-    private List<Process> executedProcesses;
-
-    public FCFSAlgorithm(List<Process> processList) {
-        this.processList = processList;
-        executedProcesses = new();
+public class FCFSAlgorithm : Algorithm {
+    public FCFSAlgorithm(List<Process> processList, string name) : base(processList, name) {
     }
 
-    public void Execute() {
+    public override void Execute() {
         int tick = 1;
 
         processList = processList.OrderBy(p => p.ArrivalTime).ToList();
@@ -30,10 +25,8 @@ public class FCFSAlgorithm : IAlgorithm {
                 proc.AddWaitingTime(tick - proc.ArrivalTime - proc.WaitingTime);
             }
 
-            executedProcesses.Add(process);
+            ExecutedProcesses.Add(process);
             processList.Remove(process);
         }
-
-        Console.WriteLine($"Średni czas oczekiwania dla FCFS : {(float)executedProcesses.Sum(p => p.WaitingTime) / executedProcesses.Count}");
     }
 }

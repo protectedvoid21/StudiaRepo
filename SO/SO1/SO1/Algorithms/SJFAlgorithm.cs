@@ -2,16 +2,11 @@
 
 namespace SO1.Algorithms;
 
-public class SJFAlgorithm : IAlgorithm {
-    private List<Process> processList;
-    private List<Process> executedProcesses;
-
-    public SJFAlgorithm(List<Process> processList) {
-        this.processList = processList;
-        executedProcesses = new();
+public class SJFAlgorithm : Algorithm {
+    public SJFAlgorithm(List<Process> processList, string name) : base(processList, name) {
     }
 
-    public void Execute() {
+    public override void Execute() {
         int tick = 1;
 
         while(processList.Any()) {
@@ -29,10 +24,8 @@ public class SJFAlgorithm : IAlgorithm {
                 proc.AddWaitingTime(tick - proc.ArrivalTime - proc.WaitingTime);
             }
 
-            executedProcesses.Add(process);
+            ExecutedProcesses.Add(process);
             processList.Remove(process);
         }
-
-        Console.WriteLine($"Średni czas oczekiwania dla SJF : {(float)executedProcesses.Sum(p => p.WaitingTime) / executedProcesses.Count}");
     }
 }
