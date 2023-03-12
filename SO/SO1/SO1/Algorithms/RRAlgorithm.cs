@@ -2,29 +2,37 @@
 
 public class RRAlgorithm : IAlgorithm {
     private readonly int quantum;
-    private IEnumerable<Process> processList;
+    private List<Process> processList;
+    private List<Process> executedProcesses; 
 
-    public RRAlgorithm(IEnumerable<Process> processList, int quantum) {
+    public RRAlgorithm(List<Process> processList, int quantum) {
         this.processList = processList;
+        executedProcesses = new();
         this.quantum = quantum;
     }
 
     public void Execute() {
         int tick = 1;
 
-        processList = processList.OrderBy(p => p.ArrivalTime);
+        processList = processList.OrderBy(p => p.ArrivalTime).ToList();
 
-        while (!processList.All(p => p.IsCompleted)) {
-            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted);
+        while (processList.Any()) {
+            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick);
             if(!currentProcesses.Any()) {
                 tick++;
                 continue;
             }
 
+
+            List<Process> completedList = new();
             foreach (var process in currentProcesses) {
                 int burnt = process.ExecutePartly(quantum);
                 tick += burnt;
-                var otherProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted);
+                if (process.IsCompleted) {
+                    completedList.Add(process);
+                }
+
+                var otherProcesses = processList.Where(p => p.ArrivalTime <= tick);
                 foreach (var other in otherProcesses) {
                     if (process == other) {
                         continue;
@@ -34,6 +42,11 @@ public class RRAlgorithm : IAlgorithm {
                     other.AddWaitingTime(waitingTime);
                 }
             }
+
+            foreach (var process in completedList) {
+                executedProcesses.Add(process);
+                processList.Remove(process);
+            }
         }
         
 
@@ -41,6 +54,6 @@ public class RRAlgorithm : IAlgorithm {
         //    Console.WriteLine($"{process.InitialAmount} - Waited : {process.WaitingTime}");
         //}
 
-        Console.WriteLine($"Średni czas oczekiwania dla RR (kwant : {quantum}) : {(float)processList.Sum(p => p.WaitingTime) / processList.Count()}");
+        Console.WriteLine($"Średni czas oczekiwania dla RR (kwant : {quantum}) : {(float)executedProcesses.Sum(p => p.WaitingTime) / executedProcesses.Count}");
     }
 }

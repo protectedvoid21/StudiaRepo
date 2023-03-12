@@ -1,16 +1,20 @@
-﻿namespace SO1.Algorithms;
+﻿using System.Linq;
+
+namespace SO1.Algorithms;
 
 public class SJFAlgorithm : IAlgorithm {
-    private IEnumerable<Process> processList;
+    private List<Process> processList;
+    private List<Process> executedProcesses;
 
-    public SJFAlgorithm(IEnumerable<Process> processList) {
+    public SJFAlgorithm(List<Process> processList) {
         this.processList = processList;
+        executedProcesses = new();
     }
 
     public void Execute() {
         int tick = 1;
 
-        while(!processList.All(p => p.IsCompleted)) {
+        while(processList.Any()) {
             var currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted).OrderBy(p => p.Amount);
             if(!currentProcesses.Any()) {
                 tick++;
@@ -25,9 +29,10 @@ public class SJFAlgorithm : IAlgorithm {
                 proc.AddWaitingTime(tick - proc.ArrivalTime - proc.WaitingTime);
             }
 
-            //Console.WriteLine(process.WaitingTime);
+            executedProcesses.Add(process);
+            processList.Remove(process);
         }
 
-        Console.WriteLine($"Średni czas oczekiwania dla SJF : {(float)processList.Sum(p => p.WaitingTime) / processList.Count()}");
+        Console.WriteLine($"Średni czas oczekiwania dla SJF : {(float)executedProcesses.Sum(p => p.WaitingTime) / executedProcesses.Count}");
     }
 }

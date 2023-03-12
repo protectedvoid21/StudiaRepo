@@ -7,7 +7,7 @@ public class ProcessGenerator {
         Random random = new();
 
         for(var i = 0; i < processCount; i++) {
-            processList.Add(new Process(random.Next(1, maxAmount + 1), i/* + random.Next(1, 5)*/));
+            processList.Add(new Process(random.Next(1, maxAmount + 1), i + random.Next(1, 10)));
         }
 
         return processList;
