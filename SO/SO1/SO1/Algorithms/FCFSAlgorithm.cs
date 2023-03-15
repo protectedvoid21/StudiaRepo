@@ -10,7 +10,7 @@ public class FCFSAlgorithm : Algorithm {
         processList = processList.OrderBy(p => p.ArrivalTime).ToList();
 
         while(processList.Any()) {
-            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted);
+            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick);
             if(!currentProcesses.Any()) {
                 tick++;
                 continue;
