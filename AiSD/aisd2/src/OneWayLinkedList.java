@@ -2,28 +2,29 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class OneWayLinkedList<E> implements IList<E>{
+public class OneWayLinkedList<E> implements IList<E> {
 
-    private class Element{
+    private class Element {
         E object;
         Element next = null;
-        
+
         public Element(E e) {
-            this.object=e;
+            this.object = e;
         }
     }
 
     Element sentinel;
 
-    private class InnerIterator implements Iterator<E>{
+    private class InnerIterator implements Iterator<E> {
         private Element currentElement;
-        
+
         public InnerIterator() {
             currentElement = sentinel;
         }
+
         @Override
         public boolean hasNext() {
-            return currentElement != null;
+            return currentElement.next != null;
         }
 
         @Override
@@ -49,52 +50,98 @@ public class OneWayLinkedList<E> implements IList<E>{
 
     @Override
     public boolean add(E e) {
-        Element element = new Element(e);
-        
-        Element last = sentinel;
-        while(last.next != null) {
-            last = last.next;
+        Element newElem = new Element(e);
+        if (sentinel.next == null) {
+            sentinel.next = newElem;
+            return true;
         }
-        last.next = element;
+        Element tail = sentinel.next;
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+        tail.next = newElem;
         return true;
+    }
+    
+    private Element getElement(int index) throws NoSuchElementException {
+        if (index < 0) {
+            throw new NoSuchElementException();
+        }
+
+        Element actElem = sentinel.next;
+        while (index > 0 && actElem != null) {
+            index--;
+            actElem = actElem.next;
+        }
+        if (actElem == null) {
+            throw new NoSuchElementException();
+        }
+        
+        return actElem;
+    }
+    
+    public void removeEven() {
+        int index = 0;
+        
+        Element before = sentinel;
+        Element current = sentinel.next;
+        
+        while(current != null) {
+            if(index % 2 == 0) {
+                before.next = current.next;
+            }
+            else {
+                before = current;
+            }
+            current = current.next;
+            index++;
+        }
     }
 
     @Override
-    public void add(int index, E element) throws NoSuchElementException {
-        // TODO Auto-generated method stub
-
+    public void add(int index, E e) throws NoSuchElementException {
+        if(index < 0) {
+            throw new NoSuchElementException();
+        }
+        
+        Element backElement = index == 0 ? sentinel : getElement(index - 1);
+        
+        Element createdElement = new Element(e);
+        createdElement.next = backElement.next;
+        backElement.next = createdElement;
     }
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-
+        sentinel.next = null;
     }
 
     @Override
-    public boolean contains(E element) {
-        return indexOf(element) >= 0;
+    public boolean contains(E e) {
+        return indexOf(e) >= 0;
     }
 
     @Override
     public E get(int index) throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        return null;
+        return getElement(index).object;
     }
 
     @Override
-    public E set(int index, E element) throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int indexOf(E element) {
-        int pos = 0;
-        Element actualElement = sentinel;
+    public E set(int index, E e) throws NoSuchElementException {
+        Element element = getElement(index);
+        E previousValue = element.object;
+        getElement(index).object = e;
         
-        while(actualElement != null) {
-            if(actualElement.object.equals(element)) {
+        return previousValue;
+    }
+
+    @Override
+    public int indexOf(E e) {
+        int pos = 0;
+        Element actualElement = sentinel.next;
+
+        while (actualElement != null) {
+            if (actualElement.object.equals(e)) {
                 return pos;
             }
             pos++;
@@ -105,26 +152,48 @@ public class OneWayLinkedList<E> implements IList<E>{
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return sentinel.next != null;
     }
 
     @Override
     public E remove(int index) throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        return null;
+        if(index < 0) {
+            throw new NoSuchElementException();
+        }
+        
+        Element backElement = index == 0 ? sentinel : getElement(index - 1);
+        if(backElement.next == null) {
+            throw new NoSuchElementException();
+        }
+        
+        Element removed = backElement.next;
+        backElement.next = backElement.next.next;
+        return removed.object;
     }
 
     @Override
     public boolean remove(E e) {
-        // TODO Auto-generated method stub
+        Element current = sentinel;
+        
+        while(current.next != null) {
+            if(current.next.object.equals(e)) {
+                current.next = current.next.next;
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+        int size = 0;
+        Element tail = sentinel.next;
 
+        while (tail != null) {
+            size++;
+            tail = tail.next;
+        }
+        return size;
+    }
 }

@@ -1,6 +1,6 @@
-PWD c:\Users\niezn\OneDrive\Pulpit\Studia\Semestr II\Fizyka L
+PWD c:\Users\niezn\OneDrive\Pulpit\Studia\StudiaRepo\Fizyka\Sprawozdanie 1
 INPUT C:\Users\niezn\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\niezn\OneDrive\Pulpit\Studia\Semestr II\Fizyka L\sprawozdanie1.tex
+INPUT c:\Users\niezn\OneDrive\Pulpit\Studia\StudiaRepo\Fizyka\Sprawozdanie 1\sprawozdanie1.tex
 OUTPUT sprawozdanie1.log
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls

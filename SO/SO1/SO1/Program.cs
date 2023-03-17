@@ -6,7 +6,7 @@ namespace SO1;
 public class Program {
     private static void Main() {
         //List<Process> processList = ProcessGenerator.GetProcessList(new[] { 5,2,8,2 });
-        List<Process> processList = ProcessGenerator.GetProcessList(2500, 150);
+        List<Process> processList = ProcessGenerator.GetProcessList(2500, 50);
 
         Algorithm[] algorithms = {
             new FCFSAlgorithm(ProcessGenerator.CopyProcessList(processList), "FCFS"),
