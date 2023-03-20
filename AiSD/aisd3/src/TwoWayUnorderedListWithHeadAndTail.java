@@ -22,13 +22,12 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
     Element head;
     Element tail;
-    // can be realization with the field size or without
+
     int size;
 
     private class InnerIterator implements Iterator<E>{
         Element pos;
-        // TODO maybe more fields....
-
+        
         public InnerIterator() {
             pos = head;
         }
@@ -234,11 +233,26 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
     public E remove(int index) throws NoSuchElementException {
         Element element = getElement(index);
         
+        if(index == 0) {
+            if(size == 1) {
+                clear();
+            }
+            else {
+                head = head.next;
+                head.prev = null;
+                size--;
+            }
+            return element.object;
+        }
+    
         element.prev.next = element.next;
-        element.next.prev = element.prev;
+        
         
         if(index == size - 1) {
             tail = element.prev;
+        }
+        else {
+            element.next.prev = element.prev;
         }
         size--;
         return element.object;
@@ -246,15 +260,42 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
     @Override
     public boolean remove(E e) {
+        if(isEmpty()) {
+            return false;
+        }
         Element current = head;
         
-        if(current != null) {
+        if(current.object.equals(e)) {
+            if(size > 1) {
+                current.next.prev = null;
+                head = current.next;
+            }
+            else {
+                head = null;
+                tail = null;
+            }
+            size--;
+            return true;
+        }
+        
+        int index = 1;
+        
+        while(index < size) {
             if(current.object.equals(e)) {
                 current.prev.next = current.next;
                 current.next.prev = current.prev;
                 size--;
                 return true;
             }
+            current = current.next;
+            index++;
+        }
+        
+        if(current.object.equals(e)) {
+            current.prev.next = null;
+            tail = current.prev;
+            size--;
+            return true;
         }
         return false;
     }
@@ -269,16 +310,20 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
         StringBuilder retStr= new StringBuilder();
         
         while(iter.hasNext()) {
-            retStr.insert(0, iter.next() + "\n");
+            retStr.insert(0, "\n" + iter.next());
         }
         
-        return retStr.toString().strip();
+        return retStr.toString();
     }
 
     public void add(TwoWayUnorderedListWithHeadAndTail<E> other) {
+        if(other.isEmpty()) {
+            return;
+        }
         tail.next = other.head;
         other.head.prev = tail;
         tail = other.tail;
         size += other.size;
+        other.clear();
     }
 }

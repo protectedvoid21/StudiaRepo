@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1678901687 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 1/sprawozdanie1.tex" "sprawozdanie1.pdf" "sprawozdanie1" 1678901689
+["pdflatex"] 1679308324 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 1/sprawozdanie1.tex" "sprawozdanie1.pdf" "sprawozdanie1" 1679308326
   "C:/Users/niezn/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1678633860 86553 91af261fa287312f2fb1f66a097366be ""
   "C:/Users/niezn/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1668176038 14064 955ff3e66d356ed127f306eca2052983 ""
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1667120980 10788011 3fbf93dcc05db05ca4b82494ec413059 ""
@@ -232,15 +232,15 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238465940 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656233290 56148 51a9a8571c07b9921892ae11063ae853 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656233319 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 1/sprawozdanie1.tex" 1678901686 7470 71254ec347365c31d60338cc9c72fa22 ""
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 1/sprawozdanie1.tex" 1679308323 9160 4a8abcc1ac4a2af209074ba32102a47e ""
   "obwod1.pdf" 1678627288 17491 d776c334e3cd06f5f5722b67227be3e3 ""
   "obwod2.pdf" 1678628431 15752 1b6aa7e93cca3e4f288c288d3cbdbfb8 ""
-  "pomiar1.png" 1678799430 12046 59cd576694186a6e8b6c49f1c7d07047 ""
-  "pomiar2.png" 1678799455 12363 fffce7a97b14cfb2fcf5b28297a40563 ""
-  "pomiar3.png" 1678799480 12410 6c8987fe8606aedabc45c9905898a5e0 ""
-  "sprawozdanie1.aux" 1678901689 2375 4b518d3e9ba2d5e8cd511d36acad3039 "pdflatex"
-  "sprawozdanie1.out" 1678901689 2066 e5208392432680cbaff248b204ffa356 "pdflatex"
-  "sprawozdanie1.tex" 1678901686 7470 71254ec347365c31d60338cc9c72fa22 ""
+  "pomiar1.png" 1679213859 12046 1a432147a84830408e9400a346d7c24d ""
+  "pomiar2.png" 1679213895 12363 d87843d7332a3b169482d73706f17d6a ""
+  "pomiar3.png" 1679213712 12410 6ebbbcfeaf3baebff5342ddd3f8e87a0 ""
+  "sprawozdanie1.aux" 1679308325 2529 9a6414a4c042231b6e931b0a9f1f5cbd "pdflatex"
+  "sprawozdanie1.out" 1679308325 2374 9ae491fe733a62517180bbfae7b4f2b2 "pdflatex"
+  "sprawozdanie1.tex" 1679308323 9160 4a8abcc1ac4a2af209074ba32102a47e ""
   (generated)
   "sprawozdanie1.aux"
   "sprawozdanie1.log"

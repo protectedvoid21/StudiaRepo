@@ -44,8 +44,8 @@ public class Document {
     private static boolean containsSpecialCharacters(String text) {
         char[] chars = text.toCharArray();
 
-        for (var c : chars) {
-            if (!Character.isLetterOrDigit(c) && c != '_') {
+        for(var c : chars) {
+            if(!Character.isDigit(c) && !Character.isLetter(c) && c != '_') {
                 return false;
             }
         }
@@ -54,16 +54,15 @@ public class Document {
 
     @Override
     public String toString() {
-        String str = "Document: " + name + "\n";
+        String str = "Document: " + name;
         for (var link : links) {
-            str += link.ref + "\n";
+            str += "\n" + link.ref;
         }
-        str = str.strip();
         return str;
     }
 
     public String toStringReverse() {
-        String retStr = "Document: " + name + "\n";
+        String retStr = "Document: " + name;
         return retStr + links.toStringReverse();
     }
 
