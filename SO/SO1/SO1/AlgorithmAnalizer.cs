@@ -3,17 +3,19 @@
 namespace SO1; 
 
 public class AlgorithmAnalizer {
-    private const int tableWidth = 100;
+    private const int tableWidth = 140;
 
     public static void Create(List<AlgorithmStats> algorithmStatList) {
         PrintRow(algorithmStatList.Select(a => a.Name).Prepend("").ToArray());
         PrintLine();
 
-        PrintRow(algorithmStatList.Select(a => a.AverageExecution.ToString()).Prepend("Avg. waiting").ToArray());
+        PrintRow(algorithmStatList.Select(a => a.AverageExecution.ToString("F3")).Prepend("Avg. waiting").ToArray());
         PrintLine();
         PrintRow(algorithmStatList.Select(a => a.ProcessCount.ToString()).Prepend("Process count").ToArray());
         PrintLine();
-        PrintRow(algorithmStatList.Select(a => a.AverageProcessSize.ToString()).Prepend("Avg. process size").ToArray());
+        PrintRow(algorithmStatList.Select(a => a.ChangeCount.ToString()).Prepend("Change count").ToArray());
+        PrintLine();
+        PrintRow(algorithmStatList.Select(a => a.AverageProcessSize.ToString("F2")).Prepend("Avg. process size").ToArray());
         PrintLine();
         PrintRow(algorithmStatList.Select(a => a.MinWaiting.ToString()).Prepend("Min. waiting time").ToArray());
         PrintLine();

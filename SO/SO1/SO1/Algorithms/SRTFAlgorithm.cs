@@ -20,6 +20,8 @@ public class SRTFAlgorithm : Algorithm {
     public override void Execute() {
         tick = 1;
 
+        Process previousProcess = null;
+
         while(processList.Count > 0) {
             if(Utils.IsAnyProcessWaiting(processList, tick) == false) {
                 tick++;
@@ -27,6 +29,9 @@ public class SRTFAlgorithm : Algorithm {
             }
             Process currentProcess = GetShortestRemainingTime();
             currentProcess.ExecutePartly(1);
+            if (currentProcess != previousProcess) { ChangeCount++;
+            }
+            previousProcess = currentProcess;
             tick++;
             
             if (currentProcess.IsCompleted) {

@@ -23,6 +23,8 @@ public class RRAlgorithm : Algorithm {
             foreach (var process in currentProcesses) {
                 int burnt = process.ExecutePartly(quantum);
                 tick += burnt;
+                ChangeCount++;
+
                 if (process.IsCompleted) {
                     completedList.Add(process);
                 }

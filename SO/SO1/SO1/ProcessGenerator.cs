@@ -1,13 +1,13 @@
 ﻿namespace SO1;
 
 public class ProcessGenerator {
-    public static List<Process> GetProcessList(int processCount, int maxAmount) {
+    public static List<Process> GetProcessList(int processCount, int maxAmount, int arrivalOffset) {
         List<Process> processList = new();
 
         Random random = new();
 
         for(var i = 0; i < processCount; i++) {
-            processList.Add(new Process(random.Next(1, maxAmount + 1), i + random.Next(1, 10)));
+            processList.Add(new Process(random.Next(1, maxAmount + 1), i + random.Next(arrivalOffset)));
         }
 
         return processList;
@@ -23,6 +23,24 @@ public class ProcessGenerator {
         }
 
         return processList;
+    }
+
+    public static List<Process> GenerateSampleProcessList() {
+        return new List<Process>() {
+            new Process(1, 1),
+            new Process(2, 1),
+            new Process(3, 1),
+            new Process(4, 1),
+            new Process(5, 1),
+            new Process(6, 1),
+            new Process(1, 17),
+            new Process(2, 17),
+            new Process(3, 17),
+            new Process(4, 17),
+            new Process(1, 28),
+            new Process(2, 28),
+            new Process(3, 28),
+        };
     }
 
     public static void PrintProcessList(List<Process> processes) {

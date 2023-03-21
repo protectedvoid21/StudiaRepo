@@ -15,6 +15,7 @@ public class FCFSAlgorithm : Algorithm {
 
             Process currentProcess = processList[0];
             currentProcess.Execute();
+            ChangeCount++;
 
             tick += currentProcess.InitialAmount;
             

@@ -30,6 +30,7 @@ public class SJFAlgorithm : Algorithm {
 
             Process currentProcess = GetCurrentProcess();
             currentProcess.Execute();
+            ChangeCount++;
             
             ExecutedProcesses.Add(currentProcess);
             processList.Remove(currentProcess);

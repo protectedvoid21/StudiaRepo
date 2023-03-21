@@ -1,4 +1,6 @@
-﻿namespace SO1; 
+﻿using SO1.Algorithms;
+
+namespace SO1; 
 
 public class AlgorithmStats {
     public int MinWaiting { get; init; }
@@ -8,10 +10,13 @@ public class AlgorithmStats {
     public int SmallestProcess { get; init; }
     public double AverageProcessSize { get; init; }
     public int ProcessCount { get; init; }
+    public int ChangeCount { get; init; }
 
     public string Name { get; init; }
 
-    public AlgorithmStats(List<Process> executionProcesses, string algorithmName) {
+    public AlgorithmStats(Algorithm algorithm) {
+        var executionProcesses = algorithm.ExecutedProcesses;
+
         MinWaiting = executionProcesses.Min(p => p.WaitingTime);
         MaxWaiting = executionProcesses.Max(p => p.WaitingTime);
         AverageExecution = executionProcesses.Average(p => p.WaitingTime);
@@ -19,7 +24,8 @@ public class AlgorithmStats {
         SmallestProcess = executionProcesses.Min(p => p.InitialAmount);
         BiggestProcess = executionProcesses.Max(p => p.InitialAmount);
         AverageProcessSize = executionProcesses.Average(p => p.InitialAmount);
+        ChangeCount = algorithm.ChangeCount;
 
-        Name = algorithmName;
+        Name = algorithm.Name;
     }
 }
