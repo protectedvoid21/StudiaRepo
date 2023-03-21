@@ -6,13 +6,13 @@ namespace SO1;
 public class Program {
     private static void Main() {
         //List<Process> processList = ProcessGenerator.GetProcessList(new[] { 5,2,8,2 });
-        List<Process> processList = ProcessGenerator.GetProcessList(2500, 50);
+        List<Process> processList = ProcessGenerator.GetProcessList(5000, 100).OrderBy(p => p.ArrivalTime).ToList();
 
         Algorithm[] algorithms = {
             new FCFSAlgorithm(ProcessGenerator.CopyProcessList(processList), "FCFS"),
             new SJFAlgorithm(ProcessGenerator.CopyProcessList(processList), "SJF"),
             new SRTFAlgorithm(ProcessGenerator.CopyProcessList(processList), "SRTF"),
-            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 120)
+            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 80)
         };
 
         //ProcessGenerator.PrintProcessList(processList);

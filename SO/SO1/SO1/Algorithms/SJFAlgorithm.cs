@@ -3,29 +3,43 @@
 namespace SO1.Algorithms;
 
 public class SJFAlgorithm : Algorithm {
+    private int tick;
+    
     public SJFAlgorithm(List<Process> processList, string name) : base(processList, name) {
     }
 
-    public override void Execute() {
-        int tick = 1;
+    private Process GetCurrentProcess() {
+        Process process = processList[0];
+        foreach (var proc in processList) {
+            if (proc.ArrivalTime <= tick && proc.Amount < process.Amount) {
+                process = proc;
+            }
+        }
 
-        while(processList.Any()) {
-            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted).OrderBy(p => p.Amount);
-            if(!currentProcesses.Any()) {
+        return process;
+    }
+
+    public override void Execute() {
+        tick = 1;
+
+        while(processList.Count > 0) {
+            if(Utils.IsAnyProcessWaiting(processList, tick) == false) {
                 tick++;
                 continue;
             }
-            Process process = currentProcesses.First();
-            process.Execute();
 
-            tick += process.InitialAmount;
-            currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted).OrderBy(p => p.Amount);
-            foreach(var proc in currentProcesses) {
+            Process currentProcess = GetCurrentProcess();
+            currentProcess.Execute();
+            
+            ExecutedProcesses.Add(currentProcess);
+            processList.Remove(currentProcess);
+
+            tick += currentProcess.InitialAmount;
+            
+            var restProcesses = processList.Where(p => p.ArrivalTime <= tick);
+            foreach(var proc in restProcesses) {
                 proc.AddWaitingTime(tick - proc.ArrivalTime - proc.WaitingTime);
             }
-
-            ExecutedProcesses.Add(process);
-            processList.Remove(process);
         }
     }
 }

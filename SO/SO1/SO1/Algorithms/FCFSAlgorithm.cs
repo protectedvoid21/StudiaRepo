@@ -7,26 +7,27 @@ public class FCFSAlgorithm : Algorithm {
     public override void Execute() {
         int tick = 1;
 
-        processList = processList.OrderBy(p => p.ArrivalTime).ToList();
-
-        while(processList.Any()) {
-            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick);
-            if(!currentProcesses.Any()) {
+        while(processList.Count > 0) {
+            if(Utils.IsAnyProcessWaiting(processList, tick) == false) {
                 tick++;
                 continue;
             }
 
-            Process process = currentProcesses.First();
-            process.Execute();
+            Process currentProcess = processList[0];
+            currentProcess.Execute();
 
-            tick += process.InitialAmount;
-            currentProcesses = processList.Where(p => p.ArrivalTime <= tick && !p.IsCompleted);
-            foreach(var proc in currentProcesses) {
+            tick += currentProcess.InitialAmount;
+            
+            var restProcesses = processList.Where(p => p.ArrivalTime <= tick);
+            foreach(var proc in restProcesses) {
+                if (proc == currentProcess) {
+                    continue;
+                }
                 proc.AddWaitingTime(tick - proc.ArrivalTime - proc.WaitingTime);
             }
 
-            ExecutedProcesses.Add(process);
-            processList.Remove(process);
+            ExecutedProcesses.Add(currentProcess);
+            processList.Remove(currentProcess);
         }
     }
 }

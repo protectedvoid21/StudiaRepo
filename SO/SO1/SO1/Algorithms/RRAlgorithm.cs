@@ -11,16 +11,14 @@ public class RRAlgorithm : Algorithm {
     public override void Execute() {
         int tick = 1;
 
-        processList = processList.OrderBy(p => p.ArrivalTime).ToList();
-
         while (processList.Any()) {
-            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick);
-            if(!currentProcesses.Any()) {
+            if(Utils.IsAnyProcessWaiting(processList, tick) == false) {
                 tick++;
                 continue;
             }
 
-
+            var currentProcesses = processList.Where(p => p.ArrivalTime <= tick);
+            
             List<Process> completedList = new();
             foreach (var process in currentProcesses) {
                 int burnt = process.ExecutePartly(quantum);
