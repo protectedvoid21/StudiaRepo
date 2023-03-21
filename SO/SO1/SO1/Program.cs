@@ -5,20 +5,17 @@ namespace SO1;
 
 public class Program {
     private static void Main() {
-        //List<Process> processList = ProcessGenerator.GetProcessList(new[] { 4,5,1,2 });
-        List<Process> processList = ProcessGenerator.GetProcessList(5000, 150, 200).OrderBy(p => p.ArrivalTime).ToList();
-        //List<Process> processList = ProcessGenerator.GenerateSampleProcessList();
-
+        List<Process> processList = ProcessGenerator.GetProcessList(2500, 100, 200).OrderBy(p => p.ArrivalTime).ToList();
+        //var processList = ProcessGenerator.TestRR();
+        
         Algorithm[] algorithms = {
             new FCFSAlgorithm(ProcessGenerator.CopyProcessList(processList), "FCFS"),
             new SJFAlgorithm(ProcessGenerator.CopyProcessList(processList), "SJF"),
             new SRTFAlgorithm(ProcessGenerator.CopyProcessList(processList), "SRTF"),
-            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 25),
+            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 40),
             new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 70),
-            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 150)
+            new RRAlgorithm(ProcessGenerator.CopyProcessList(processList), "RR", 100)
         };
-
-        //ProcessGenerator.PrintProcessList(processList);
 
         Console.WriteLine("Computing in progress... (this may take a while)");
         List<AlgorithmStats> algorithmsStats = new();

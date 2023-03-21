@@ -26,7 +26,7 @@ public class ProcessGenerator {
     }
 
     public static List<Process> GenerateSampleProcessList() {
-        return new List<Process>() {
+        return new List<Process> {
             new Process(1, 1),
             new Process(2, 1),
             new Process(3, 1),
@@ -40,6 +40,21 @@ public class ProcessGenerator {
             new Process(1, 28),
             new Process(2, 28),
             new Process(3, 28),
+        };
+    }
+
+    public static List<Process> TestRR() {
+        return new List<Process> {
+            new Process(1, 1),
+            new Process(2, 1),
+            new Process(4, 1),
+            new Process(6, 1),
+            new Process(8, 1),
+            new Process(8, 12),
+            new Process(6, 12),
+            new Process(4, 12),
+            new Process(2, 12),
+            new Process(1, 12),
         };
     }
 

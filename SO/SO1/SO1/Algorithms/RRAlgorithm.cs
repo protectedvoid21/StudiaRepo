@@ -11,7 +11,7 @@ public class RRAlgorithm : Algorithm {
     public override void Execute() {
         int tick = 1;
 
-        while (processList.Any()) {
+        while (processList.Count > 0) {
             if(Utils.IsAnyProcessWaiting(processList, tick) == false) {
                 tick++;
                 continue;

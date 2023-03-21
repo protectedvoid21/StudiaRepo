@@ -7,7 +7,7 @@ public class SRTFAlgorithm : Algorithm {
     }
 
     private Process GetShortestRemainingTime() {
-        Process process = processList[0];
+        Process process = processList.First(p => p.ArrivalTime <= tick);
         foreach (var proc in processList) {
             if (proc.ArrivalTime <= tick && proc.Amount < process.Amount) {
                 process = proc;
@@ -29,7 +29,8 @@ public class SRTFAlgorithm : Algorithm {
             }
             Process currentProcess = GetShortestRemainingTime();
             currentProcess.ExecutePartly(1);
-            if (currentProcess != previousProcess) { ChangeCount++;
+            if (currentProcess != previousProcess) { 
+                ChangeCount++;
             }
             previousProcess = currentProcess;
             tick++;
@@ -39,7 +40,7 @@ public class SRTFAlgorithm : Algorithm {
                 processList.Remove(currentProcess);
             }
 
-            var restProcesses = processList.Where(p => p.ArrivalTime <= tick);
+            var restProcesses = processList.Where(p => p.ArrivalTime < tick);
 
             foreach (var process in restProcesses) {
                 if (process == currentProcess) {
@@ -48,5 +49,10 @@ public class SRTFAlgorithm : Algorithm {
                 process.AddWaitingTime(1);
             }
         }
+
+        /*foreach (var process in ExecutedProcesses.OrderBy(p => p.ArrivalTime).ThenBy(p => p.InitialAmount)) {
+            Console.WriteLine(process.WaitingTime);
+        }
+        Console.Read();*/
     }
 }
