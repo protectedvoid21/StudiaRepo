@@ -147,21 +147,26 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
     @Override
     public void add(int index, E e) throws NoSuchElementException {
-        if(index < 0 || index > size - 1) {
+        if(index < 0 || index > size) {
             throw new NoSuchElementException();
         }
         
         Element created = new Element(e);
         size++;
-        
+        if (size == 1) {
+            head = created;
+            tail = created;
+            return;
+        }
         if(index == 0) {
             created.next = head;
             head.prev = created;
             head = created;
         }
         else if(index == size - 1) {
-            created.next = tail;
-            created.prev = tail.prev;
+            tail.next = created;
+			created.prev = tail;
+			tail = created;
         }
         else {
             Element found = getElement(index);
@@ -279,8 +284,8 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
             else {
                 head = head.next;
                 head.prev = null;
+                size--;
             }
-            size--;
             return true;
         }
         
@@ -327,12 +332,19 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
     }
 
     public void add(TwoWayUnorderedListWithHeadAndTail<E> other) {
-        if(isEmpty() || other.isEmpty() || other == this) {
+        if(other.isEmpty() || other == this) {
             return;
         }
-        tail.next = other.head;
-        other.head.prev = tail;
-        tail = other.tail;
+
+        if (head == null) {
+            head = other.head;
+            tail = other.tail;
+        } else {
+            tail.next = other.head;
+            other.head.prev = tail;
+            tail = other.tail;
+        }
+
         size += other.size;
         other.clear();
     }
