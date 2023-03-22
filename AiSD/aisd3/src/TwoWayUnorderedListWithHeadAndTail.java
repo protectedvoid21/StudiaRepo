@@ -147,21 +147,26 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
     @Override
     public void add(int index, E e) throws NoSuchElementException {
-        if(index < 0 || index > size - 1) {
+        if(index < 0 || index > size) {
             throw new NoSuchElementException();
         }
         
         Element created = new Element(e);
         size++;
-        
+        if (size == 1) {
+            head = created;
+            tail = created;
+            return;
+        }
         if(index == 0) {
             created.next = head;
             head.prev = created;
             head = created;
         }
         else if(index == size - 1) {
-            created.next = tail;
-            created.prev = tail.prev;
+            tail.next = created;
+			created.prev = tail;
+			tail = created;
         }
         else {
             Element found = getElement(index);
