@@ -327,12 +327,19 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
     }
 
     public void add(TwoWayUnorderedListWithHeadAndTail<E> other) {
-        if(isEmpty() || other.isEmpty() || other == this) {
+        if(other.isEmpty() || other == this) {
             return;
         }
-        tail.next = other.head;
-        other.head.prev = tail;
-        tail = other.tail;
+
+        if (head == null) {
+            head = other.head;
+            tail = other.tail;
+        } else {
+            tail.next = other.head;
+            other.head.prev = tail;
+            tail = other.tail;
+        }
+
         size += other.size;
         other.clear();
     }
