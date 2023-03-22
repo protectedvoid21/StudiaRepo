@@ -339,7 +339,8 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
         if (head == null) {
             head = other.head;
             tail = other.tail;
-        } else {
+        } 
+        else {
             tail.next = other.head;
             other.head.prev = tail;
             tail = other.tail;
