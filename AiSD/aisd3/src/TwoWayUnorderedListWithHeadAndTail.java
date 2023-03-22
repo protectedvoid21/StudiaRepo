@@ -279,8 +279,8 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
             else {
                 head = head.next;
                 head.prev = null;
+                size--;
             }
-            size--;
             return true;
         }
         
