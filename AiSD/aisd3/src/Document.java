@@ -2,11 +2,11 @@ import java.util.Scanner;
 
 public class Document {
     public String name;
-    public TwoWayUnorderedListWithHeadAndTail<Link> links;
+    public TwoWayUnorderedListWithHeadAndTail<Link> link;
 
     public Document(String name, Scanner scan) {
         this.name = name;
-        links = new TwoWayUnorderedListWithHeadAndTail<Link>();
+        link = new TwoWayUnorderedListWithHeadAndTail<Link>();
         load(scan);
     }
 
@@ -22,7 +22,7 @@ public class Document {
                     word = word.substring(5);
 
                     if(correctLink(word)) {
-                        links.add(new Link(word));
+                        link.add(new Link(word));
                     }
                 }
             }
@@ -55,7 +55,7 @@ public class Document {
     @Override
     public String toString() {
         String str = "Document: " + name;
-        for (var link : links) {
+        for (var link : link) {
             str += "\n" + link.ref;
         }
         return str;
@@ -63,7 +63,7 @@ public class Document {
 
     public String toStringReverse() {
         String retStr = "Document: " + name;
-        return retStr + links.toStringReverse();
+        return retStr + link.toStringReverse();
     }
 
 }

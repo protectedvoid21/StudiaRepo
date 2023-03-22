@@ -49,10 +49,5 @@ public class SRTFAlgorithm : Algorithm {
                 process.AddWaitingTime(1);
             }
         }
-
-        /*foreach (var process in ExecutedProcesses.OrderBy(p => p.ArrivalTime).ThenBy(p => p.InitialAmount)) {
-            Console.WriteLine(process.WaitingTime);
-        }
-        Console.Read();*/
     }
 }

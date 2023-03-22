@@ -46,6 +46,7 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
     private class InnerListIterator implements ListIterator<E>{
         Element p;
+        private int index = 0;
 
         public InnerListIterator() {
             p = head;
@@ -58,18 +59,19 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
         @Override
         public boolean hasNext() {
-            return p != null;
+            return index < size;
         }
 
         @Override
         public boolean hasPrevious() {
-            return p.prev != null;
+            return index > 0;
         }
 
         @Override
         public E next() {
             E value = p.object;
             p = p.next;
+            index++;
             return value;
         }
 
@@ -80,8 +82,13 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
 
         @Override
         public E previous() {
+            if(!hasNext()) {
+                p = tail;
+            }
+            index--;
+            E value = p.object;
             p = p.prev;
-            return p.object;
+            return value;
         }
 
         @Override
@@ -266,13 +273,12 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
         Element current = head;
         
         if(current.object.equals(e)) {
-            if(size > 1) {
-                current.next.prev = null;
-                head = current.next;
+            if(size == 1) {
+                clear();
             }
             else {
-                head = null;
-                tail = null;
+                head = head.next;
+                head.prev = null;
             }
             size--;
             return true;
@@ -310,14 +316,18 @@ public class TwoWayUnorderedListWithHeadAndTail<E> implements IList<E>{
         StringBuilder retStr= new StringBuilder();
         
         while(iter.hasNext()) {
-            retStr.insert(0, "\n" + iter.next());
+            iter.next();
+        }
+        
+        while(iter.hasPrevious()) {
+            retStr.append("\n" + iter.previous().toString());
         }
         
         return retStr.toString();
     }
 
     public void add(TwoWayUnorderedListWithHeadAndTail<E> other) {
-        if(other.isEmpty()) {
+        if(isEmpty() || other.isEmpty() || other == this) {
             return;
         }
         tail.next = other.head;

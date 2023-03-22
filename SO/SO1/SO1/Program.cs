@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using SO1.Algorithms;
+﻿using SO1.Algorithms;
 
 namespace SO1;
 
 public class Program {
     private static void Main() {
-        List<Process> processList = ProcessGenerator.GetProcessList(2500, 100, 200).OrderBy(p => p.ArrivalTime).ToList();
-        //var processList = ProcessGenerator.TestRR();
-        
+        List<Process> processList = ProcessGenerator.GetProcessList(100, 100, 200000).OrderBy(p => p.ArrivalTime).ToList();
+
         Algorithm[] algorithms = {
             new FCFSAlgorithm(ProcessGenerator.CopyProcessList(processList), "FCFS"),
             new SJFAlgorithm(ProcessGenerator.CopyProcessList(processList), "SJF"),
