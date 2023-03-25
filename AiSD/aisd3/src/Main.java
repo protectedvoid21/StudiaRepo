@@ -65,6 +65,11 @@ public class Main {
                 System.out.println(doc[currentDocNo].link.add(new Link(word[1])));
                 continue;
             }
+            if(word[0].equalsIgnoreCase("remev") && word.length == 1) {
+                doc[currentDocNo].link.removeEven();
+                System.out.println(doc[currentDocNo].toString());
+                continue;
+            }
             // addi index str
             if(word[0].equalsIgnoreCase("addi") && word.length==3) {
                 int index=Integer.parseInt(word[1]);
