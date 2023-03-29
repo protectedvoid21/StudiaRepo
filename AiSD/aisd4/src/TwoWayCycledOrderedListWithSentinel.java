@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
+public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implements IList<E>{
 
     private class Element{
         public Element(E e) {
@@ -18,6 +18,7 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
         public void addAfter(Element elem) {
             elem.next = next;
             elem.prev = this;
+            next.prev = elem;
             next = elem;
         }
         // assert it is NOT a sentinel
@@ -86,8 +87,9 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
         }
         @Override
         public E previous() {
+            E value = current.object;
             current = current.prev;
-            return current.object;
+            return value;
         }
         @Override
         public int previousIndex() {
@@ -104,23 +106,37 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
     }
     public TwoWayCycledOrderedListWithSentinel() {
         sentinel = new Element(null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
     }
 
     //@SuppressWarnings("unchecked")
     @Override
     public boolean add(E e) {
-        //TODO
-        return false;
+        //TODO DODAC WALIDACJE
+        
+        Element current = sentinel;
+        
+        while(current.next != sentinel) {
+            current = current.next;
+            if(current.object.compareTo(e) > 0) {
+                current.prev.addAfter(new Element(e));
+                return true;
+            }
+        }
+        current.addAfter(new Element(e));
+        sentinel.prev = current.next;
+        return true;
     }
 
     private Element getElement(int index) {
-        if(index < 0 || index > size - 1) {
-            throw new NoSuchElementException();
-        }
         Element current = sentinel;
         
         while(index > 0) {
             current = current.next;
+            if(current == null) {
+                throw new NoSuchElementException();
+            }
             index--;
         }
         
@@ -146,8 +162,8 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
 
     @Override
     public void clear() {
-        sentinel.next = null;
-        sentinel.prev = null;
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
     }
 
     @Override
@@ -184,7 +200,7 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
 
     @Override
     public boolean isEmpty() {
-        return sentinel.next == null;
+        return sentinel.next == sentinel;
     }
 
     @Override
@@ -221,7 +237,8 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
         int size = 0;
         Element current = sentinel;
         
-        while(current.next != null) {
+        while(current.next != sentinel) {
+            current = current.next;
             size++;
         }
         return size;
@@ -232,20 +249,36 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
         if(other == this || other.isEmpty()) {
             return;
         }
-        
-        Element tail = sentinel;
-        while(tail.next != null) {
-            tail = tail.next;
+        if(isEmpty()) {
+            sentinel.next = other.sentinel.next;
+            sentinel.prev = other.sentinel.prev;
+            other.clear();
+            return;
         }
         
-        tail.next = other.sentinel.next;
-        tail.next.prev = tail;
+        Element current = sentinel.next;
+        Element otherCurrent = other.sentinel.next;
         
-        while(tail.next != null) {
-            tail = tail.next;
+        
+        // 1 3 5 7 9    dodajemy 4
+        // 1 3 4 5 7 9 
+        while(otherCurrent != other.sentinel) {
+            if(current == sentinel) {
+                current.addAfter(new Element(otherCurrent.object));
+                otherCurrent = otherCurrent.next;
+                current = current.next;
+                continue;
+            }
+            if(current.object.compareTo(otherCurrent.object) > 0) {
+                current.prev.addAfter(new Element(otherCurrent.object));
+                otherCurrent = otherCurrent.next;
+                continue;
+            }
+            current = current.next;
         }
-        tail.next = sentinel;
-        sentinel.prev = tail;
+        
+        current.next = sentinel;
+        sentinel.prev = current;
         
         other.clear();
     }
@@ -254,7 +287,7 @@ public class TwoWayCycledOrderedListWithSentinel<E> implements IList<E>{
     public void removeAll(E e) {
         Element current = sentinel;
         
-        while(current.next != null) {
+        while(current.next != sentinel) {
             current = current.next;
             
             if(current.object.equals(e)) {

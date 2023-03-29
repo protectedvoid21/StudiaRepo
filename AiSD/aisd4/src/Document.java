@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Scanner;
 
@@ -23,7 +24,10 @@ public class Document{
                     word = word.substring(5);
 
                     if(correctLink(word)) {
-                        link.add(createLink(word));
+                        Link created = createLink(word);
+                        if(created != null) {
+                            link.add(created);
+                        }
                     }
                 }
             }
@@ -68,6 +72,11 @@ public class Document{
             
             if(currentChar == '(' && readNumber == false) {
                 readNumber = true;
+                continue;
+            }
+            
+            if(!readNumber) {
+                refText += currentChar;
             }
             
             if(isSpecialCharacter(currentChar)) {
@@ -75,7 +84,7 @@ public class Document{
             }
         }
 
-        return readNumber ? null : new Link(refText) ;
+        return readNumber ? null : new Link(link) ;
     }
     
     private static boolean isSpecialCharacter(char c) {
@@ -88,8 +97,20 @@ public class Document{
         if (!Character.isLetter(firstChar)) {
             return false;
         }
+        
+        boolean hasLeftParenthesis = false;
 
         for(int i = 1; i < link.length(); i++) {
+            if(link.charAt(i) == '(' && !hasLeftParenthesis) {
+                hasLeftParenthesis = true;
+                continue;
+            }
+            if(link.charAt(i) == ')') {
+                if(hasLeftParenthesis) {
+                    return i == link.length() - 1;
+                }
+                return false;
+            }
             if(isSpecialCharacter(link.charAt(i))) {
                 return false;
             }
@@ -103,21 +124,38 @@ public class Document{
 
     @Override
     public String toString() {
-        String str = "Document: " + name;
-        for (var link : link) {
-            str += "\n" + link.ref;
+        String str = "Document: " + name + "\n";
+
+        int index = 1;
+        for(var l : link) {
+            str += l.toString() + " ";
+            if(index == 10) {
+                str = str.strip();
+                str += "\n";
+            }
+            index++;
         }
-        return str;
+        return str.strip();
     }
 
     public String toStringReverse() {
-        String retStr="Document: "+name;
-        ListIterator<Link> iter=link.listIterator();
-        while(iter.hasNext())
+        String str = "Document: " + name + "\n";
+        ListIterator<Link> iter = link.listIterator();
+        
+        while(iter.hasNext()) {
             iter.next();
-        //TODO
-        while(iter.hasPrevious()){
         }
-        return retStr;
+            
+        int index = 1;
+        while(iter.hasPrevious()){
+            str += iter.previous().toString() + " ";
+            if(index == 10) {
+                str = str.strip();
+                str += "\n";
+            }
+            index++;
+        }
+        
+        return str.strip();
     }
 }

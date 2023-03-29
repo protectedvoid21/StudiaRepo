@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public interface IList<E> extends Iterable<E> {
+public interface IList<E extends Comparable<E>> extends Iterable<E> {
     boolean add(E e); // add element to the list on proper position
     void add(int index, E element) throws NoSuchElementException; // not implemented
     void clear(); // delete all elements
