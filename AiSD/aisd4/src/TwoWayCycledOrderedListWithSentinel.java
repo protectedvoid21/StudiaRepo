@@ -37,7 +37,6 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
 
 
     Element sentinel;
-    int size;
 
     private class InnerIterator implements Iterator<E>{
         private Element current;
@@ -113,7 +112,10 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
     //@SuppressWarnings("unchecked")
     @Override
     public boolean add(E e) {
-        //TODO DODAC WALIDACJE
+        Link link = (Link)e;
+        if(!Document.correctLink(link.ref)) {
+            return false;
+        }
         
         Element current = sentinel;
         
@@ -130,13 +132,21 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
     }
 
     private Element getElement(int index) {
-        Element current = sentinel;
+        if(index < 0) {
+            throw new NoSuchElementException();
+        }
+        
+        if(isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        
+        Element current = sentinel.next;
         
         while(index > 0) {
-            current = current.next;
-            if(current == null) {
+            if(current.next == sentinel) {
                 throw new NoSuchElementException();
             }
+            current = current.next;
             index--;
         }
         
@@ -144,13 +154,13 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
     }
 
     private Element getElement(E obj) {
-        Element current = sentinel;
+        Element current = sentinel.next;
         
-        while(current.next != null) {
-            current = current.next;
+        while(current != sentinel) {
             if(current.object.equals(obj)) {
                 return current;
             }
+            current = current.next;
         }
         return null;
     }
@@ -183,15 +193,14 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
 
     @Override
     public int indexOf(E e) {
-        Element current = sentinel;
+        Element current = sentinel.next;
         int index = 0;
         
-        while(current.next != null) {
-            current = current.next;
-            
+        while(current != sentinel) {
             if(current.object.equals(e)) {
                 return index;
             }
+            current = current.next;
             index++;
         }
         
@@ -235,9 +244,9 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
     @Override
     public int size() {
         int size = 0;
-        Element current = sentinel;
+        Element current = sentinel.next;
         
-        while(current.next != sentinel) {
+        while(current != sentinel) {
             current = current.next;
             size++;
         }
@@ -251,7 +260,9 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
         }
         if(isEmpty()) {
             sentinel.next = other.sentinel.next;
+            sentinel.next.prev = sentinel;
             sentinel.prev = other.sentinel.prev;
+            sentinel.prev.next = sentinel;
             other.clear();
             return;
         }
@@ -259,40 +270,41 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
         Element current = sentinel.next;
         Element otherCurrent = other.sentinel.next;
         
-        
-        // 1 3 5 7 9    dodajemy 4
-        // 1 3 4 5 7 9 
-        while(otherCurrent != other.sentinel) {
-            if(current == sentinel) {
-                current.addAfter(new Element(otherCurrent.object));
-                otherCurrent = otherCurrent.next;
-                current = current.next;
-                continue;
-            }
-            if(current.object.compareTo(otherCurrent.object) > 0) {
+        while(current != sentinel) {
+            if(otherCurrent.object.compareTo(current.object) < 0) {
                 current.prev.addAfter(new Element(otherCurrent.object));
                 otherCurrent = otherCurrent.next;
-                continue;
+                
+                if(otherCurrent == other.sentinel) {
+                    break;
+                }
             }
-            current = current.next;
+            else {
+                current = current.next;
+            }
+            
         }
         
-        current.next = sentinel;
-        sentinel.prev = current;
+        if(otherCurrent != other.sentinel) {
+            current.prev.next = otherCurrent;
+            otherCurrent.prev = current.prev;
+            
+            sentinel.prev = other.sentinel.prev;
+            sentinel.prev.next = sentinel;
+        }
         
         other.clear();
     }
 
     //@SuppressWarnings({ "unchecked", "rawtypes" })
     public void removeAll(E e) {
-        Element current = sentinel;
+        Element current = sentinel.next;
         
-        while(current.next != sentinel) {
-            current = current.next;
-            
+        while(current != sentinel) {
             if(current.object.equals(e)) {
                 current.remove();
             }
+            current = current.next;
         }
     }
 
