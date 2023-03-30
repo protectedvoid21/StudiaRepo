@@ -84,7 +84,7 @@ public class Document{
             }
         }
 
-        return readNumber ? null : new Link(link) ;
+        return readNumber ? null : new Link(link);
     }
     
     private static boolean isSpecialCharacter(char c) {
@@ -92,34 +92,22 @@ public class Document{
     }
 
     public static boolean correctLink(String link) {
-        char firstChar = link.charAt(0);
+        return createLink(link) != null;
+    }
+
+    public static boolean isCorrectId(String id) {
+        char firstChar = id.charAt(0);
 
         if (!Character.isLetter(firstChar)) {
             return false;
         }
         
-        boolean hasLeftParenthesis = false;
-
-        for(int i = 1; i < link.length(); i++) {
-            if(link.charAt(i) == '(' && !hasLeftParenthesis) {
-                hasLeftParenthesis = true;
-                continue;
-            }
-            if(link.charAt(i) == ')') {
-                if(hasLeftParenthesis) {
-                    return i == link.length() - 1;
-                }
-                return false;
-            }
-            if(isSpecialCharacter(link.charAt(i))) {
+        for(int i = 1; i < id.length(); i++) {
+            if(!Character.isLetterOrDigit(id.charAt(i)) && id.charAt(i) != '_') {
                 return false;
             }
         }
         return true;
-    }
-
-    public static boolean isCorrectId(String id) {
-        return correctLink(id);
     }
 
     @Override
@@ -129,7 +117,7 @@ public class Document{
         int index = 1;
         for(var l : link) {
             str += l.toString() + " ";
-            if(index == 10) {
+            if(index % 10 == 0) {
                 str = str.strip();
                 str += "\n";
             }
@@ -149,7 +137,7 @@ public class Document{
         int index = 1;
         while(iter.hasPrevious()){
             str += iter.previous().toString() + " ";
-            if(index == 10) {
+            if(index % 10 == 0) {
                 str = str.strip();
                 str += "\n";
             }
