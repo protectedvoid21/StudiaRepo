@@ -258,22 +258,19 @@ public class TwoWayCycledOrderedListWithSentinel<E extends Comparable<E>> implem
         if(other == this || other.isEmpty()) {
             return;
         }
-        if(isEmpty()) {
-            sentinel.next = other.sentinel.next;
-            sentinel.next.prev = sentinel;
-            sentinel.prev = other.sentinel.prev;
-            sentinel.prev.next = sentinel;
-            other.clear();
-            return;
-        }
         
         Element current = sentinel.next;
         Element otherCurrent = other.sentinel.next;
         
         while(current != sentinel) {
             if(otherCurrent.object.compareTo(current.object) < 0) {
-                current.prev.addAfter(new Element(otherCurrent.object));
-                otherCurrent = otherCurrent.next;
+                Element nextOther = otherCurrent.next;
+                otherCurrent.next = current;
+                otherCurrent.prev = current.prev;
+                current.prev.next = otherCurrent;
+                current.prev = otherCurrent;
+                
+                otherCurrent = nextOther;
                 
                 if(otherCurrent == other.sentinel) {
                     break;
