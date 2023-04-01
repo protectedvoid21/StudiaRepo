@@ -6,7 +6,6 @@ public class FCFSAlgorithm : Algorithm {
 
     public override void Execute() {
         int tick = 0;
-        headPosition = requestList[0].Cylinder;
 
         while (requestList.Count > 0) {
             Request currentRequest = requestList[0];
@@ -18,12 +17,10 @@ public class FCFSAlgorithm : Algorithm {
             int headCurrentMove = MoveHeadToRequest(currentRequest);
             tick += headCurrentMove;
 
+            currentRequest.AddWaitingTime(headCurrentMove);
             RemoveRequest(currentRequest);
 
-            var restRequests = requestList.Where(r => r.ArrivalTime < tick);
-            foreach (var request in restRequests) {
-                request.AddWaitingTime(tick - currentRequest.ArrivalTime - currentRequest.WaitingTime);
-            }
+            AddWaitingTimeToRest(tick);
         }
     }
 }

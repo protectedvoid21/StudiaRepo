@@ -3,8 +3,8 @@ using SO2.Algorithms;
 namespace SO2; 
 
 public class AlgorithmStats {
-    public int MinWaiting { get; }
-    public int MaxWaiting { get; }
+    public long MinWaiting { get; }
+    public long MaxWaiting { get; }
     public ulong HeadMoves { get; }
     public double AverageWaiting { get; }
     public int RequestCount { get; }
