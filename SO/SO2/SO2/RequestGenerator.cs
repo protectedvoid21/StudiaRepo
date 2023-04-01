@@ -9,10 +9,10 @@ public static class RequestGenerator {
             requests.Add(new Request(random.Next(cylinderCount + 1), random.Next(maxArrivalTime)));
         }
 
-        return requests;
+        return requests.OrderBy(r => r.ArrivalTime).ToList();
     }
 
     public static List<Request> CloneRequests(IEnumerable<Request> requestList) {
-        return requestList.Select(r => new Request(r.Cylinder, r.Cylinder)).ToList();
+        return requestList.Select(r => new Request(r.Cylinder, r.ArrivalTime)).ToList();
     }
 }

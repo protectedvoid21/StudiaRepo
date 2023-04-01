@@ -1,10 +1,22 @@
 namespace SO2;
 
 public class AlgorithmAnalizer {
-    private const int tableWidth = 140;
+    private const int tableWidth = 50;
 
-    public static void Create() {
-        throw new NotImplementedException();
+    public static void Create(List<AlgorithmStats> algorithmStats) {
+        PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());
+        PrintLine();
+        
+        PrintRow(algorithmStats.Select(a => a.AverageWaiting.ToString("F3")).Prepend("Avg. waiting").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.HeadMoves.ToString()).Prepend("Head moves").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.MinWaiting.ToString()).Prepend("Min. waiting").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.MaxWaiting.ToString()).Prepend("Max. waiting").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.RequestCount.ToString()).Prepend("Request count").ToArray());
+        PrintLine();
     }
 
     private static void PrintRow(params string[] columns) {
