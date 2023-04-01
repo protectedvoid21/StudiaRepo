@@ -1,12 +1,12 @@
 namespace SO2.Algorithms; 
 
 public class FCFSAlgorithm : Algorithm {
-    public FCFSAlgorithm(List<Request> requestList, int cylinderCount) : base(requestList, cylinderCount) {
+    public FCFSAlgorithm(List<Request> requestList, string name, int cylinderCount) : base(requestList, name, cylinderCount) {
     }
 
     public override void Execute() {
         int tick = 0;
-        requestList = requestList.OrderBy(r => r.ArrivalTime).ToList();
+        headPosition = requestList[0].Cylinder;
 
         while (requestList.Count > 0) {
             Request currentRequest = requestList[0];
@@ -15,12 +15,10 @@ public class FCFSAlgorithm : Algorithm {
                 tick += currentRequest.ArrivalTime - tick;
             }
 
-            int headCurrentMove = Math.Abs(currentRequest.Cylinder - headPosition);
-            HeadMoves += (ulong)headCurrentMove;
-            headPosition = currentRequest.Cylinder;
+            int headCurrentMove = MoveHeadToRequest(currentRequest);
+            tick += headCurrentMove;
 
             RemoveRequest(currentRequest);
-            tick += headCurrentMove;
 
             var restRequests = requestList.Where(r => r.ArrivalTime < tick);
             foreach (var request in restRequests) {

@@ -8,9 +8,15 @@ public class Program {
         List<Request> requestList = RequestGenerator.Generate(30, cylinderCount, 100);
 
         Algorithm[] algorithms = {
-            new FCFSAlgorithm(RequestGenerator.CloneRequests(requestList), cylinderCount)
+            new FCFSAlgorithm(RequestGenerator.CloneRequests(requestList), "FCFS", cylinderCount)
         };
+
+        List<AlgorithmStats> algorithmStatsList = new();
+        foreach (var algorithm in algorithms) {
+            algorithm.Execute();
+            algorithmStatsList.Add(new AlgorithmStats(algorithm));
+        }
         
-        
+        AlgorithmAnalizer.Create(algorithmStatsList);
     }
 }
