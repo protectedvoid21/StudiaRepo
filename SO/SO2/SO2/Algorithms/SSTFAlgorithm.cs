@@ -1,14 +1,12 @@
 namespace SO2.Algorithms; 
 
 public class SSTFAlgorithm : Algorithm {
-    public SSTFAlgorithm(List<Request> requestList, string name, int cylinderCount) : base(requestList, name, cylinderCount) {
+    public SSTFAlgorithm(List<Request> requestList, string name) : base(requestList, name) {
     }
     
     public override void Execute() {
-        int tick = 0;
-
         while (requestList.Count > 0) {
-            var requestsAvailable = GetAvailableRequests(tick);
+            var requestsAvailable = GetAvailableRequests();
 
             if (!requestsAvailable.Any()) {
                 int missingTicks = requestList.Min(r => r.ArrivalTime) - tick;
@@ -24,7 +22,7 @@ public class SSTFAlgorithm : Algorithm {
             
             RemoveRequest(currentRequest);
 
-            AddWaitingTimeToRest(tick);
+            AddWaitingTimeToRest();
         }
     }
 }

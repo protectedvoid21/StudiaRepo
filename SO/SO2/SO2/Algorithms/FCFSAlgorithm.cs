@@ -1,12 +1,10 @@
 namespace SO2.Algorithms; 
 
 public class FCFSAlgorithm : Algorithm {
-    public FCFSAlgorithm(List<Request> requestList, string name, int cylinderCount) : base(requestList, name, cylinderCount) {
+    public FCFSAlgorithm(List<Request> requestList, string name) : base(requestList, name) {
     }
 
     public override void Execute() {
-        int tick = 0;
-
         while (requestList.Count > 0) {
             Request currentRequest = requestList[0];
 
@@ -20,7 +18,7 @@ public class FCFSAlgorithm : Algorithm {
             currentRequest.AddWaitingTime(headCurrentMove);
             RemoveRequest(currentRequest);
 
-            AddWaitingTimeToRest(tick);
+            AddWaitingTimeToRest();
         }
     }
 }
