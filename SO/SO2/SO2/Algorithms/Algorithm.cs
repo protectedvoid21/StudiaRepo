@@ -5,23 +5,22 @@ public abstract class Algorithm {
     
     protected List<Request> requestList;
     public List<Request> executedRequest { get; } = new();
-    public ulong HeadMoves { get; private set; }
+    public ulong HeadMoves { get; protected set; }
     
     protected int headPosition;
+    protected int tick;
 
-    private readonly int cylinderCount;
-
-    protected Algorithm(List<Request> requestList, string name, int cylinderCount) {
+    protected Algorithm(List<Request> requestList, string name) {
         this.requestList = requestList;
         Name = name;
-        this.cylinderCount = cylinderCount;
-
+        
         headPosition = requestList[0].Cylinder;
+        tick = 0;
     }
     
     public abstract void Execute();
 
-    protected List<Request> GetAvailableRequests(int tick) {
+    protected List<Request> GetAvailableRequests() {
         List<Request> available = new();
 
         foreach (var request in requestList) {
@@ -34,7 +33,7 @@ public abstract class Algorithm {
         return available;
     }
 
-    protected void AddWaitingTimeToRest(int tick) {
+    protected void AddWaitingTimeToRest() {
         List<Request> awaiting = new();
 
         foreach (var request in requestList) {

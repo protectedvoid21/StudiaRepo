@@ -1,7 +1,7 @@
 namespace SO2;
 
 public class AlgorithmAnalizer {
-    private const int tableWidth = 50;
+    private const int tableWidth = 100;
 
     public static void Create(List<AlgorithmStats> algorithmStats) {
         PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());

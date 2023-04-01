@@ -11,6 +11,6 @@ public class Request {
     }
 
     public void AddWaitingTime(int time) {
-        WaitingTime += (long)time;
+        WaitingTime += time;
     }
 }

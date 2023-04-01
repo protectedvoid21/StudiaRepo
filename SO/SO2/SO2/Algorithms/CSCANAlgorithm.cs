@@ -1,32 +1,23 @@
 namespace SO2.Algorithms; 
 
-public class SCANAlgorithm : Algorithm {
+public class CSCANAlgorithm : Algorithm {
     private readonly int cylinderCount;
-    private bool goingRight = true;
     
-    public SCANAlgorithm(List<Request> requestList, string name, int cylinderCount) : base(requestList, name) {
+    public CSCANAlgorithm(List<Request> requestList, string name, int cylinderCount) : base(requestList, name) {
         this.cylinderCount = cylinderCount;
     }
-
+    
     private Queue<Request> GetRequestQueue() {
-        if (headPosition != cylinderCount) {
-            tick += cylinderCount - headPosition;
-        }
-        else {
-            tick += Math.Abs(headPosition - cylinderCount);
+        if (headPosition == cylinderCount || headPosition == 1) {
+            tick += cylinderCount;
         }
 
         IEnumerable<Request> requests = GetAvailableForDirection();
-        if (goingRight) {
-            requests = requests.OrderBy(r => r.Cylinder);
-        }
-        else {
-            requests = requests.OrderByDescending(r => r.Cylinder);
-        }
+        requests = requests.OrderBy(r => r.Cylinder);
 
         return new Queue<Request>(requests);
     }
-
+    
     private List<Request> GetAvailableForDirection() {
         List<Request> available = new();
 
@@ -34,18 +25,9 @@ public class SCANAlgorithm : Algorithm {
             if (request.ArrivalTime > tick) {
                 return available;
             }
-
-            if (goingRight) {
-                if (tick + request.Cylinder >= request.ArrivalTime) {
-                    available.Add(request);
-                }
+            if (tick + request.Cylinder >= request.ArrivalTime && headPosition <= request.Cylinder) {
+                available.Add(request);
             }
-            else {
-                if (tick - request.Cylinder + cylinderCount > request.ArrivalTime) {
-                    available.Add(request);
-                }
-            }
-            
         }
 
         return available;
@@ -65,16 +47,14 @@ public class SCANAlgorithm : Algorithm {
                 MoveHeadToRequest(currentRequest);
                 RemoveRequest(currentRequest);
             }
-            
+
             if (requestList.Count == 0) {
                 break;
             }
-
-            int endCylinder = goingRight ? cylinderCount : 1;
-
-            MoveHeadToRequest(new Request(endCylinder, 0));
+            MoveHeadToRequest(new Request(cylinderCount, 0));
             AddWaitingTimeToRest();
-            goingRight = !goingRight;
+
+            headPosition = 1;
         }
     }
 }
