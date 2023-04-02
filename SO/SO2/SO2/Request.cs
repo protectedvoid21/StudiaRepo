@@ -10,7 +10,7 @@ public class Request {
         ArrivalTime = arrivalTime;
     }
 
-    public void AddWaitingTime(int time) {
+    public virtual void AddWaitingTime(int time) {
         WaitingTime += time;
     }
 }

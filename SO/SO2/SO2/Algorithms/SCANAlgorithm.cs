@@ -9,19 +9,19 @@ public class SCANAlgorithm : Algorithm {
     }
 
     private Queue<Request> GetRequestQueue() {
-        if (headPosition != cylinderCount) {
-            tick += cylinderCount - headPosition;
-        }
-        else {
-            tick += Math.Abs(headPosition - cylinderCount);
-        }
-
         IEnumerable<Request> requests = GetAvailableForDirection();
         if (goingRight) {
             requests = requests.OrderBy(r => r.Cylinder);
         }
         else {
             requests = requests.OrderByDescending(r => r.Cylinder);
+        }
+        
+        if (headPosition != cylinderCount) {
+            tick += cylinderCount - headPosition;
+        }
+        else {
+            tick += Math.Abs(headPosition - cylinderCount);
         }
 
         return new Queue<Request>(requests);
@@ -31,21 +31,20 @@ public class SCANAlgorithm : Algorithm {
         List<Request> available = new();
 
         foreach (var request in requestList) {
-            if (request.ArrivalTime > tick) {
+            if (request.ArrivalTime > tick + cylinderCount) {
                 return available;
             }
 
             if (goingRight) {
-                if (tick + request.Cylinder >= request.ArrivalTime) {
+                if (tick + request.Cylinder - headPosition + 1 >= request.ArrivalTime) {
                     available.Add(request);
                 }
             }
             else {
-                if (tick - request.Cylinder + cylinderCount > request.ArrivalTime) {
+                if (tick - request.Cylinder + cylinderCount + 1 >= request.ArrivalTime) {
                     available.Add(request);
                 }
             }
-            
         }
 
         return available;
