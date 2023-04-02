@@ -8,6 +8,7 @@ public class AlgorithmStats {
     public ulong HeadMoves { get; }
     public double AverageWaiting { get; }
     public int RequestCount { get; }
+    public int CylinderCount { get; }
 
     public string Name { get; }
 

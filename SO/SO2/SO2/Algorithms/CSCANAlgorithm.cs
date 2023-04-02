@@ -8,13 +8,16 @@ public class CSCANAlgorithm : Algorithm {
     }
     
     private Queue<Request> GetRequestQueue() {
-        if (headPosition == cylinderCount || headPosition == 1) {
-            tick += cylinderCount;
-        }
-
         IEnumerable<Request> requests = GetAvailableForDirection();
         requests = requests.OrderBy(r => r.Cylinder);
 
+        if (headPosition == 1) {
+            tick += cylinderCount;
+        }
+        else {
+            tick = cylinderCount - headPosition;
+        }
+        
         return new Queue<Request>(requests);
     }
     
@@ -22,10 +25,10 @@ public class CSCANAlgorithm : Algorithm {
         List<Request> available = new();
 
         foreach (var request in requestList) {
-            if (request.ArrivalTime > tick) {
+            if (request.ArrivalTime > tick + cylinderCount) {
                 return available;
             }
-            if (tick + request.Cylinder >= request.ArrivalTime && headPosition <= request.Cylinder) {
+            if (tick + request.Cylinder - headPosition + 1 >= request.ArrivalTime) {
                 available.Add(request);
             }
         }

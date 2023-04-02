@@ -3,7 +3,7 @@ namespace SO2;
 public class AlgorithmAnalizer {
     private const int tableWidth = 100;
 
-    public static void Create(List<AlgorithmStats> algorithmStats) {
+    public static void Create(List<AlgorithmStats> algorithmStats, int cylinderCount) {
         PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());
         PrintLine();
         
@@ -15,7 +15,9 @@ public class AlgorithmAnalizer {
         PrintLine();
         PrintRow(algorithmStats.Select(a => a.MaxWaiting.ToString()).Prepend("Max. waiting").ToArray());
         PrintLine();
-        PrintRow(algorithmStats.Select(a => a.RequestCount.ToString()).Prepend("Request count").ToArray());
+        PrintRow("Request count", algorithmStats.Select(a => a.RequestCount).First().ToString());
+        PrintLine();
+        PrintRow("Cylinder count", cylinderCount.ToString());
         PrintLine();
     }
 

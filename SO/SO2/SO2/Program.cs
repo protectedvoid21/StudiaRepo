@@ -5,9 +5,10 @@ public class Program {
     private static void Main() {
         const int cylinderCount = 200;
 
-        //List<Request> requestList = RequestGenerator.Generate(10000, cylinderCount, 1000);
-        //List<Request> requestList = RequestGenerator.GenerateCustom(new[] { 98, 183, 37, 122, 14, 124, 65, 67 }, 200);
-        List<Request> requestList = RequestGenerator.GenerateCustom(new[] { 53, 65, 98, 183, 37, 122, 14, 124, 67 }, 200);
+        List<Request> requestList = RequestGenerator.Generate(1000, cylinderCount, 1000);
+        //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {53, 98,183,37,122,14,124,65,67}, 200);
+        //List<Request> requestList = RequestGenerator.GenerateCustom(new[] { 53, 65, 98, 183, 37, 122, 14, 124, 67 }, 200);
+        //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {50, 176, 79, 34, 60, 92, 11, 41, 114}.Select(n => n + 1), 200);
 
         Algorithm[] algorithms = {
             new FCFSAlgorithm(RequestGenerator.CloneRequests(requestList), "FCFS"),
@@ -27,6 +28,6 @@ public class Program {
         }
         
         Console.Clear();
-        AlgorithmAnalizer.Create(algorithmStatsList);
+        AlgorithmAnalizer.Create(algorithmStatsList, cylinderCount);
     }
 }
