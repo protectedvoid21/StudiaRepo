@@ -5,7 +5,16 @@ public class Program {
     private static void Main() {
         const int cylinderCount = 200;
 
-        List<Request> requestList = RequestGenerator.Generate(1000, cylinderCount, 1000);
+        List<Request> requestList = new RequestGeneratorBuilder()
+            .SetRequests(1000)
+            .SetCylinderCount(cylinderCount)
+            .SetMaxArrivalTime(1000)
+            .SetDeadlinePercentage(20)
+            .SetMinimumDeadline(10)
+            .SetMaximumDeadline(50)
+            .Generate();
+
+        //List<Request> requestList = RequestGenerator.Generate(1000, cylinderCount, 1000);
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {53, 98,183,37,122,14,124,65,67}, 200);
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] { 53, 65, 98, 183, 37, 122, 14, 124, 67 }, 200);
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {50, 176, 79, 34, 60, 92, 11, 41, 114}.Select(n => n + 1), 200);
@@ -27,7 +36,26 @@ public class Program {
             Console.WriteLine($"[COMPLETED] {algorithm.Name}");
         }
         
+        Algorithm[] deadlineAlgorithms = {
+            new EDFAlgorithm(RequestGenerator.CloneRequests(requestList), "EDF"),
+        };
+
+        List<AlgorithmStats> deadlineStatsList = new();
+
+        foreach (var algorithm in deadlineAlgorithms) {
+            Console.WriteLine($"[EXECUTING] {algorithm.Name}...");
+            algorithm.Execute();
+            deadlineStatsList.Add(new AlgorithmStats(algorithm));
+            Console.WriteLine($"[COMPLETED] {algorithm.Name}");
+        }
+        
         Console.Clear();
+        
+        Console.WriteLine();
         AlgorithmAnalizer.Create(algorithmStatsList, cylinderCount);
+        
+        Console.WriteLine();
+        AlgorithmAnalizer.Create(deadlineStatsList, cylinderCount);
+        
     }
 }
