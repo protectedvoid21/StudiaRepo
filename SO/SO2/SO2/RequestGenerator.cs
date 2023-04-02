@@ -17,6 +17,6 @@ public static class RequestGenerator {
     }
 
     public static List<Request> CloneRequests(IEnumerable<Request> requestList) {
-        return requestList.Select(r => new Request(r.Cylinder, r.ArrivalTime)).ToList();
+        return requestList.Select(r => new Request(r.Cylinder, r.ArrivalTime, r.InitialDeadline)).ToList();
     }
 }
