@@ -8,16 +8,28 @@ public class RequestGeneratorBuilder {
     private int minDeadline;
     private int maxDeadline;
 
+    public RequestGeneratorBuilder() {
+        requestCount = 100;
+        cylinderCount = 200;
+        maxArrivalTime = 100;
+        deadlinePercentage = 10;
+        minDeadline = 10;
+        maxDeadline = 100;
+    }
+
     public List<Request> Generate() {
         List<Request> requests = new();
         
         Random random = new();
-        for (int i = 0; i < requestCount; i++) {
-            int deadline = 0;
+        int deadlineCount = requestCount - (int)(requestCount * (float)(100 - deadlinePercentage) / 100);
+        
+        for (int i = 0; i < requestCount - deadlineCount; i++) {
+            requests.Add(new Request(random.Next(cylinderCount) + 1, random.Next(maxArrivalTime)));
+        }
+
+        for (int i = 0; i < deadlineCount; i++) {
+            int deadline = random.Next(minDeadline, maxDeadline + 1);
             
-            if (random.Next(100) + 1 < deadlinePercentage) {
-                deadline = random.Next(minDeadline, maxDeadline + 1);
-            }
             requests.Add(new Request(random.Next(cylinderCount) + 1, random.Next(maxArrivalTime), deadline));
         }
         
