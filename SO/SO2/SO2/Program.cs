@@ -6,12 +6,12 @@ public class Program {
         const int cylinderCount = 200;
 
         List<Request> requestList = new RequestGeneratorBuilder()
-            .SetRequests(1000)
+            .SetRequests(10000)
             .SetCylinderCount(cylinderCount)
-            .SetMaxArrivalTime(1000)
+            .SetMaxArrivalTime(100000)
             .SetDeadlinePercentage(20)
-            .SetMinimumDeadline(10)
-            .SetMaximumDeadline(50)
+            .SetMinimumDeadline(60)
+            .SetMaximumDeadline(250)
             .Generate();
 
         //List<Request> requestList = RequestGenerator.Generate(1000, cylinderCount, 1000);
@@ -38,14 +38,15 @@ public class Program {
         
         Algorithm[] deadlineAlgorithms = {
             new EDFAlgorithm(RequestGenerator.CloneRequests(requestList), "EDF"),
+            new FDSCANAlgorithm(RequestGenerator.CloneRequests(requestList), "FD-SCAN")
         };
 
-        List<AlgorithmStats> deadlineStatsList = new();
+        List<AlgorithmDeadlineStats> deadlineStatsList = new();
 
         foreach (var algorithm in deadlineAlgorithms) {
             Console.WriteLine($"[EXECUTING] {algorithm.Name}...");
             algorithm.Execute();
-            deadlineStatsList.Add(new AlgorithmStats(algorithm));
+            deadlineStatsList.Add(new AlgorithmDeadlineStats(algorithm));
             Console.WriteLine($"[COMPLETED] {algorithm.Name}");
         }
         

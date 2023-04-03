@@ -35,14 +35,21 @@ public class CSCANAlgorithm : Algorithm {
 
         return available;
     }
+    
+    private void UpdateQueueWaitingTime(IEnumerable<Request> requests) {
+        foreach (var request in requests) {
+            if (tick < request.ArrivalTime) {
+                request.AddWaitingTime(tick + request.Cylinder - request.ArrivalTime - 1);
+            }
+            request.AddWaitingTime(request.Cylinder - 1);
+        }
+    }
 
     public override void Execute() {
         while (requestList.Count > 0) {
             var requestQueue = GetRequestQueue();
             
-            foreach (var request in requestQueue) {
-                request.AddWaitingTime(request.Cylinder - 1);
-            }
+            UpdateQueueWaitingTime(requestQueue);
 
             while (requestQueue.Count > 0) {
                 Request currentRequest = requestQueue.Dequeue();
