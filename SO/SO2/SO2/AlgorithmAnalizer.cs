@@ -11,8 +11,6 @@ public class AlgorithmAnalizer {
         PrintLine();
         PrintRow(algorithmStats.Select(a => a.HeadMoves.ToString()).Prepend("Head moves").ToArray());
         PrintLine();
-        PrintRow(algorithmStats.Select(a => a.MinWaiting.ToString()).Prepend("Min. waiting").ToArray());
-        PrintLine();
         PrintRow(algorithmStats.Select(a => a.MaxWaiting.ToString()).Prepend("Max. waiting").ToArray());
         PrintLine();
         PrintRow("Request count", algorithmStats.Select(a => a.RequestCount).First().ToString());
@@ -33,7 +31,7 @@ public class AlgorithmAnalizer {
         PrintLine();
         PrintRow(algorithmStats.Select(a => a.HeadMoves.ToString()).Prepend("Head moves").ToArray());
         PrintLine();
-        PrintRow(algorithmStats.Select(a => a.RequestCount.ToString()).Prepend("Request count").ToArray());
+        PrintRow("Request count", algorithmStats.Select(a => a.RequestCount).First().ToString());
         PrintLine();
         PrintRow("Cylinder count", cylinderCount.ToString());
         PrintLine();

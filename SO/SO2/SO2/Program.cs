@@ -10,11 +10,10 @@ public class Program {
             .SetCylinderCount(cylinderCount)
             .SetMaxArrivalTime(100000)
             .SetDeadlinePercentage(20)
-            .SetMinimumDeadline(60)
-            .SetMaximumDeadline(250)
+            .SetMinimumDeadline(10)
+            .SetMaximumDeadline(30)
             .Generate();
-
-        //List<Request> requestList = RequestGenerator.Generate(1000, cylinderCount, 1000);
+        
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {53, 98,183,37,122,14,124,65,67}, 200);
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] { 53, 65, 98, 183, 37, 122, 14, 124, 67 }, 200);
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {50, 176, 79, 34, 60, 92, 11, 41, 114}.Select(n => n + 1), 200);
