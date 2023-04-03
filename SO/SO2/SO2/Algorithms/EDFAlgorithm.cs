@@ -4,6 +4,17 @@ public class EDFAlgorithm : Algorithm {
     public EDFAlgorithm(List<Request> requestList, string name) : base(requestList, name) {
     }
 
+    private void RemoveFailedRequests(IEnumerable<Request> deadlines, Request current) {
+        foreach (var request in deadlines) {
+            if (request == current) {
+                continue;
+            }
+            if (request.RestDeadline < 0) {
+                RemoveRequest(request);
+            }
+        }
+    }
+
     public override void Execute() {
         while (requestList.Count > 0) {
             var requestsAvailable = GetAvailableRequests();
@@ -19,13 +30,18 @@ public class EDFAlgorithm : Algorithm {
             int currentHeadMove;
             
             if (deadlineRequests.Any()) {
-                currentRequest = deadlineRequests.MinBy(r => r.InitialDeadline);
-                
+                currentRequest = deadlineRequests.MinBy(r => r.ArrivalTime);
+
                 if (GetRequestDistance(currentRequest) > currentRequest.RestDeadline) {
-                    currentHeadMove = MoveHeadToRequest(new Request(currentRequest.RestDeadline, 0));
+                    int newHeadPos = currentRequest.Cylinder > headPosition
+                        ? headPosition + currentRequest.RestDeadline
+                        : headPosition - currentRequest.RestDeadline;
+                    
+                    currentHeadMove = MoveHeadToRequest(new Request(newHeadPos, 0));
                 }
                 else {
                     currentHeadMove = MoveHeadToRequest(currentRequest);
+                    currentRequest.MarkAsHandled();
                 }
             }
             else {
@@ -37,6 +53,7 @@ public class EDFAlgorithm : Algorithm {
             tick += currentHeadMove;
             
             RemoveRequest(currentRequest);
+            RemoveFailedRequests(deadlineRequests, currentRequest);
 
             AddWaitingTimeToRest();
         }

@@ -16,13 +16,6 @@ public class SCANAlgorithm : Algorithm {
         else {
             requests = requests.OrderByDescending(r => r.Cylinder);
         }
-        
-        if (headPosition != cylinderCount) {
-            tick += cylinderCount - headPosition;
-        }
-        else {
-            tick += Math.Abs(headPosition - cylinderCount);
-        }
 
         return new Queue<Request>(requests);
     }
@@ -50,13 +43,32 @@ public class SCANAlgorithm : Algorithm {
         return available;
     }
 
+    private void UpdateQueueWaitingTime(IEnumerable<Request> requests) {
+        foreach (var request in requests) {
+            if (tick < request.ArrivalTime) {
+                if (goingRight) {
+                    request.AddWaitingTime(tick + request.Cylinder - request.ArrivalTime - 1);
+                }
+                else {
+                    request.AddWaitingTime(tick + cylinderCount - request.Cylinder - request.ArrivalTime);
+                }
+            }
+            request.AddWaitingTime(request.Cylinder - 1);
+        }
+        
+        if (headPosition != cylinderCount) {
+            tick += cylinderCount - headPosition;
+        }
+        else {
+            tick += Math.Abs(headPosition - cylinderCount);
+        }
+    }
+
     public override void Execute() {
         while (requestList.Count > 0) {
             var requestQueue = GetRequestQueue();
             
-            foreach (var request in requestQueue) {
-                request.AddWaitingTime(request.Cylinder - 1);
-            }
+            UpdateQueueWaitingTime(requestQueue);
 
             while (requestQueue.Count > 0) {
                 Request currentRequest = requestQueue.Dequeue();

@@ -15,6 +15,7 @@ public class Request {
         Cylinder = cylinder;
         ArrivalTime = arrivalTime;
         InitialDeadline = initialDeadline;
+        RestDeadline = initialDeadline;
     }
 
     public void AddWaitingTime(int time) {
@@ -24,12 +25,13 @@ public class Request {
             return;
         }
         
+        RestDeadline -= time;
         if (RestDeadline < 0) {
-            RestDeadline = 0;
-            WasDeadlineHandled = false;
+            RestDeadline = -1;
         }
-        else {
-            RestDeadline -= time;
-        }
+    }
+
+    public void MarkAsHandled() {
+        WasDeadlineHandled = true;
     }
 }

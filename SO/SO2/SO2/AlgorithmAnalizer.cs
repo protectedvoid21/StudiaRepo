@@ -20,6 +20,24 @@ public class AlgorithmAnalizer {
         PrintRow("Cylinder count", cylinderCount.ToString());
         PrintLine();
     }
+    
+    public static void Create(List<AlgorithmDeadlineStats> algorithmStats, int cylinderCount) {
+        PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());
+        PrintLine();
+        
+        PrintRow(algorithmStats.Select(a => (( 1 - (float)a.UnachievedDeadlines / a.DeadlineCount) * 100).ToString($"F2") + "%").Prepend("Served deadlines").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.DeadlineCount.ToString()).Prepend("Deadline count").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.UnachievedDeadlines.ToString()).Prepend("Failed deadlines").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.HeadMoves.ToString()).Prepend("Head moves").ToArray());
+        PrintLine();
+        PrintRow(algorithmStats.Select(a => a.RequestCount.ToString()).Prepend("Request count").ToArray());
+        PrintLine();
+        PrintRow("Cylinder count", cylinderCount.ToString());
+        PrintLine();
+    }
 
     private static void PrintRow(params string[] columns) {
         int width = (tableWidth - columns.Length) / columns.Length;
