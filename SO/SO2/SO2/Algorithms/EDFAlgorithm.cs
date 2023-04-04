@@ -53,9 +53,8 @@ public class EDFAlgorithm : Algorithm {
             tick += currentHeadMove;
             
             RemoveRequest(currentRequest);
-            RemoveFailedRequests(deadlineRequests, currentRequest);
-
             AddWaitingTimeToRest();
+            RemoveFailedRequests(deadlineRequests, currentRequest);
         }
     }
 }

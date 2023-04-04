@@ -6,12 +6,12 @@ public class Program {
         const int cylinderCount = 200;
 
         List<Request> requestList = new RequestGeneratorBuilder()
-            .SetRequests(10000)
+            .SetRequests(50)
             .SetCylinderCount(cylinderCount)
-            .SetMaxArrivalTime(100000)
-            .SetDeadlinePercentage(20)
-            .SetMinimumDeadline(10)
-            .SetMaximumDeadline(30)
+            .SetMaxArrivalTime(2000)
+            .SetDeadlinePercentage(24)
+            .SetMinimumDeadline(40)
+            .SetMaximumDeadline(100)
             .Generate();
         
         //List<Request> requestList = RequestGenerator.GenerateCustom(new[] {53, 98,183,37,122,14,124,65,67}, 200);
