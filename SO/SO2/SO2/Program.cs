@@ -6,9 +6,11 @@ public class Program {
         const int cylinderCount = 200;
 
         List<Request> requestList = new RequestGeneratorBuilder()
-            .SetRequests(50)
+            .SetRequests(500)
             .SetCylinderCount(cylinderCount)
-            .SetMaxArrivalTime(2000)
+            .SetMinCylinder(20)
+            .SetMaxCylinder(100)
+            .SetMaxArrivalTime(20000)
             .SetDeadlinePercentage(24)
             .SetMinimumDeadline(40)
             .SetMaximumDeadline(100)
