@@ -62,6 +62,7 @@ public class CSCANAlgorithm : Algorithm {
                 break;
             }
             MoveHeadToRequest(new Request(cylinderCount, 0));
+            //MoveHeadToRequest(new Request(1, 0));
             AddWaitingTimeToRest();
 
             headPosition = 1;

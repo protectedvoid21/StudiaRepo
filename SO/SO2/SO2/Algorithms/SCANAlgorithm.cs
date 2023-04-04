@@ -56,8 +56,8 @@ public class SCANAlgorithm : Algorithm {
             request.AddWaitingTime(request.Cylinder - 1);
         }
         
-        if (headPosition != cylinderCount) {
-            tick += cylinderCount - headPosition;
+        if (headPosition == 1 || headPosition == cylinderCount) {
+            tick += cylinderCount;
         }
         else {
             tick += Math.Abs(headPosition - cylinderCount);

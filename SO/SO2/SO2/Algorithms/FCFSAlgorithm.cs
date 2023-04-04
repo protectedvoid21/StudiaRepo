@@ -1,4 +1,4 @@
-namespace SO2.Algorithms; 
+    namespace SO2.Algorithms; 
 
 public class FCFSAlgorithm : Algorithm {
     public FCFSAlgorithm(List<Request> requestList, string name) : base(requestList, name) {
