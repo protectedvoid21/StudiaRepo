@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1681292912 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 3/sprawozdanie3.tex" "sprawozdanie3.pdf" "sprawozdanie3" 1681292913
-  "C:/Users/niezn/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1681284148 86553 91af261fa287312f2fb1f66a097366be ""
+["pdflatex"] 1681657703 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 3/sprawozdanie3.tex" "sprawozdanie3.pdf" "sprawozdanie3" 1681657704
+  "C:/Users/niezn/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1681565517 86553 91af261fa287312f2fb1f66a097366be ""
   "C:/Users/niezn/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1668179638 14064 955ff3e66d356ed127f306eca2052983 ""
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1667124580 10788011 3fbf93dcc05db05ca4b82494ec413059 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/pl/plme.enc" 958947240 3126 59f33ff3e396436ebc36f4e7b444d5c4 ""
@@ -109,6 +109,7 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1664388628 30426 b4bd1ea7df6c51902df8edf551809fb7 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/l3kernel/expl3.sty" 1664389290 6107 fa5d25e84c05db068aed042b51a24d3b ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/letltxmacro/letltxmacro.sty" 1575403136 5766 13a9e8766c47f30327caf893ece86ac8 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/makecell/makecell.sty" 1250677107 16155 2dd7dde1ec1c2a3d0c85bc3b273e04d8 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/multirow/multirow.sty" 1615979718 6149 2398eec4faa1ee24ff761581e580ecf1 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/polski/omlplm.fd" 1630159173 1559 a2e024b0ee8ecaa0d3016537435f2a1c ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/polski/omsplsy.fd" 1630159173 1478 709f1d1020b26a6953dfa2a739c0f292 ""
@@ -119,15 +120,16 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576437552 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/tabularray/tabularray.sty" 1667289656 248166 e8c892d7832002238c67217920017687 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1654690828 12694 4770336659ba563be5de2e0739d61ddc ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/tools/calc.sty" 1654690828 10214 de3e21cfc0eccc98ca7f8dac0ef263d2 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388494052 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 3/sprawozdanie3.tex" 1681292911 11282 ef66e0b10f9906924145e47454966540 ""
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 3/sprawozdanie3.tex" 1681657703 11423 a48cd7539ead8dee6c56174637327f58 ""
   "schemat.png" 1680939243 229699 d322a2db0ded0c5f00c9e4e7bcfc6811 ""
-  "sprawozdanie3.aux" 1681292913 1735 498f75f0fddcd16b0257203737a3faa2 "pdflatex"
-  "sprawozdanie3.out" 1681292913 1665 b69801d6165fc2653b678df15f647492 "pdflatex"
-  "sprawozdanie3.tex" 1681292911 11282 ef66e0b10f9906924145e47454966540 ""
+  "sprawozdanie3.aux" 1681657704 1735 498f75f0fddcd16b0257203737a3faa2 "pdflatex"
+  "sprawozdanie3.out" 1681657704 1665 b69801d6165fc2653b678df15f647492 "pdflatex"
+  "sprawozdanie3.tex" 1681657703 11423 a48cd7539ead8dee6c56174637327f58 ""
   (generated)
   "sprawozdanie3.aux"
   "sprawozdanie3.log"

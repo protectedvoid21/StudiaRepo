@@ -1,0 +1,57 @@
+\section{Podobieństwo zbiorów klasycznych}
+
+Przyjmijmy, że:
+
+$ a = |X\cap Y| $
+
+$ b = |X\backslash Y| $
+
+$ c = |Y\backslash X| $
+
+$ d = |\overline{X} \cap \overline{Y}| $ \\
+
+\subsection*{Typ 1 współczynników podobieństwa zbiorów}
+
+Jaccard: $ P_{Jac}(X,Y) = \dfrac{|X \cap Y|}{|X \cup Y|} = \dfrac{a}{a+b+c} $
+
+Dice: $ P_{Dic}(X,Y) = \dfrac{|X \cap Y|}{|X| + |Y|} = \dfrac{a}{2a+b+c} $
+
+Dice 2: $ P_{2Dic}(X,Y) = \frac{2|X \cap Y|}{|X| + |Y|} = \dfrac{2a}{2a+b+c} $
+
+Overlap: $ P_{Overlap}(X,Y) = \dfrac{|X \cap Y|}{\min\{|X|, |Y|\}}$
+
+Cosinus: $ P_{Cosinus}(X,Y) = \dfrac{|X \cap Y|}{\sqrt{|X|} \cdot \sqrt{|Y|}}$
+
+Sorensen: $ P_{Sor}(X,Y) = \dfrac{4a}{4a + b + c} $
+
+Anderberg: $ P_{And}(X,Y) = \dfrac{8a}{8a + b + c} $
+
+Sneath i Sokal 2: $ P_{SS2} = \dfrac{a}{a + 2(b+c)} $
+
+Ochiai: $ P_{Och} = \dfrac{a}{\sqrt{a+b} \cdot \sqrt{b+c}} $
+
+Kulczyński 2: $ P_{Ku2} = \dfrac{1}{2} \left( \dfrac{a}{a+b} + \dfrac{a}{a+c} \right) $
+
+Tversky : $ P_{Tve} = \dfrac{a}{a + \alpha \cdot b + \beta \cdot c} $, przy założeniu $ \alpha, \beta > 0 $
+
+\subsection*{Typ 2 współczynników podobieństwa zbiorów}
+
+Rogers i Tamimoto: $ P_{RT}(X,Y) = \dfrac{a+d}{a + 2(b+c) + d} $
+
+Sokal i Michener: $ P_{SM}(X,Y) = \dfrac{a+b}{a + b + c + d} $
+
+Sneath i Sokal 1: $ P_{SS1}(X,Y) = \dfrac{a+b}{a + \frac{1}{2}(b + c) + d} $
+
+Russel i Rao: $ P_{RR}(X,Y) = \dfrac{a}{a+b+c+d} $
+
+Yule i Kendall: $ P_{YUK}(X,Y) = \dfrac{a \cdot d}{a \cdot d + b \cdot c} $
+
+\subsection*{Odległość zbiorów klasycznych}
+
+\textbf{Liczność różnicy symetrycznej}: $d_{SYM}(X, Y ) = card(X \backslash Y ) + card(Y \backslash X) = b + c$
+(określana także innymi nazwami np. City-block distance, Manhattan distance, Hamming distance.) \\
+
+\textbf{Odległość Euklidesowa:}
+
+$d_{Euc}(X,Y) = \sqrt{\sum_{i=1}^{n} (u_X(u_i) - u_Y(u_i))^2} = \sqrt{b+c} $, \ gdzie $u_X$ i $u_Y$ są funkcjami charakterystycznymi
+odpowiednio zbiorów $X$ i $Y$.

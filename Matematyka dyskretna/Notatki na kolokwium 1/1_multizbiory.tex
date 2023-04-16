@@ -1,5 +1,25 @@
 \section{Multizbiory}
 
+\textbf{Suma} -- $ \{ x \in U: x \in A \ \lor \ x \in B \} $
+
+$$ A \cup B = \{ \ (x,f_{A \cup B} (x)): x \in U \ \textrm{i} \ f_{A \cup B}(x)=\max(f_A(x), f_B(x)) \ \} $$
+
+\textbf{Iloczyn} -- $ \{ x: x \in U \ \land \ x \in A \ \land \ x \in B \} $
+
+$$ A \cap B = \{ \ (x,f_{A \cap B} (x)): x \in U \ \textrm{i} \ f_{A \cap B}(x)=\min(f_A(x), f_B(x)) \ \} $$
+
+\textbf{Różnica} -- $ \{ x: x \in U \ \land \ x \in A \ \land \ x \notin B \} $
+
+$$ A \backslash B = \{ (x, f_{A \backslash B}(x)): x \in U \ \textrm{i} \ f_{A \backslash B}(x) = \textrm{min}(f_a(x), 1 - f_b(x)) \} $$
+
+\textbf{Dopełnienie} -- $ \{ x \in U: x \notin A \} $
+
+$$ - A = \{ (x, f_{-A}(x)): x \in U \ \textrm{i} \ f_{-A}(x) = 1 - f_{A}(x) \} $$
+
+\textbf{Różnica symetryczna} -- $ \{ x: x \in U \ \land \ (x \in A \ \land \ x \notin B) \ \lor \ (x \in B \ \land \ x \notin A) \} $
+
+$$ A \div B = \{ (x, f_{A \div B}(x)): x \in U \ \textrm{i} \ \max(\min(f_A(x), 1-f_B(x)), \min(f_B(x), 1-f_A(x))) \} $$ \medskip
+
 $ X \subseteq Y $ - zawieranie, zbiór $X$ zawiera się lub jest równy zbiorowi $Y$.
 Dosłownie każdy element $X$ jest w $Y$.
 
@@ -19,7 +39,9 @@ $$ 2^{\emptyset} = \{ \emptyset \} $$
 
 \subsection{Multizbiór}
 
+\begin{center}
 \includegraphics[scale=0.5]{img/multizbior.png}
+\end{center}
 
 $$ U = \{a, b, c, d, e, f, g\} \quad A=\{a, a, a, b, b, g, g, g, g\} $$
 
@@ -34,16 +56,9 @@ $$ U = \{a, b, c, d, e, f, g\} \quad A=\{a, a, a, b, b, g, g, g, g\} $$
     \end{tabular}
 \end{adjustbox}
 \end{table}
+$$ A=\{(x,fA(x)): x\in U\} \quad A= \{(a,3), (b,2), (c,0), (d,0), (e,0), (f,0), (g,4)\} $$ 
 
-$$ A=\{(x,fA(x)): x\in U\} A= \{(a,3), (b,2), (c,0), (d,0), (e,0), (f,0), (g,4)\} $$ 
-
-\textbf{Iloczyn}
-
-$$ A \cap B = \{ \ (x,f_{A \cap B} (x)): x \in U \ \textrm{i} \ f_{A \cap B}(x)=min(f_A(x), f_B(x)) \ \} $$
-
-\textbf{Suma}
-
-$$ A \cup B = \{ \ (x,f_{A \cup B} (x)): x \in U \ \textrm{i} \ f_{A \cup B}(x)=max(f_A(x), f_B(x)) \ \} $$
+Nierozstrzygalne są : $ A \backslash B $ \ oraz \ $ A' $ (czyli dopełnienie).
 
 \textbf{Przykład}
 

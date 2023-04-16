@@ -17,4 +17,42 @@
 \end{tabularx}
 
 $ P_1 : (\alpha \Rightarrow \beta) \Leftrightarrow (\neg \alpha \lor \beta) \quad \quad 
-P_2 : (\alpha \Leftrightarrow \beta) \Leftrightarrow ((\alpha \Rightarrow \beta) \land (\beta \Rightarrow \alpha)) $
+P_2 : (\alpha \Leftrightarrow \beta) \Leftrightarrow ((\alpha \Rightarrow \beta) \land (\beta \Rightarrow \alpha)) $ \\
+
+\textbf{Przykład}
+
+$$ \rightarrow ((p \Rightarrow \neg q) \lor \neg(p \Rightarrow \neg q)) $$
+
+Korzystając z praw rachunku zdań eliminujemy te funktory, których nie uwzględniliśmy w podanej liście przekształceń.
+
+\pagebreak Schemat przyjmuje postać:
+
+$$ \rightarrow ((\neg p \lor \neg q) \lor \neg(\neg p \lor \neg q)) $$
+$$ \textrm{prawostronne} \ \lor $$
+$$ \rightarrow (\neg p \lor \neg q), \ \neg(\neg p \lor \neg q) $$
+$$ \textrm{prawostronne} \ \neg $$
+$$ \neg p \lor \neg q \rightarrow \neg p \lor \neg q $$
+$$ \textrm{prawostronne} \ \lor $$
+$$ \neg p \lor \neg q \rightarrow \neg p, \neg q $$
+$$ \lor \ \textrm{po lewej} $$
+
+\renewcommand{\arraystretch}{1.4}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{X>{\centering\arraybackslash} X}
+    \centering
+    $ \neg p \rightarrow \neg p, \neg q $ & $ \neg q \rightarrow \neg p, \neg q $ \\
+    \centering
+    $ 3 \times \neg $ & $ 3 \times \neg $ \\
+    \centering
+    $ q, \underline{p \rightarrow p} $ & $ p, \underline{q \rightarrow q} $ \\
+    \centering
+    Aksjomat & Aksjomat \\
+\end{tabularx}
+\end{center}
+
+Z schematu wynika tautologia wtedy kiedy po lewej i po prawej stronie występuje ta sama zmienna np $ \alpha \rightarrow \alpha, \beta $
+
+\begin{center}
+\includegraphics[scale=0.7]{img/gentzen.png}
+\end{center}
