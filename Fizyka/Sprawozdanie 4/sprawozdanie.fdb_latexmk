@@ -1,8 +1,9 @@
 # Fdb version 3
-["pdflatex"] 1681672893 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 4/sprawozdanie.tex" "sprawozdanie.pdf" "sprawozdanie" 1681672894
+["pdflatex"] 1681768444 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 4/sprawozdanie.tex" "sprawozdanie.pdf" "sprawozdanie" 1681768445
   "C:/Users/niezn/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1681661172 86553 91af261fa287312f2fb1f66a097366be ""
   "C:/Users/niezn/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1668179638 14064 955ff3e66d356ed127f306eca2052983 ""
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1667124580 10788011 3fbf93dcc05db05ca4b82494ec413059 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/pl/plme.enc" 958947240 3126 59f33ff3e396436ebc36f4e7b444d5c4 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/pl/plmi.enc" 958947240 2005 f094775651a1386335c158fb632529f1 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/pl/plms.enc" 958947240 2468 3f9e2f3088bcf5b581dfc367d71e7d95 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/pl/plrm.enc" 958947240 1944 1845592c00bbe510359fd6887a83ff72 ""
@@ -26,10 +27,12 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/public/pl/plsy7.tfm" 955577220 1304 a6a2c86c403d8bc56664eeac17804b8a ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/public/pl/plsy8.tfm" 955577220 1304 3b6e6a90176144a582c7bcae45156f9b ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plbx12.pfb" 958515180 26733 3fa55bab1df289b642fa8cd9e61fb25f ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plex10.pfb" 958515180 22371 094f80a5a689f2eefc72bff87ecbc407 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plmi12.pfb" 958515180 29704 59e409fb948cf911862e0a97f2ae41a4 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plmi8.pfb" 958515180 29648 b38cd15b84b56d7bea1291ffd32de967 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plr12.pfb" 958515180 27754 6f5ae55af1b64df2aab0bbeada447136 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plr17.pfb" 958515180 27499 8ba159289d6c1695c29d1198ca087a6c ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plr6.pfb" 958515180 27619 a36beb06d666127033e016c42811fc92 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plr8.pfb" 958515180 27613 2ab70f7885927ea178f952791c5494f9 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plsy10.pfb" 958515180 26714 6fe260cd3a16c4a700b121f4edac67f2 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/type1/public/pl/plsy8.pfb" 958515180 26387 eb925497239f1d5d9ccb09089f443c65 ""
@@ -179,9 +182,9 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 4/sprawozdanie.tex" 1681672893 6899 3ffc1d6a5d92a698f2f8a34dad8a2e6f ""
-  "sprawozdanie.aux" 1681672894 1197 bfb71c40b05f71193ec390ab566dc214 "pdflatex"
-  "sprawozdanie.tex" 1681672893 6899 3ffc1d6a5d92a698f2f8a34dad8a2e6f ""
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Fizyka/Sprawozdanie 4/sprawozdanie.tex" 1681768443 15397 275ffda75ab275e781f4b7ab3acce8d5 ""
+  "sprawozdanie.aux" 1681768445 2074 b5b7a35fececa91ce479542683695a92 "pdflatex"
+  "sprawozdanie.tex" 1681768443 15397 275ffda75ab275e781f4b7ab3acce8d5 ""
   (generated)
   "sprawozdanie.aux"
   "sprawozdanie.log"
