@@ -652,13 +652,16 @@ OUTPUT sprawozdanie.pdf
 INPUT C:\Users\niezn\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\tfm\public\pl\plbx12.tfm
 INPUT sprawozdanie.aux
-INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\pl\plms.enc
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\pl\plrm.enc
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\pl\plms.enc
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\pl\plme.enc
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\pl\plmi.enc
 INPUT C:\Users\niezn\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
 INPUT C:\Users\niezn\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plbx12.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plbx12.pfb
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plex10.pfb
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plex10.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plmi12.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plmi12.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plmi8.pfb
@@ -667,6 +670,8 @@ INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr12.p
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr12.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr17.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr17.pfb
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr6.pfb
+INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr6.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr8.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plr8.pfb
 INPUT C:\Users\niezn\AppData\Local\Programs\MiKTeX\fonts\type1\public\pl\plsy10.pfb
