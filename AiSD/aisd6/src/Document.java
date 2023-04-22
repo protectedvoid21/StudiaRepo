@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.ListIterator;
 import java.util.Scanner;
 
@@ -215,15 +216,86 @@ public class Document{
 		}
 	}
 	
+	private void merge(int[] arr, int leftIndex, int rightIndex) {
+		int rightCount = Math.min(arr.length - rightIndex, rightIndex - leftIndex);
+		if(rightCount < 0) {
+			rightIndex = arr.length - 1;
+			rightCount = 0;
+		}
+		int[] merged = new int[rightIndex - leftIndex + rightCount];
+		
+		int index = -1;
+		int left = leftIndex;
+		int right = rightIndex;
+		
+		while(right < rightCount + rightIndex) {
+			index++;
+			
+			if(arr[right] < arr[left] || left == rightIndex) {
+				merged[index] = arr[right];
+				right++;
+			}
+			else {
+				merged[index] = arr[left];
+				left++;
+			}
+		}
+
+		while(left < rightIndex) {
+			index++;
+			merged[index] = arr[left];
+			left++;
+		}
+		
+		for(int i = leftIndex; i < merged.length + leftIndex; i++) {
+			arr[i] = merged[i - leftIndex];
+		}
+	}
 
 	public void iterativeMergeSort(int[] arr) {
 		showArray(arr);
 
+		for(int i = 1; i < arr.length; i *= 2) {
+			for(int j = 0; j < arr.length - 1; j += i * 2) {
+				merge(arr, j, j + i);
+			}
+			showArray(arr);
+		}
+	}
+	
+	private int getDigit(int num, int divider) {
+		num /= divider;
+		return num % 10;
+	}
+	
+	private void positionSort(int[] arr, int digit) {
+		int[] digitCounts = new int[10];
+		int[] result = new int[arr.length];
+		int divider = (int)(Math.pow(10, digit - 1));
 		
+		for(var num : arr) {
+			digitCounts[getDigit(num, divider)]++;
+		}
+		digitCounts[0]--;
+		for(int i = 1; i < digitCounts.length; i++) {
+			digitCounts[i] += digitCounts[i - 1];
+		}
+
+		for(int j = arr.length - 1; j >= 0; j--) {
+			result[digitCounts[getDigit(arr[j], divider)]] = arr[j];
+			digitCounts[getDigit(arr[j], divider)]--;
+		}
+		for (int j = 0; j < arr.length; j++) {
+			arr[j] = result[j];
+		}
 	}
 
 	public void radixSort(int[] arr) {
 		showArray(arr);
-		//TODO
+		
+		for(int i = 1; i <= 3; i++) {
+			positionSort(arr, i);	
+			showArray(arr);
+		}
 	}
 }
