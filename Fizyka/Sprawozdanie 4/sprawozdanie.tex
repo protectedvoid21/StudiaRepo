@@ -3,7 +3,9 @@
 \usepackage{polski}
 \usepackage{adjustbox}
 \usepackage{pgfplots}
+\pgfplotsset{compat=newest}
 \usepackage{amsmath}
+\usepackage{url}
 \usepackage{multirow}
 
 \setlength{\parindent}{0pt}
@@ -58,18 +60,13 @@ Prąd płynący w obwodzie wytwarza skojarzony z nim strumień magnetyczny.
 
 Jednostką indukcyjności jest henr [H].
 
+\pagebreak
 
-Indukcyjność definiuje się jako stosunek tego strumienia i prądu, który go wytworzył:
-
-$$ L = k \frac{\Phi}{i} $$
-Współczynnik $k$ zależy od geometrii układu, a więc między innymi od kształtu cewki, liczby zwojów, grubości użytego drutu. Indukcyjność cewki zależy również od przenikalności magnetycznej rdzenia.
-
-\bigskip
 Wykaz przyrządów :
 \begin{itemize}
-    \item Generator AG 1012F
-    \item Woltomierz napięcia przemiennego
-    \item Miliamperomierz prądu przemiennego
+    \item Generator WON AG 1012F
+    \item Woltomierz napięcia przemiennego -- METEX M-3860D
+    \item Miliamperomierz prądu przemiennego -- METEX M-3850
     \item Zestaw składający się z oporników, cewek indukcyjnych i kondensatorów
 \end{itemize}
 
@@ -91,7 +88,7 @@ Dla zakresu:
 \end{itemize} \bigskip
 
 Np.
-$$ u_b(U) = \frac{0,008 \cdot 1,016 + 3 \cdot 0,001}{\sqrt{3}} = 0,00642 \approx 0,0065[V] $$ \bigskip
+\[ u_b(U) = \frac{0,008 \cdot 1,016 + 3 \cdot 0,001}{\sqrt{3}} = 0,00642 \approx 0,0065[V] \] \bigskip
 
 Niepewność amperomierza (dla prądu zmiennego)
 
@@ -102,7 +99,7 @@ Dla zakresu:
 \end{itemize}
 
 Np. 
-$$ u_b(I) = \frac{0,015 \cdot 2,090 + 3 \cdot 0,00001}{\sqrt3} = 0,01811 \approx 0,019[mA]$$\bigskip
+\[ u_b(I) = \frac{0,015 \cdot 2,090 + 3 \cdot 0,00001}{\sqrt3} = 0,01811 \approx 0,019[mA] \] \bigskip
 
 Niepewność ustalenia częstotliwości generatora:
 \begin{itemize}
@@ -110,33 +107,33 @@ Niepewność ustalenia częstotliwości generatora:
 \end{itemize}
 
 Np.
-$$ u_b(f) = \frac{0,01 \cdot 125 + 1}{\sqrt{3}} = 1.29903 \approx 1,3[Hz] $$ 
+\[ u_b(f) = \frac{0,01 \cdot 125 + 1}{\sqrt{3}} = 1.29903 \approx 1,3[Hz] \]
 
 \subsection{Wyznaczenie pojemności kondesatora}
 
 Obliczenie pojemności kondensatora:
-$$ C = \frac{1}{2 \pi f \sqrt{Z_C^2 - R^2}} = \frac{1}{2 \pi \cdot 125 \sqrt{470^2 - 157^2}} = 2,874115253^{-6} \approx 2,874116^{-6}[F] $$
+\[ C = \frac{1}{2 \pi f \sqrt{Z_C^2 - R^2}} = \frac{1}{2 \pi \cdot 125 \sqrt{470^2 - 157^2}} = 2,874115253^{-6} \approx 2,875^{-6}[F] \]
 
 Wyznaczenie niepewności złożonej pojemności kondensatora:
 
-$$ u_c(C) = \sqrt{ \physdpartial{C}{f} \cdot u(f)^2 + \physdpartial{C}{Z_C} \cdot u(Z_C)^2 + \physdpartial{C}{R} \cdot u(R)^2 } $$
-$$ = \sqrt{ \powfrac{-1}{2 \pi f^2 \sqrt{Z_C^2 - R^2}} \cdot u(f)^2 + \powfrac{-Z_C}{2 \pi f \powsq{Z_c^2 - R^2} } \cdot u(Z_C)^2 + \powfrac{R}{2 \pi f \powsq{Z_C^2 - R^2}} \cdot u(R)^2 } $$
-$$ = \sqrt{ \powfrac{-1}{2 \pi \cdot 125^2 \sqrt{470^2 - 157^2}} \cdot 1,3^2 + \powfrac{-470}{2 \pi \cdot 125 \powsq{470^2 - 157^2} } \cdot 2^2 + \powfrac{157}{2\pi \cdot 125 \powsq{470^2 - 157^2} } \cdot 3^2 } $$
-$$ = 3,3624^{-8}[F] $$
+\[ u_c(C) = \sqrt{ \physdpartial{C}{f} \cdot u(f)^2 + \physdpartial{C}{Z_C} \cdot u(Z_C)^2 + \physdpartial{C}{R} \cdot u(R)^2 } \]
+\[ = \sqrt{ \powfrac{-1}{2 \pi f^2 \sqrt{Z_C^2 - R^2}} \cdot u(f)^2 + \powfrac{-Z_C}{2 \pi f \powsq{Z_c^2 - R^2} } \cdot u(Z_C)^2 + \powfrac{R}{2 \pi f \powsq{Z_C^2 - R^2}} \cdot u(R)^2 } \]
+\[ = \sqrt{ \powfrac{-1}{2 \pi \cdot 125^2 \sqrt{470^2 - 157^2}} \cdot 1,3^2 + \powfrac{-470}{2 \pi \cdot 125 \powsq{470^2 - 157^2} } \cdot 2^2 + \powfrac{157}{2\pi \cdot 125 \powsq{470^2 - 157^2} } \cdot 3^2 } \]
+\[ = 3,4^{-8}[F] \]
 
 \subsection{Wyznaczenie indukcyjności cewki}
 
 Obliczenie indukcyjności cewki:
 
-$$ L = \frac{ \sqrt{Z_L^2 - (R + R_L)^2} }{2 \pi f} = \frac{ \sqrt{ 164,64^2 - (157 + 0,60)^2 }}{2 \pi \cdot 125} = 0,060644 \approx 0,061[H] $$
+\[ L = \frac{ \sqrt{Z_L^2 - (R + R_L)^2} }{2 \pi f} = \frac{ \sqrt{ 164,64^2 - (157 + 0,60)^2 }}{2 \pi \cdot 125} = 0,060644 \approx 0,061[H] \]
 
-Wyznaczenie niepewności złożonej indukcyjności cewki
+Wyznaczenie niepewności złożonej indukcyjności cewki 
 
-$$ u_c(L) = \sqrt{ \physdpartial{L}{Z_L} \cdot u(Z_L)^2 + \physdpartial{L}{R} \cdot u(R)^2 + \physdpartial{L}{R_L} \cdot u(R_L)^2 + \physdpartial{L}{f} \cdot u(f)^2 } $$
+\[ u_c(L) = \sqrt{ \physdpartial{L}{Z_L} \cdot u(Z_L)^2 + \physdpartial{L}{R} \cdot u(R)^2 + \physdpartial{L}{R_L} \cdot u(R_L)^2 + \physdpartial{L}{f} \cdot u(f)^2 } \]
 
-$$ = u_c(L) = \sqrt{ \powfrac{Z_L}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(Z_L)^2 + \powfrac{-(R + R_L)}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(R)^2 } $$
-$$ \overline{+ \powfrac{-(R + R_L)}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(R_L)^2 + \powfrac{- \sqrt{Z_L^2 - (R - R_L)^2}}{2 \pi f^2} \cdot u(f)^2 } $$
-$$ = 0,0131514 \approx 0,014[H]$$
+\[ = u_c(L) = \sqrt{ \powfrac{Z_L}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(Z_L)^2 + \powfrac{-(R + R_L)}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(R)^2 } \]
+\[ \overline{+ \powfrac{-(R + R_L)}{2\pi f \sqrt{Z_L^2 - (R + R_L)^2}} \cdot u(R_L)^2 + \powfrac{- \sqrt{Z_L^2 - (R - R_L)^2}}{2 \pi f^2} \cdot u(f)^2 } \]
+\[ = 0,0131514 \approx 0,014[H] \]
 
 \pagebreak
 
@@ -144,15 +141,16 @@ $$ = 0,0131514 \approx 0,014[H]$$
 
 Wyznaczenie zawady nr 2 dla układu szeregowego RLC:
 
-$$ Z_2 = \sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2 \pi f C}\right)^2} = 425,625862 $$
+\[ Z_2 = \sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2 \pi f C}\right)^2} = 425,625862 \approx 426 \ \Omega \]
 
 Wyznaczenie niepewności złożonej dla zawady nr 2:
 
-$$ u(Z_2) = \sqrt{ \powfrac{R + R_L}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(R)^2 + \powfrac{R+R_L}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(R_L)^2 } $$
-$$ \overline{ \powfrac{\left( 2\pi f L - \frac{1}{2 \pi f C} \right) \cdot 2 \pi f}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(L)^2 + 
-\powfrac{\left(2 \pi f L - \frac{1}{2 \pi f C}\right) \cdot \left( 2\pi L + \frac{1}{2 \pi f^2 C} \right)}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(f)^2} $$
-$$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \frac{1}{2 \pi C^2 f}}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(C)^2 } 
-= 11,7873 $$
+\[ u(Z_2) = \sqrt{ \physdpartial{Z_2}{R} \cdot u(R)^2 + \physdpartial{Z_2}{R_L} \cdot u(R_L)^2 + \physdpartial{Z_2}{L} \cdot u(L)^2 + \physdpartial{Z_2}{f} \cdot u(f)^2 + \physdpartial{Z_2}{C} \cdot u(C)^2 } \]
+\[ = \sqrt{ \powfrac{R + R_L}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(R)^2 + \powfrac{R+R_L}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(R_L)^2 } \]
+\[ \overline{ \powfrac{\left( 2\pi f L - \frac{1}{2 \pi f C} \right) \cdot 2 \pi f}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(L)^2 + 
+\powfrac{\left(2 \pi f L - \frac{1}{2 \pi f C}\right) \cdot \left( 2\pi L + \frac{1}{2 \pi f^2 C} \right)}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(f)^2} \]
+\[ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \frac{1}{2 \pi C^2 f}}{\sqrt{(R + R_L)^2 + \left(2 \pi f L - \frac{1}{2\pi f C}\right)^2}} \cdot u(C)^2 } 
+= 11,7873 \approx 12 \ \Omega \]
 
 \pagebreak
 
@@ -187,17 +185,17 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
         },
     ]
     \addplot[red, domain=0:0.025, dashed] {469.49*x}; \addlegendentry{Regresja liniowa: $y = 469,49x$}
-    \addplot[blue, only marks] coordinates {
-        (0.00209,1.016)
-        (0.00413,2.03)
-        (0.00642,3.046)
-        (0.0086,4.10)
-        (0.0109,5.12)
-        (0.01311,6.15)
-        (0.01487,7.17)
-        (0.01748,8.16)
-        (0.01975,9.18)
-        (0.02175,10.15)
+    \addplot[only marks, blue, mark=o,error bars/.cd, y dir=both,y explicit] coordinates {
+        (0.00209,1.016) +- (0.000019, 0.0065)
+        (0.00413,2.03) +- (0.000036, 0.012)
+        (0.00642,3.046) +- (0.000056, 0.016)
+        (0.0086,4.10) +- (0.000075, 0.089)
+        (0.0109,5.12) +- (0.000095, 0.11)
+        (0.01311,6.15) +- (0.00012, 0.12)
+        (0.01487,7.17) +- (0.00013, 0.14)
+        (0.01748,8.16) +- (0.00016, 0.15)
+        (0.01975,9.18) +- (0.00018, 0.17)
+        (0.02175,10.15) +- (0.00019, 0.18)
     };
     \end{axis}
     \end{tikzpicture}
@@ -211,7 +209,7 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
     \label{tab:tabela1}
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|} \hline
     Lp & U[V] & u(U)[V] & I[mA] & u(I)[mA] & Z\textsubscript{c} & u(Z\textsubscript{c}) & $f$[Hz] & u($f$)[Hz] & C[F] & u(C)[F] \\ \hline
-    1 & 1,0160 & 0,0065 & 2,090 & 0,019 & \multirow{10}{*}{470} & \multirow{10}{*}{2} & \multirow{10}{*}{125,0} & \multirow{10}{*}{1,3} & \multirow{10}{*}{2,874116$^{-6}$} & \multirow{10}{*}{3,3624$^{-8}$} \\ \cline{1-5}
+    1 & 1,0160 & 0,0065 & 2,090 & 0,019 & \multirow{10}{*}{470} & \multirow{10}{*}{2} & \multirow{10}{*}{125,0} & \multirow{10}{*}{1,3} & \multirow{10}{*}{2,875$^{-6}$} & \multirow{10}{*}{3,4$^{-8}$} \\ \cline{1-5}
     2 & 2,034 & 0,012 & 4,130 & 0,036 & & & & & & \\ \cline{1-5}
     3 & 3,046 & 0,016 & 6,420 & 0,056 & & & & & & \\ \cline{1-5}
     4 & 4,100 & 0,089 & 8,600 & 0,075 & & & & & & \\ \cline{1-5}
@@ -253,8 +251,17 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
             },
         ]
         \addplot[red, domain=0:0.07, dashed] {164.63*x}; \addlegendentry{Regresja liniowa: $y = 164,63x$}
-        \addplot[blue, only marks] coordinates {
-            (0.00574, 1.0150) (0.01132, 2.032) (0.01755, 3.043) (0.02407, 4.100) (0.03092, 5.12) (0.03724, 6.150) (0.0436, 7.16) (0.0497, 8.15) (0.056, 9.17) (0.062, 10.13)
+        \addplot[only marks, blue, mark=o,error bars/.cd, y dir=both,y explicit] coordinates {
+            (0.00574, 1.0150) +-  (0.00005, 0.0065)
+            (0.01132, 2.032)  +- (0.000099, 0.012)
+            (0.01755, 3.043)  +- (0.00016, 0.016)
+            (0.02407, 4.100)  +- (0.00021, 0.089)
+            (0.03092, 5.12)  +- (0.00027, 0.11)
+            (0.03724, 6.150)  +- (0.00033, 0.12)
+            (0.0436, 7.16)  +- (0.00038, 0.14)
+            (0.0497, 8.15)  +- (0.00044, 0.15)
+            (0.056, 9.17)  +- (0.00049, 0.17)
+            (0.062, 10.13) +- (0.00054, 0.18)
         };
         \end{axis}
         \end{tikzpicture}
@@ -274,10 +281,10 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
     4 & 4,100 & 0,089 & 24,07 & 0,21 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
     5 & 5,12 & 0,11 & 30,92 & 0,27 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
     6 & 6,15 & 0,12 & 37,24 & 0,33 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    7 & 7,16 & 0,14 & 43,6 & 0,38 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    8 & 8,15 & 0,15 & 49,7 & 0,44 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    9 & 9,17 & 0,17 & 56 & 0,49 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    10 & 10,13 & 0,18 & 62 & 0,54 & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+    7 & 7,16 & 0,14 & 43,60 & 0,38 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    8 & 8,15 & 0,15 & 49,70 & 0,44 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    9 & 9,17 & 0,17 & 56,00 & 0,49 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    10 & 10,13 & 0,18 & 62,00 & 0,54 & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
     \end{tabular}
 \end{table}
 
@@ -310,8 +317,17 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
             },
         ]
         \addplot[red, domain=0:0.07, dashed] {464.16*x}; \addlegendentry{Regresja liniowa: $y = 464,16x$}
-        \addplot[blue, only marks] coordinates {
-            (0.00218, 1.015) (0.00439, 2.034) (0.0066, 3.046) (0.00881, 4.11) (0.01102, 5.13) (0.01323, 6.15) (0.01544, 7.17) (0.01759, 8.16) (0.01981, 9.18) (0.02187, 10.15)
+        \addplot[only marks, blue, mark=o,error bars/.cd, y dir=both,y explicit] coordinates {
+            (0.00218, 1.015) +- (0.00218, 0.0065)
+            (0.00439, 2.034) +- (0.00439, 0.012)
+            (0.0066, 3.046) +- (0.0066, 0.016)
+            (0.00881, 4.11) +- (0.00881, 0.089)
+            (0.01102, 5.13) +- (0.01102, 0.11)
+            (0.01323, 6.15) +- (0.01323, 0.12)
+            (0.01544, 7.17) +- (0.01544, 0.14)
+            (0.01759, 8.16) +- (0.01759, 0.15)
+            (0.01981, 9.18) +- (0.01981, 0.17)
+            (0.02187, 10.15) +- (0.02187, 0.18)
         };
         \end{axis}
         \end{tikzpicture}
@@ -325,11 +341,11 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
     \hline
     Lp & U[V] & u(U)[V] & I[mA] & u(I)[mA] & Z\textsubscript{1}[$\Omega$] & u(Z\textsubscript{1})[$\Omega$] & $f$[Hz] & u($f$)[Hz] & Z\textsubscript{2}[$\Omega$] & u(Z\textsubscript{2})[$\Omega$] \\ \hline
-    1 & 1,015 & 0,0065 & 2,18 & 0,019 & \multirow{10}{*}{464,16} & \multirow{10}{*}{0,29} & \multirow{10}{*}{125,0} & \multirow{10}{*}{1,3} & \multirow{10}{*}{425,6258} & \multirow{10}{*}{11,7873} \\ \cline{1-5}
-    2 & 2,034 & 0,012 & 4,39 & 0,039 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    3 & 3,046 & 0,016 & 6,6 & 0,058 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    4 & 4,11 & 0,089 & 8,81 & 0,077 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
-    5 & 5,13 & 0,11 & 11,02 & 0,096 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    1 & 1,0150 & 0,0065 & 2,180 & 0,019 & \multirow{10}{*}{464,16} & \multirow{10}{*}{0,29} & \multirow{10}{*}{125,0} & \multirow{10}{*}{1,3} & \multirow{10}{*}{426} & \multirow{10}{*}{12} \\ \cline{1-5}
+    2 & 2,034 & 0,012 & 4,390 & 0,039 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    3 & 3,046 & 0,016 & 6,600 & 0,058 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    4 & 4,110 & 0,089 & 8,810 & 0,077 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
+    5 & 5,13 & 0,11 & 11,020 & 0,096 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
     6 & 6,15 & 0,12 & 13,23 & 0,12 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
     7 & 7,17 & 0,14 & 15,44 & 0,14 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
     8 & 8,16 & 0,15 & 17,59 & 0,16 & ~ & ~ & ~ & ~ & ~ & ~ \\ \cline{1-5}
@@ -338,11 +354,24 @@ $$ \overline{ \powfrac{\left( 2 \pi f L - \frac{1}{2 \pi f C} \right) \cdot \fra
     \end{tabular}
 \end{table}
 
+\pagebreak
+
 \section{Wnioski}
 
-W eksperymencie udało się wyznaczyć pojemność kondensatora, która wynosi około $2,874116^{6} \pm 3,3624^{-8}$F oraz indukcyjność cewki,
+W eksperymencie udało się wyznaczyć pojemność kondensatora, która wynosi około $2,875^{-6} \pm 3,4^{-8}$F oraz indukcyjność cewki,
 która wynosi około $ 0,061 \pm 0,014 $H.
 
 Zostało też udowodnione spełnianie prawa Ohma dla układu z prądem przemiennym. Wskazuje na to zależność liniowa pomiarów napięcia od natężenia.
+
+Udało się też wyznaczyć zawadę układu, której wartość $Z_1 = 464,16 \pm 0,29 \Omega$ jest zbliżona do tej, która została wyznaczona przy pomocy regresji liniowej
+$Z_2 = 426 \pm 12 \Omega $.
+
+\section{Bibliografia}
+
+\begin{itemize}
+    \item \url{https://pl.wikipedia.org/wiki/Kondensator}
+    \item \url{https://pl.wikipedia.org/wiki/Cewka}
+    \item \url{https://pl.wikipedia.org/wiki/Prąd_przemienny}
+\end{itemize}
 
 \end{document}

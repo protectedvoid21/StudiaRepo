@@ -6,12 +6,12 @@ public class Program {
         const int cylinderCount = 200;
 
         List<Request> requestList = new RequestGeneratorBuilder()
-            .SetRequests(500)
+            .SetRequests(2500)
             .SetCylinderCount(cylinderCount)
-            .SetMinCylinder(20)
-            .SetMaxCylinder(100)
-            .SetMaxArrivalTime(20000)
-            .SetDeadlinePercentage(24)
+            .SetMinCylinder(1)
+            .SetMaxCylinder(200)
+            .SetMaxArrivalTime(25000)
+            .SetDeadlinePercentage(15)
             .SetMinimumDeadline(40)
             .SetMaximumDeadline(100)
             .Generate();
@@ -38,7 +38,7 @@ public class Program {
         }
         
         Algorithm[] deadlineAlgorithms = {
-            new EDFAlgorithm(RequestGenerator.CloneRequests(requestList), "EDF"),
+            new EDFAlgorithm(RequestGenerator.CloneRequests(requestList), "EDF (+ SSTF)"),
             new FDSCANAlgorithm(RequestGenerator.CloneRequests(requestList), "FD-SCAN")
         };
 
