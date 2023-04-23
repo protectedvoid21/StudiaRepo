@@ -4,7 +4,7 @@ public abstract class Algorithm {
     public string Name { get; }
     public int FailureCount { get; protected set; }
     protected readonly Page[] pages;
-    private readonly int[] requests;
+    protected readonly int[] requests;
     protected int tick;
 
     protected Algorithm(Page[] pages, int[] requests, string name) {

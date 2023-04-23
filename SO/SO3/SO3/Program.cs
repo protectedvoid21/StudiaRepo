@@ -1,12 +1,16 @@
 ﻿using SO3;
 using SO3.Algorithms;
 
-var pages = Generator.GetPages(4);
-var requests = Generator.GetRequests(10, 10);
-requests = new[] { 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 1, 5, 5 };
+const int pageCount = 2000;
+const int requestCount = 3500;
+const int maxRequest = 10000;
+
+var pages = Generator.GetPages(pageCount);
+var requests = Generator.GetRequests(requestCount, maxRequest);
 
 Algorithm[] algorithms = {
     new FIFOAlgorithm(Generator.CopyPages(pages), requests, "FIFO"),
+    new OPTAlgorithm(Generator.CopyPages(pages), requests, "OPT"),
     new LRUAlgorithm(Generator.CopyPages(pages), requests, "LRU"),
     new ALRUAlgorithm(Generator.CopyPages(pages), requests, "ApxLRU"),
     new RANDAlgorithm(Generator.CopyPages(pages), requests, "RAND"),
@@ -21,5 +25,5 @@ foreach (var algorithm in algorithms) {
     Console.WriteLine($"[COMPLETED] {algorithm.Name}");
 }
 
-//Console.Clear();
-AlgorithmAnalizer.Create(algorithmStatsList, requests.Length, pages.Length);
+Console.Clear();
+AlgorithmAnalizer.Create(algorithmStatsList, pageCount, requestCount, maxRequest);
