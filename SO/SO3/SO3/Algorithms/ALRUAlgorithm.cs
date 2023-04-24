@@ -1,12 +1,12 @@
 namespace SO3.Algorithms; 
 
 public class ALRUAlgorithm : Algorithm {
-    private Queue<Page> nextPageQueue;
+    private List<Page> nextPageList;
 
     public ALRUAlgorithm(Page[] pages, int[] requests, string name) : base(pages, requests, name) {
-        nextPageQueue = new Queue<Page>();
+        nextPageList = new List<Page>();
     }
-
+    
     protected override Page GetAvailablePage(int request) {
         foreach (var page in pages) {
             if (page.Request == request) {
@@ -14,20 +14,24 @@ public class ALRUAlgorithm : Algorithm {
             }
             if (page.IsEmpty) {
                 FailureCount++;
-                nextPageQueue.Enqueue(page);
+                nextPageList.Add(page);
                 return page;
             }
         }
         
         FailureCount++;
-        foreach (var page in nextPageQueue) {
+        foreach (var page in nextPageList) {
             if (!page.HasSecondChance) {
-                nextPageQueue.Enqueue(nextPageQueue.Peek());
-                return nextPageQueue.Dequeue();
+                nextPageList.Remove(page);
+                nextPageList.Add(page);
+                return page;
             }
             page.RemoveSecondChance();
         }
 
-        return nextPageQueue.Dequeue();
+        Page toRemovePage = nextPageList[0];
+        nextPageList.Remove(toRemovePage);
+        nextPageList.Add(toRemovePage);
+        return toRemovePage;
     }
 }
