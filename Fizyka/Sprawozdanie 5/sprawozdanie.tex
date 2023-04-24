@@ -168,7 +168,7 @@ Na wykresie zostało przedstawione przykładowe dopasowanie linii regresji linio
 \smallskip
 
 Wartość napięcia odpowiadającego barierze potencjału (miejsce zerowe regresji liniowej):
-\[ U_b = -\frac{b}{a} = -\frac{134,3}{62,82} = 2,137351 \approx 2,14[V] \]
+\[ U_b = -\frac{b}{a} = -\frac{-134,3}{62,82} = 2,137351 \approx 2,14[V] \]
 \medskip
 
 Niepewność obliczenia bariery potencjału:
@@ -177,7 +177,7 @@ Niepewność obliczenia bariery potencjału:
 \medskip
 
 Obliczenie stałej Plancka:
-\[ h = \frac{e}{c} \lambda U_b = \frac{1,6 \cdot 10^{-19}}{299792458} \cdot 447 \cdot 2,14 = 6,6814222 \approx 6,68143 \ [\textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1}] \]
+\[ h = \frac{e}{c} \lambda U_b = \frac{1,6 \cdot 10^{-19}}{299792458} \cdot 447 \cdot 10^{-9} \cdot 2,14 = 6,6814222 \cdot 10^{-34} \approx 6,69 \cdot 10^{-34} \ [\textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1}] \]
 \medskip
 
 gdzie:
@@ -189,7 +189,7 @@ gdzie:
 
 Niepewność obliczenia stałej Plancka:
 \[ u_c(h) = \frac{e}{c} \sqrt{ U_b^2 \cdot u(\lambda)^2 + \lambda^2 \cdot u(U_b)^2 } = 5,33 \cdot 10^{-28} \sqrt{ 2,14^2 \cdot (10 \cdot 10^{-9})^2 + (585^2 \cdot 0,19 \cdot 10^{-9})^2 } \]
-\[ = 6,04105 \cdot 10^{-35} \ [\textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1}] \]
+\[ = 0,61 \cdot 10^{-34} \ [\textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1}] \]
 
 \pagebreak
 
@@ -284,7 +284,7 @@ Niepewność obliczenia stałej Plancka:
     \caption*{Pomiary i obliczone wartości dla układu z diodą niebieską}
         \begin{tabular}{|l|l|l|l|l|c|c|c|c|c|c|c|} \hline
         Lp. & U[V] & u(U)[V] & I[mA] & u(I)[mA] & U\textsubscript{b}[V] & u(U\textsubscript{b})[V] & h[kg $\cdot$ m$^2 \cdot$ s$^{-1}$] & u(h)[kg $\cdot$ m$^2 \cdot$ s$^{-1}$] \\ \hline
-        1 & 0,3500 & 0,0068 & 0,000 & 0,018 & \multirow{20}{*}{2,14} & \multirow{20}{*}{0,19} & \multirow{20}{*}{$6,68143 \cdot 10^{-34}$} & \multirow{20}{*}{$6,04105 \cdot 10^{-35}$} \\ \cline{1-5}
+        1 & 0,3500 & 0,0068 & 0,000 & 0,018 & \multirow{20}{*}{2,14} & \multirow{20}{*}{0,19} & \multirow{20}{*}{$6,69 \cdot 10^{-34}$} & \multirow{20}{*}{$0,61 \cdot 10^{-34}$} \\ \cline{1-5}
         2 & 0,7000 & 0,0078 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
         3 & 1,0500 & 0,0089 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
         4 & 1,500 & 0,011 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
@@ -368,7 +368,7 @@ Niepewność obliczenia stałej Plancka:
     \caption*{Pomiary i obliczone wartości dla układu z diodą żółtą}
     \begin{tabular}{|l|l|l|l|l|c|c|c|c|} \hline
         Lp. & U & u(U) & I[mA] & u(I)[mA] & U\textsubscript{b}[V] & u(U\textsubscript{b})[V] & h[kg $\cdot$ m$^2 \cdot$ s$^{-1}$] & u(h)[kg $\cdot$ m$^2 \cdot$ s$^{-1}$] \\ \hline
-        1 & 0,5000 & 0,0073 & 0,000 & 0,018 & \multirow{20}{*}{2,80} & \multirow{20}{*}{0,16} & \multirow{20}{*}{$6,67982 \cdot 10^{-34}$} & \multirow{20}{*}{$4,09991 \cdot 10^{-35}$} \\ \cline{1-5}
+        1 & 0,5000 & 0,0073 & 0,000 & 0,018 & \multirow{20}{*}{2,80} & \multirow{20}{*}{0,16} & \multirow{20}{*}{$6,68 \cdot 10^{-34}$} & \multirow{20}{*}{$0,41 \cdot 10^{-34}$} \\ \cline{1-5}
         2 & 1,0000 & 0,0087 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
         3 & 1,5000 & 0,0102 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
         4 & 2,000 & 0,012 & 0,000 & 0,018 &  &  &  &  \\ \cline{1-5}
@@ -404,8 +404,8 @@ ma niedokładność mierników oraz niedoskonałość w ocenie koloru przez ludz
 Porównując wartość stałej plancka 
 \[ h = 6,62607015 \times 10^{-34} \ \textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1} \]
 do tych, które zostały wyznaczone przy pomocy pomiarów i obliczeń
-\[ h = (6,68143 \pm 0,604105) \times 10^{-34} \ \textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1} \] 
-\[ h = (6,67982 \pm 0,409991) \times 10^{-34} \ \textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1} \] 
+\[ h = (6,69 \pm 0,61) \times 10^{-34} \ \textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1} \] 
+\[ h = (6,68 \pm 0,41) \times 10^{-34} \ \textrm{kg} \cdot \textrm{m}^2 \cdot \textrm{s}^{-1} \] 
 
 można stwierdzić, że eksperyment został pomyślnie przeprowadzony.
 
@@ -413,6 +413,7 @@ można stwierdzić, że eksperyment został pomyślnie przeprowadzony.
 
 \begin{itemize}
     \item \url{https://pl.wikipedia.org/wiki/Stała_Plancka}
+    \item \url{https://pl.wikipedia.org/wiki/Światło}
 \end{itemize}
 
 \end{document}
