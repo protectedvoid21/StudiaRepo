@@ -2,12 +2,11 @@
 using SO3.Algorithms;
 
 const int pageCount = 1000;
-const int requestCount = 2000;
+const int requestCount = 3500;
 const int maxRequest = 5000;
 
-var pages = Generator.GetPages(4);
+var pages = Generator.GetPages(pageCount);
 var requests = Generator.GetRequests(requestCount, maxRequest);
-requests = new[] { 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 1, 5, 5 };
 
 Algorithm[] algorithms = {
     new FIFOAlgorithm(Generator.CopyPages(pages), requests, "FIFO"),
