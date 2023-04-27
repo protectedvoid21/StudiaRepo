@@ -19,8 +19,8 @@ public class HashTable{
 		this.size = initCapacity;
 		this.maxLoadFactor=maxLF;
 		
-		arr = new LinkedList[size];
-		for(int i = 0; i < size; i++) {
+		arr = new LinkedList[initCapacity];
+		for(int i = 0; i < initCapacity; i++) {
 			arr[i] = new LinkedList();
 		}
 	}
@@ -30,7 +30,7 @@ public class HashTable{
 			return false;
 		}
 		
-		if(currentSize + 1 > maxLoadFactor * size) {
+		if(currentSize + 1 >= maxLoadFactor * size) {
 			doubleArray();
 		}
 		
