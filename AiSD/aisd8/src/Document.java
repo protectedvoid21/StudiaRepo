@@ -1,61 +1,143 @@
-package dsaa.lab08;
-
 import java.util.Scanner;
 
-public class Document implements IWithName{
-	public String name;
-	public BST<Link> link;
-	public Document(String name) {
-		this.name=name.toLowerCase();
-		link=new BST<Link>();
-	}
+public class Document implements IWithName {
+    public String name;
+    public BST<Link> links;
 
-	public Document(String name, Scanner scan) {
-		this.name=name.toLowerCase();
-		link=new BST<Link>();
-		load(scan);
-	}
-	public void load(Scanner scan) {
-		//TODO
-	}
+    public Document(String name) {
+        this.name = name.toLowerCase();
+        links = new BST<Link>();
+    }
 
-	public static boolean isCorrectId(String id) {
-		//TODO
-		return true;
-	}
+    public Document(String name, Scanner scan) {
+        this.name = name.toLowerCase();
+        links = new BST<Link>();
+        load(scan);
+    }
 
-	// accepted only small letters, capitalic letter, digits nad '_' (but not on the begin)
-	static Link createLink(String link) {
-		//TODO
-		return null;
-	}
+    public void load(Scanner scan) {
+        String input = scan.nextLine();
 
-	@Override
-	public String toString() {
-		String retStr="Document: "+name+"\n";
-		retStr+=link.toStringInOrder();		
-		return retStr;
-	}
+        while (!input.equals("eod")) {
+            input = input.toLowerCase();
+            String[] words = input.split(" ");
 
-	public String toStringPreOrder() {
-		String retStr="Document: "+name+"\n";
-		retStr+=link.toStringPreOrder();
-		return retStr;
-	}
+            for (var word : words) {
+                if (word.startsWith("link=") && word.length() > 5) {
+                    word = word.substring(5);
 
-	public String toStringPostOrder() {
-		String retStr="Document: "+name+"\n";
-		retStr+=link.toStringPostOrder();
-		return retStr;
-	}
-	
-	@Override
-	public int hashCode() {
-		return 0;
-	}
+                    if (correctLink(word)) {
+                        Link created = createLink(word);
+                        if (created != null) {
+                            links.add(created);
+                        }
+                    }
+                }
+            }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+            input = scan.nextLine();
+        }
+    }
+
+    public static boolean correctLink(String link) {
+        return createLink(link) != null;
+    }
+
+    public static boolean isCorrectId(String id) {
+        char firstChar = id.charAt(0);
+
+        if (!Character.isLetter(firstChar)) {
+            return false;
+        }
+
+        for (int i = 1; i < id.length(); i++) {
+            if (!Character.isLetterOrDigit(id.charAt(i)) && id.charAt(i) != '_') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Link createLink(String link) {
+        char firstChar = link.charAt(0);
+
+        if (!Character.isLetter(firstChar)) {
+            return null;
+        }
+
+        boolean readNumber = false;
+        String refText = String.valueOf(firstChar);
+        String weightText = "";
+
+        for (int i = 1; i < link.length(); i++) {
+            char currentChar = link.charAt(i);
+
+            if (currentChar == ')' && readNumber) {
+                if (i + 1 != link.length()) {
+                    return null;
+                }
+                int weightNumber;
+
+                try {
+                    weightNumber = Integer.parseInt(weightText);
+                } catch (NumberFormatException ex) {
+                    return null;
+                }
+
+                return new Link(refText, weightNumber);
+            }
+
+            if (readNumber) {
+                weightText += currentChar;
+            }
+
+            if (currentChar == '(' && readNumber == false) {
+                readNumber = true;
+                continue;
+            }
+
+            if (!readNumber) {
+                refText += currentChar;
+            }
+
+            if (isSpecialCharacter(currentChar)) {
+                return null;
+            }
+        }
+
+        return readNumber ? null : new Link(link);
+    }
+
+    private static boolean isSpecialCharacter(char c) {
+        return !Character.isLetterOrDigit(c) && c != '_';
+    }
+
+    @Override
+    public String toString() {
+        String retStr = "Document: " + name + "\n";
+        retStr += links.toStringInOrder();
+        return retStr;
+    }
+
+    public String toStringPreOrder() {
+        String retStr = "Document: " + name + "\n";
+        retStr += links.toStringPreOrder();
+        return retStr;
+    }
+
+    public String toStringPostOrder() {
+        String retStr = "Document: " + name + "\n";
+        retStr += links.toStringPostOrder();
+        return retStr;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

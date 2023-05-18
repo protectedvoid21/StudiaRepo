@@ -1,11 +1,7 @@
 import java.util.*;
 
-
 public class Main {
-
-
     static Scanner scan; // for input stream
-
 
     public static void main(String[] args) {
         System.out.println("START");
@@ -45,7 +41,7 @@ public class Main {
             // clear
             if (word[0].equalsIgnoreCase("clear") && word.length == 1) {
                 if (currentDoc != null)
-                    currentDoc.link.clear();
+                    currentDoc.links.clear();
                 else
                     System.out.println("no current document");
                 continue;
@@ -77,7 +73,14 @@ public class Main {
             // size
             if (word[0].equalsIgnoreCase("size") && word.length == 1) {
                 if (currentDoc != null)
-                    System.out.println(currentDoc.link.size());
+                    System.out.println(currentDoc.links.size());
+                else
+                    System.out.println("no current document");
+                continue;
+            }
+            if (word[0].equalsIgnoreCase("leafs") && word.length == 1) {
+                if (currentDoc != null)
+                    System.out.println(currentDoc.links.leafCount());
                 else
                     System.out.println("no current document");
                 continue;
@@ -89,7 +92,7 @@ public class Main {
                     if (link == null)
                         System.out.println("error");
                     else
-                        System.out.println(currentDoc.link.add(link));
+                        System.out.println(currentDoc.links.add(link));
                 } else
                     System.out.println("no current document");
                 continue;
@@ -97,7 +100,7 @@ public class Main {
             // get str
             if (word[0].equalsIgnoreCase("get") && word.length == 2) {
                 if (currentDoc != null) {
-                    Link l = currentDoc.link.getElement(new Link(word[1]));
+                    Link l = currentDoc.links.getElement(new Link(word[1]));
                     if (l != null) {
                         System.out.println(l);
                     } else {
@@ -110,7 +113,7 @@ public class Main {
             // successor str
             if (word[0].equalsIgnoreCase("successor") && word.length == 2) {
                 if (currentDoc != null) {
-                    Link l = currentDoc.link.successor(new Link(word[1]));
+                    Link l = currentDoc.links.successor(new Link(word[1]));
                     if (l != null) {
                         System.out.println(l);
                     } else {
@@ -124,7 +127,7 @@ public class Main {
             // rem str
             if (word[0].equalsIgnoreCase("rem") && word.length == 2) {
                 if (currentDoc != null) {
-                    Link l = currentDoc.link.remove(new Link(word[1]));
+                    Link l = currentDoc.links.remove(new Link(word[1]));
                     if (l != null) {
                         System.out.println(l);
                     } else {
