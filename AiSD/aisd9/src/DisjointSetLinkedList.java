@@ -26,9 +26,6 @@ public class DisjointSetLinkedList implements DisjointSetDataStructure {
 
 	@Override
 	public int findSet(int item) {
-		if (arr[item].representant != item) {
-			arr[item].representant = findSet(arr[item].representant);
-		}
 		return arr[item].representant;
 	}
 
@@ -38,18 +35,24 @@ public class DisjointSetLinkedList implements DisjointSetDataStructure {
 		int representantB = findSet(itemB);
 
 		if (representantA == representantB) {
-			return false; // The items are already in the same set
+			return false;
 		}
 
-		// Append the tree represented by itemB to the tree represented by itemA
-		arr[arr[representantA].last].next = representantB;
-		arr[representantA].last = arr[representantB].last;
-		arr[representantA].length += arr[representantB].length;
-
-		// Update the representant of the appended tree
-		int current = representantB;
+		int biggerRepresentant = representantA;
+		int smallerRepresentant = representantB;
+		if(arr[representantA].length < arr[representantB].length) {
+			biggerRepresentant = representantB;
+			smallerRepresentant = representantA;
+		}
+		
+		arr[arr[biggerRepresentant].last].next = smallerRepresentant;
+		arr[biggerRepresentant].last = arr[smallerRepresentant].last;
+		arr[biggerRepresentant].length += arr[smallerRepresentant].length;
+		
+		
+		int current = smallerRepresentant;
 		while (current != NULL) {
-			arr[current].representant = representantA;
+			arr[current].representant = biggerRepresentant;
 			current = arr[current].next;
 		}
 
@@ -58,15 +61,26 @@ public class DisjointSetLinkedList implements DisjointSetDataStructure {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		String text = "Disjoint sets as linked list: \n";
+		
+		boolean[] printed = new boolean[arr.length];
+
 		for (int i = 0; i < arr.length; i++) {
-			sb.append("Item: ").append(i)
-					.append(", Representant: ").append(arr[i].representant)
-					.append(", Next: ").append(arr[i].next)
-					.append(", Length: ").append(arr[i].length)
-					.append(", Last: ").append(arr[i].last)
-					.append("\n");
+			if (!printed[arr[i].representant]) {
+				int current = arr[i].representant;
+				text += current;
+				printed[arr[i].representant] = true;
+				
+				current = arr[current].next;
+				while (current != NULL) {
+					text += ", " + current;
+					current = arr[current].next;
+				}
+
+				text += "\n";
+			}
 		}
-		return sb.toString();
+
+		return text.trim();
 	}
 }

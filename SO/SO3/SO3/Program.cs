@@ -1,12 +1,12 @@
 ﻿using SO3;
 using SO3.Algorithms;
 
-const int pageCount = 1000;
+const int pageCount = 500;
 const int requestCount = 3500;
-const int maxRequest = 5000;
+const int maxRequest = 3000;
 
 var pages = Generator.GetPages(pageCount);
-var requests = Generator.GetRequests(requestCount, maxRequest);
+var requests = Generator.GetRequests(requestCount, maxRequest, 5, 3, 10);
 
 Algorithm[] algorithms = {
     new FIFOAlgorithm(Generator.CopyPages(pages), requests, "FIFO"),
@@ -25,5 +25,5 @@ foreach (var algorithm in algorithms) {
     Console.WriteLine($"[COMPLETED] {algorithm.Name}");
 }
 
-//Console.Clear();
+Console.Clear();
 AlgorithmAnalizer.Create(algorithmStatsList, pageCount, requestCount, maxRequest);

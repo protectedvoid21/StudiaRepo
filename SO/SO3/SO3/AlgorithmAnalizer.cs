@@ -1,13 +1,14 @@
 namespace SO3; 
 
 public class AlgorithmAnalizer {
-    private const int tableWidth = 100;
+    private const int tableWidth = 115;
 
     public static void Create(List<AlgorithmStats> algorithmStats, int pageCount, int requestCount, int maxRequest) {
         PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());
         PrintLine();
         
         PrintRow(algorithmStats.Select(a => a.FailureCount.ToString()).Prepend("Failure count").ToArray());
+        PrintLine();
         PrintLine();
         PrintRow("Page count", pageCount.ToString());
         PrintLine();
