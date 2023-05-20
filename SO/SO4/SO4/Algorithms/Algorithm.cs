@@ -2,43 +2,24 @@ namespace SO4.Algorithms;
 
 public abstract class Algorithm {
     public string Name { get; }
-    public int FailureCount { get; protected set; }
+    public readonly List<Process> CompletedProcesses = new();
+    
+    protected readonly List<Process> processList;
     protected readonly Page[] pages;
-    protected readonly int[] requests;
     protected int tick;
+    protected readonly int tickCount;
 
-    protected Algorithm(Page[] pages, int[] requests, string name) {
-        this.pages = pages;
-        this.requests = requests;
+    protected Algorithm(AlgorithmData data, string name) {
+        pages = data.Pages;
+        processList = data.ProcessList;
         Name = name;
+
+        tickCount = processList.Max(p => p.RequestQueue.Count);
     }
 
-    private Page GetAvailablePage(int request) {
-        Page nonUsedLongest = pages[0];
-        
-        foreach (var page in pages) {
-            if (page.Request == request) {
-                return page;
-            }
-            if (page.IsEmpty) {
-                FailureCount++;
-                return page;
-            }
-            if (page.LastUsed < nonUsedLongest.LastUsed) {
-                nonUsedLongest = page;
-            }
-        }
+    protected abstract void SetProcessesPages();
 
-        FailureCount++;
-        return nonUsedLongest;
-    }
-
-    public void Execute() {
-        foreach (var request in requests) {
-            tick++;
-            Page availablePage = GetAvailablePage(request);
-
-            availablePage.SetReference(request, tick);
-        }
+    public virtual void Execute() {
+        SetProcessesPages();
     }
 }

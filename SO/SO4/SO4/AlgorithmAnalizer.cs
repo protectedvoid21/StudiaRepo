@@ -1,20 +1,26 @@
 namespace SO4; 
 
-public class AlgorithmAnalizer {
+public static class AlgorithmAnalizer {
     private const int tableWidth = 115;
 
-    public static void Create(List<AlgorithmStats> algorithmStats, int pageCount, int requestCount, int maxRequest) {
-        PrintRow(algorithmStats.Select(a => a.Name).Prepend("").ToArray());
+    public static void Create(AlgorithmInitData data) {
+        PrintRow(data.AlgorithmStats.Select(a => a.Name).Prepend("").ToArray());
         PrintLine();
         
-        PrintRow(algorithmStats.Select(a => a.FailureCount.ToString()).Prepend("Failure count").ToArray());
+        PrintRow(data.AlgorithmStats.Select(a => a.FailuresSum.ToString()).Prepend("Failures sum").ToArray());
+        PrintLine();
+        PrintRow(data.AlgorithmStats.Select(a => a.ProcessFailuresMean.ToString("F2")).Prepend("Failures mean").ToArray());
+        PrintLine();
+        PrintRow(data.AlgorithmStats.Select(a => a.ProcessFailuresMedian.ToString("F2")).Prepend("Failures median").ToArray());
+        PrintLine();
+        PrintRow(data.AlgorithmStats.Select(a => a.FailureStandardDeviation.ToString("F2")).Prepend("Failures std. dev.").ToArray());
         PrintLine();
         PrintLine();
-        PrintRow("Page count", pageCount.ToString());
+        PrintRow("Page count", data.PageCount.ToString());
         PrintLine();
-        PrintRow("Request count", requestCount.ToString());
+        PrintRow("Max request", data.MaxRequest.ToString());
         PrintLine();
-        PrintRow("Max request", maxRequest.ToString());
+        PrintRow("Process count", data.ProcessCount.ToString());
         PrintLine();
     }
     

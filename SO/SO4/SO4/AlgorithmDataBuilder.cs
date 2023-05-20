@@ -2,6 +2,7 @@ namespace SO4;
 
 public class AlgorithmDataBuilder {
     private int pageCount = 50;
+    private int maxRequest = 20;
     private int processCount = 10;
     private int processRequestCount = 20;
     private int processRequestCountDeviation = 25;
@@ -10,12 +11,12 @@ public class AlgorithmDataBuilder {
     private int localSeriesLengthDeviation = 2;
 
     public AlgorithmData Generate() {
-        var pageList = new List<Page>();
+        var pages = new Page[pageCount];
         for (int i = 0; i < pageCount; i++) {
-            pageList.Add(new Page());
+            pages[i] = new Page();
         }
 
-        var processList = new List<Process>();
+        var processes = new List<Process>();
         var random = new Random();
 
         for (int i = 0; i < processCount; i++) {
@@ -32,21 +33,21 @@ public class AlgorithmDataBuilder {
                     int seriesCount = localSeriesLength + random.Next(-localSeriesLengthDeviation, localSeriesLengthDeviation + 1);
                     seriesCount = Math.Clamp(seriesCount, 1, requestCount - j);
 
-                    int seriesRequest = random.Next(1, pageCount + 1);
+                    int seriesRequest = random.Next(1, maxRequest + 1);
                     for (int d = 0; d < seriesCount; d++) {
                         int deviation = random.Next(-localSeriesLengthDeviation, localSeriesLengthDeviation + 1);
-                        int calcRequest = Math.Clamp(seriesRequest + deviation, 1, pageCount);
+                        int calcRequest = Math.Clamp(seriesRequest + deviation, 1, maxRequest);
                         requestList.Add(calcRequest);
                     }
                 }
                 else {
-                    requestList.Add(random.Next(1, pageCount + 1));
+                    requestList.Add(random.Next(1, maxRequest));
                 }
             }
-            processList.Add(new Process(requestList));
+            processes.Add(new Process(new Queue<int>(requestList)));
         }
 
-        return new AlgorithmData(pageList, processList);
+        return new AlgorithmData(pages, processes);
     }
     
     public AlgorithmDataBuilder SetPageCount(int pageCount) {
@@ -54,6 +55,14 @@ public class AlgorithmDataBuilder {
             throw new ArgumentException();
         }
         this.pageCount = pageCount;
+        return this;
+    }
+    
+    public AlgorithmDataBuilder SetMaxRequest(int maxRequest) {
+        if (this.maxRequest < 1) {
+            maxRequest = 1;
+        }
+        this.maxRequest = maxRequest;
         return this;
     }
 
