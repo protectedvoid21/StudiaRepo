@@ -1,3 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using SO4;
 
-Console.WriteLine("Hello, World!");
+AlgorithmData data = new AlgorithmDataBuilder()
+    .Generate();
+
+foreach (var request in data.Processes.SelectMany(r => r.RequestList)) {
+    Console.Write(request + ", ");
+}    
