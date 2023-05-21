@@ -21,5 +21,21 @@ public abstract class Algorithm {
 
     public virtual void Execute() {
         SetProcessesPages();
+        
+        while (tick < tickCount) {
+            tick++;
+            var recentlyCompletedProcesses = new List<Process>();
+            foreach (var process in processList) {
+                process.Execute(tick);
+                if (process.RequestQueue.Count == 0) {
+                    recentlyCompletedProcesses.Add(process);
+                    CompletedProcesses.Add(process);
+                }
+            }
+
+            foreach (var process in recentlyCompletedProcesses) {
+                processList.Remove(process);
+            }
+        }
     }
 }
