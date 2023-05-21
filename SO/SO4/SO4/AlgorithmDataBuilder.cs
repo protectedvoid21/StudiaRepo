@@ -90,7 +90,7 @@ public class AlgorithmDataBuilder {
         return this;
     }
     
-    public AlgorithmDataBuilder SetLocalChangePercentage(int localChancePercentage) {
+    public AlgorithmDataBuilder SetLocalChancePercentage(int localChancePercentage) {
         if (localChancePercentage < 0) {
             throw new ArgumentException();
         }

@@ -4,6 +4,7 @@ public class Process {
     public Queue<int> RequestQueue { get; init; }
     public List<Page> Pages { get; set; } = new();
     public int FailureCount { get; private set; }
+    public int MemorySize => RequestQueue.Distinct().Count();
 
     public Process(Queue<int> requestQueue) {
         RequestQueue = requestQueue;
