@@ -36,6 +36,9 @@ public class Process {
 
         FailureCount++;
         faultQueue.Enqueue(true);
+        if (faultQueue.Count > FaultTimeSpan) {
+            faultQueue.Dequeue();
+        } 
         return longestUnused;
     }
 
