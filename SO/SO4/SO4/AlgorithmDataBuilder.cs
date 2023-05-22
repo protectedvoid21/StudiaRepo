@@ -9,6 +9,7 @@ public class AlgorithmDataBuilder {
     private int localChancePercentage = 5;
     private int localSeriesLength = 3;
     private int localSeriesLengthDeviation = 2;
+    private int faultTimeSpan = 5;
 
     public AlgorithmData Generate() {
         var pages = new Page[pageCount];
@@ -44,7 +45,7 @@ public class AlgorithmDataBuilder {
                     requestList.Add(random.Next(1, maxRequest));
                 }
             }
-            processes.Add(new Process(new Queue<int>(requestList)));
+            processes.Add(new Process(new Queue<int>(requestList), faultTimeSpan));
         }
 
         return new AlgorithmData(pages, processes);
@@ -111,6 +112,14 @@ public class AlgorithmDataBuilder {
             localSeriesLengthDeviation = 0;
         }
         this.localSeriesLengthDeviation = localSeriesLengthDeviation;
+        return this;
+    }
+    
+    public AlgorithmDataBuilder SetFaultTimeSpan(int faultTimeSpan) {
+        if (faultTimeSpan < 1) {
+            faultTimeSpan = 1;
+        }
+        this.faultTimeSpan = faultTimeSpan;
         return this;
     }
 }
