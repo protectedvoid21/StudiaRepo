@@ -18,14 +18,18 @@ AlgorithmData data = new AlgorithmDataBuilder()
 var algorithms = new Algorithm[] {
     new EqualAlgorithm(data.GetCopy(), "Equal"),
     new ProportionalAlgorithm(data.GetCopy(), "Proportional"),
-    new FrequencyControlAlgorithm(data.GetCopy(), "FreqControl", 1, 3, 5),
+    new FrequencyControlAlgorithm(data.GetCopy(), "FreqControl", 0.4f, 0.7f, 5),
 };
 
+Console.WriteLine("Memory access algorithms \n ---------------------------------------------------------------");
 var algorithmStatsList = new List<AlgorithmStats>();
 foreach (var algorithm in algorithms) {
+    Console.WriteLine($"[EXECUTING] {algorithm.Name}...");
     algorithm.Execute();
+    Console.WriteLine($"[COMPLETED] {algorithm.Name}.");
     algorithmStatsList.Add(new AlgorithmStats(algorithm));
 }
 
+Console.Clear();
 var algorithmInitData = new AlgorithmInitData(algorithmStatsList, processCount, pageCount, maxRequest);
 AlgorithmAnalizer.Create(algorithmInitData);
