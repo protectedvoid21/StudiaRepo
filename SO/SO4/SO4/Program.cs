@@ -17,7 +17,8 @@ AlgorithmData data = new AlgorithmDataBuilder()
 
 var algorithms = new Algorithm[] {
     new EqualAlgorithm(data.GetCopy(), "Equal"),
-    new ProportionalAlgorithm(data.GetCopy(), "Proportional")
+    new ProportionalAlgorithm(data.GetCopy(), "Proportional"),
+    new FrequencyControlAlgorithm(data.GetCopy(), "FreqControl", 1, 3, 5),
 };
 
 var algorithmStatsList = new List<AlgorithmStats>();
