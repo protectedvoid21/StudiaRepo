@@ -1,6 +1,5 @@
 namespace SO4.Algorithms;
 
-//TODO Odpauzowanie zapauzowanych procesów XDD
 public class RegionAlgorithm : EqualAlgorithm {
     private readonly float minFaultFrequencyThreshold;
     private readonly float maxFaultFrequencyThreshold;
