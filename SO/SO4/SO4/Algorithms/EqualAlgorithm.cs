@@ -5,8 +5,8 @@ public class EqualAlgorithm : Algorithm {
     }
     
     protected override void SetProcessesPages() {
-        int pagesPerProcess = pages.Length / processList.Count;
-        int restPages = pages.Length % processList.Count;
+        int pagesPerProcess = pages.Count / processList.Count;
+        int restPages = pages.Count % processList.Count;
 
         int pageIndex = 0;
         foreach (var process in processList) {

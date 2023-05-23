@@ -12,9 +12,9 @@ public class AlgorithmDataBuilder {
     private int faultTimeSpan = 5;
 
     public AlgorithmData Generate() {
-        var pages = new Page[pageCount];
+        var pages = new List<Page>();
         for (int i = 0; i < pageCount; i++) {
-            pages[i] = new Page();
+            pages.Add(new Page());
         }
 
         var processes = new List<Process>();
