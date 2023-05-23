@@ -5,7 +5,7 @@ public abstract class Algorithm {
     public readonly List<Process> CompletedProcesses = new();
     
     protected readonly List<Process> processList;
-    protected readonly Page[] pages;
+    protected readonly List<Page> pages;
     protected int tick;
     protected readonly int tickCount;
 

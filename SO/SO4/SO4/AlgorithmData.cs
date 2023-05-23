@@ -1,10 +1,10 @@
 namespace SO4;
 
-public record AlgorithmData(Page[] Pages, List<Process> ProcessList) {
+public record AlgorithmData(List<Page> Pages, List<Process> ProcessList) {
     public AlgorithmData GetCopy() {
-        var pagesCopy = new Page[Pages.Length];
-        for (int i = 0; i < pagesCopy.Length; i++) {
-            pagesCopy[i] = new Page();
+        var pagesCopy = new List<Page>();
+        for (int i = 0; i < Pages.Count; i++) {
+            pagesCopy.Add(new Page());
         }
 
         var processesCopy = new List<Process>();

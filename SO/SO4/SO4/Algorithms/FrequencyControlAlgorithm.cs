@@ -23,7 +23,6 @@ public class FrequencyControlAlgorithm : ProportionalAlgorithm {
             }
 
             Page removedPage = process.RemovePage();
-            removedPage.SetReference(0, 0);
             freePages.Add(removedPage);
         }
         else if (pageFaultFrequency > maxFaultFrequencyThreshold && freePages.Count > 0) {
