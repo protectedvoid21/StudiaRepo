@@ -9,7 +9,6 @@ public class AlgorithmDataBuilder {
     private int localChancePercentage = 5;
     private int localSeriesLength = 3;
     private int localSeriesLengthDeviation = 2;
-    private int faultTimeSpan = 5;
 
     public AlgorithmData Generate() {
         var pages = new List<Page>();
@@ -109,14 +108,6 @@ public class AlgorithmDataBuilder {
             localSeriesLengthDeviation = 0;
         }
         this.localSeriesLengthDeviation = localSeriesLengthDeviation;
-        return this;
-    }
-    
-    public AlgorithmDataBuilder SetFaultTimeSpan(int faultTimeSpan) {
-        if (faultTimeSpan < 1) {
-            faultTimeSpan = 1;
-        }
-        this.faultTimeSpan = faultTimeSpan;
         return this;
     }
 }
