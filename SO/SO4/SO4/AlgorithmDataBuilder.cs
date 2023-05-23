@@ -45,7 +45,7 @@ public class AlgorithmDataBuilder {
                     requestList.Add(random.Next(1, maxRequest));
                 }
             }
-            processes.Add(new Process(new Queue<int>(requestList), faultTimeSpan));
+            processes.Add(new Process(new Queue<int>(requestList)));
         }
 
         return new AlgorithmData(pages, processes);

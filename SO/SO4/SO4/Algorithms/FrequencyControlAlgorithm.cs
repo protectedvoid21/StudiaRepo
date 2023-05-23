@@ -16,7 +16,7 @@ public class FrequencyControlAlgorithm : ProportionalAlgorithm {
     }
 
     private void AdjustProcessPages(Process process) {
-        var pageFaultFrequency = process.PageFaultFrequency;
+        var pageFaultFrequency = process.GetPageFaultFrequency(faultWaitingTime);
         if (pageFaultFrequency < minFaultFrequencyThreshold) {
             if (process.Pages.Count <= 1) {
                 return;

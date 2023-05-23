@@ -12,7 +12,7 @@ public record AlgorithmData(Page[] Pages, List<Process> ProcessList) {
         foreach (var process in ProcessList) {
             int[] requestArray = new int[process.RequestQueue.Count];
             process.RequestQueue.CopyTo(requestArray, 0);
-            processesCopy.Add(new Process(new Queue<int>(requestArray), process.FaultTimeSpan));
+            processesCopy.Add(new Process(new Queue<int>(requestArray)));
         }
 
         return new AlgorithmData(pagesCopy, processesCopy);
