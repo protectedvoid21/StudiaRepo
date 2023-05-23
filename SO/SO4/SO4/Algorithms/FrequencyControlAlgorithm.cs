@@ -5,7 +5,7 @@ public class FrequencyControlAlgorithm : ProportionalAlgorithm {
     private readonly float maxFaultFrequencyThreshold;
     private readonly int faultWaitingTime;
 
-    private List<Page> freePages = new();
+    private readonly List<Page> freePages = new();
 
     public FrequencyControlAlgorithm(
         AlgorithmData data, string name, float minFaultFrequencyThreshold, float maxFaultFrequencyThreshold,
