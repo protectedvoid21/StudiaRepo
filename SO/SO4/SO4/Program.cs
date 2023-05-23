@@ -1,17 +1,17 @@
 ﻿using SO4;
 using SO4.Algorithms;
 
-const int pageCount = 50;
+const int pageCount = 100;
 const int processCount = 15;
 const int maxRequest = 30;
 
 AlgorithmData data = new AlgorithmDataBuilder()
     .SetPageCount(pageCount)
     .SetProcessCount(processCount)
-    .SetProcessRequestCount(70)
-    .SetProcessRequestCountDeviation(40)
+    .SetMinProcessRequestCount(100)
+    .SetMaxProcessRequestCount(500)
     .SetMaxRequest(maxRequest)
-    .SetLocalChancePercentage(20)
+    .SetLocalChancePercentage(35)
     .SetLocalSeriesLength(5)
     .Generate();
 

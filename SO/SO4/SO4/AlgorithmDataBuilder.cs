@@ -4,8 +4,8 @@ public class AlgorithmDataBuilder {
     private int pageCount = 50;
     private int maxRequest = 20;
     private int processCount = 10;
-    private int processRequestCount = 20;
-    private int processRequestCountDeviation = 25;
+    private int minProcessRequestCount = 20;
+    private int maxProcessRequestCount = 50;
     private int localChancePercentage = 5;
     private int localSeriesLength = 3;
     private int localSeriesLengthDeviation = 2;
@@ -21,10 +21,7 @@ public class AlgorithmDataBuilder {
         var random = new Random();
 
         for (int i = 0; i < processCount; i++) {
-            int requestCount = processRequestCount + random.Next(-processRequestCountDeviation, processRequestCountDeviation + 1);
-            if (requestCount < 1) {
-                requestCount = 1;
-            }
+            int requestCount = random.Next(minProcessRequestCount, maxProcessRequestCount + 1);
 
             var requestList = new List<int>();
 
@@ -75,19 +72,19 @@ public class AlgorithmDataBuilder {
         return this;
     }
 
-    public AlgorithmDataBuilder SetProcessRequestCount(int processRequestCount) {
-        if (processRequestCount <= 0) {
-            throw new ArgumentException();
+    public AlgorithmDataBuilder SetMaxProcessRequestCount(int maxProcessRequestCount) {
+        if (maxProcessRequestCount < 1) {
+            maxProcessRequestCount = 1;
         }
-        this.processRequestCount = processRequestCount;
+        this.maxProcessRequestCount = maxProcessRequestCount;
         return this;
     }
     
-    public AlgorithmDataBuilder SetProcessRequestCountDeviation(int processRequestCountDeviation) {
-        if (processRequestCount < 0) {
-            processRequestCountDeviation = 0;
+    public AlgorithmDataBuilder SetMinProcessRequestCount(int minProcessRequestCount) {
+        if (minProcessRequestCount < 1) {
+            minProcessRequestCount = 1;
         }
-        this.processRequestCountDeviation = processRequestCountDeviation;
+        this.minProcessRequestCount = minProcessRequestCount;
         return this;
     }
     
