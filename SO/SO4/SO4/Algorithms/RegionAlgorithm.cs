@@ -26,7 +26,7 @@ public class RegionAlgorithm : EqualAlgorithm {
     }
 
     private void DistributePagesByWSS() {
-        int requiredPages = processList.Sum(p => p.GetWorkingSetSize(faultWaitingTime));
+        int requiredPages = processList.Where(p => !p.IsPaused).Sum(p => p.GetWorkingSetSize(faultWaitingTime));
         
         if (requiredPages > freePages.Count) {
             var pausedProcess = pauseStrategy.PauseProcess(processList);
@@ -36,15 +36,29 @@ public class RegionAlgorithm : EqualAlgorithm {
             AlgorithmHelper.DistributeProportionally(processList, freePages);
             return;
         }
-
-        int pageIndex = 0;
+        
         foreach (var process in processList) {
             if (process.IsPaused) {
                 continue;
             }
             while (process.GetWorkingSetSize(faultWaitingTime) > process.Pages.Count) {
-                process.Pages.Add(freePages[pageIndex]);
-                pageIndex++;
+                process.Pages.Add(freePages[0]);
+                freePages.RemoveAt(0);
+            }
+        }
+        
+        if ((float)pages.Count / freePages.Count > 0.1) {
+            Process? foundPaused = processList.FirstOrDefault(p => p.IsPaused);
+            if (foundPaused == null) {
+                return;
+            }
+
+            foundPaused.IsPaused = false;
+            int distributePageCount = (int)(pages.Count * 0.1);
+            
+            for (int i = 0; i < distributePageCount; i++) {
+                foundPaused.Pages.Add(freePages[0]);
+                freePages.RemoveAt(0);
             }
         }
     }
