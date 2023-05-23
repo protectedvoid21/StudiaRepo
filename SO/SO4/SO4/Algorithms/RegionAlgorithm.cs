@@ -1,6 +1,6 @@
 namespace SO4.Algorithms;
 
-public class RegionAlgorithm : EqualAlgorithm {
+public class RegionAlgorithm : ProportionalAlgorithm {
     private readonly float minFaultFrequencyThreshold;
     private readonly float maxFaultFrequencyThreshold;
     private readonly int faultWaitingTime;
@@ -65,7 +65,7 @@ public class RegionAlgorithm : EqualAlgorithm {
     public override void Execute() {
         SetProcessesPages();
         
-        while (tick < tickCount) {
+        while (processList.Count > 0) {
             tick++;
             if (tick % wssInterval == 0) {
                 DistributePagesByWSS();

@@ -40,7 +40,9 @@ Przydział kontroli gęstości :
     Myślę, że ten algorytm nie jest tak straszny i nie wymaga on moich uwag.
     
 Przydział strefowy :
-    Według mojej inwencji rozdałem strony według przydziału równego tak aby później mógł się na spokojnie wyliczyć WSS.
+    Według mojej inwencji rozdałem strony według przydziału proporcjonalnego (może być nakazane przez prowadzącego, żeby użyć tego samego
+    algorytmu do wstępnego podziału stron, w tym przypadku - wybrałem proporcjonalny)
+    tak aby później mógł się na spokojnie wyliczyć WSS.
     Kolejnym moim pomysłem jest odpauzowywanie procesów. Ma ono miejsce wtedy i tylko wtedy kiedy okaże się, że
     po rozdaniu stron procesom wolne strony będą stanowiły więcej niż 10% wszystkich stron. Wtedy temu procesowi jest przydzielane
     dokładnie te 10% wszystkich stron, które są wolne.
