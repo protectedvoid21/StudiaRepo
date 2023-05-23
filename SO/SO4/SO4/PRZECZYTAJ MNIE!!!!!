@@ -1,0 +1,50 @@
+Drogi obserwatorze.
+
+Zdaję sobie sprawę, że mogłeś tutaj przybyć po ratunek z przedmiotu Systemy Operacyjne Laboratoria.
+Zanim zaczniesz się inspirować kodem, który napisałem muszę wyjaśnić Ci kilka rzeczy.
+
+A tak na serio
+Chyba najgorsze zadanie jak dotąd
+Dużo niejasności oraz pole na domysły i własne interpretacje
+
+Przydział równy :
+- Wykorzystywane są WSZYSTKIE strony.
+    Załóżmy, że mamy do podziału 13 stron a procesów jest 5
+    Do podziału używam wzoru
+    strona_na_1_proces = liczba_stron / liczba_procesów
+    
+    Dla tego przykładu będzie do 13 / 5 = 2
+    Natomiast co z 3 stronami? Używam tutaj dodatkowego wzoru tj.
+    reszta_stron_do_rozdania = liczba_stron % liczba_procesów
+    
+    Tutaj będzie jak wspomniałem wynik 3
+    
+    Rozdział procesów jest następujący
+    Proces #1 : 3 strony 
+    Proces #2 : 3 strony 
+    Proces #3 : 3 strony 
+    Proces #4 : 2 strony 
+    Proces #5 : 2 strony 
+    
+    Reszta stron jest przydzielana po jednej od początku aż do ich wyczerpania.
+    
+Przydział proporcjonalny :
+    Do obliczenia ile każda strona powinna otrzymać stron użyłem algorytmu podanego przez użytkownika 'Amber' na
+    StackOverflow 
+    link (1 odpowiedź z zielonym ptaszkiem) : https://stackoverflow.com/questions/1925691/proportionately-distribute-prorate-a-value-across-a-set-of-values
+    Natomiast algorytm ten ma lekką wadę, czasami zamiast rozdać np. 50 stron rozdaje tylko 49 więc aby to zrekompensować to
+    sprawdzam czy jest to poprawnie rozdane a jak nie jest to dodaję tą ostatnią stronę ostatniemu przeszukanemu procesowi - BO TAK
+    
+Przydział kontroli gęstości :
+    Na początku jak wiadomo strony są rozdane niczym karty przed rozpoczęciem rozgrywki przy użyciu algorytmu proporcjonalnego
+    Myślę, że ten algorytm nie jest tak straszny i nie wymaga on moich uwag.
+    
+Przydział strefowy :
+    Według mojej inwencji rozdałem strony według przydziału równego tak aby później mógł się na spokojnie wyliczyć WSS.
+    Kolejnym moim pomysłem jest odpauzowywanie procesów. Ma ono miejsce wtedy i tylko wtedy kiedy okaże się, że
+    po rozdaniu stron procesom wolne strony będą stanowiły więcej niż 10% wszystkich stron. Wtedy temu procesowi jest przydzielane
+    dokładnie te 10% wszystkich stron, które są wolne.
+    
+Gdyby były jakieś pytania/uwagi to można pisać
+na Discordzie : Tomasz Strzelba#1454            (nie wiem kiedy ta aktualizacja wejdzie z usunięciem tagów ale nick powinien być taki sam)
+na githubie
