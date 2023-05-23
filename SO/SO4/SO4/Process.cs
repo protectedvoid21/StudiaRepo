@@ -3,18 +3,20 @@ namespace SO4;
 public class Process {
     public Queue<int> RequestQueue { get; init; }
     public readonly List<Page> Pages = new();
+    
     public int FailureCount { get; private set; }
     public int MemorySize => RequestQueue.Distinct().Count();
 
     private Queue<bool> faultQueue = new();
-    public int FaultTimeSpan { get; }
-    
-    public float PageFaultFrequency => (float)faultQueue.Count(f => f) / FaultTimeSpan;
 
-    public Process(Queue<int> requestQueue, int faultTimeSpan) {
+    public Process(Queue<int> requestQueue) {
         RequestQueue = requestQueue;
-        FaultTimeSpan = faultTimeSpan;
     }
+    
+    public float GetPageFaultFrequency(int faultTimeSpan) => 
+        (float)faultQueue.TakeLast(faultTimeSpan).Count(f => f) / faultTimeSpan;
+
+    public int GetWorkingSetSize(int faultTimeSpan) => faultQueue.TakeLast(faultTimeSpan).Count(f => f);
     
     private Page GetAvailablePage(int request) {
         Page longestUnused = Pages[0];
@@ -36,9 +38,6 @@ public class Process {
 
         FailureCount++;
         faultQueue.Enqueue(true);
-        if (faultQueue.Count > FaultTimeSpan) {
-            faultQueue.Dequeue();
-        } 
         return longestUnused;
     }
 
