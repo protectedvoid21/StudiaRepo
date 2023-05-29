@@ -1,22 +1,20 @@
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Graph {
     private HashMap<String, Integer> nodeIntMap;
-    private HashMap<Integer, String> intNodeMap;
+    private String[] nodes;
     
     private int[][] numEdges;
     
     public Graph(String[] nodes, Edge[] edges) {
         nodeIntMap = new HashMap<>();
-        intNodeMap = new HashMap<>();
+        this.nodes = nodes;
         numEdges = new int[nodes.length][nodes.length];
         
         for(int i = 0; i < nodes.length; i++) {
             nodeIntMap.put(nodes[i], i);
-            intNodeMap.put(i, nodes[i]);
         }
         
         for(int i = 0; i < nodes.length; i++) {
@@ -54,7 +52,7 @@ public class Graph {
                 }
 
                 if(numEdges[index][i] > 0 && !visited.contains(i)) {
-                    text += ", " + intNodeMap.get(i);
+                    text += ", " + nodes[i];
                     visited.add(i);
                     queue.add(i);
                 }
@@ -65,33 +63,29 @@ public class Graph {
     }
 
     public String dfs(String start) {
-        var visited = new LinkedList<Integer>();
+        var visited = new boolean[nodes.length];
         int startIndex = nodeIntMap.get(start);
-
-        dfsBranch(startIndex, visited);
-
-        String text = "";
-
-        int visitedSize = visited.size();
-        for(int i = 0; i < visitedSize; i++) {
-            text += intNodeMap.get(visited.pop()) + ", ";
-        }
+        
+        String text = dfsBranch(startIndex, visited);
         return text.substring(0, text.length() - 2);
     }
 
-    private void dfsBranch(int start, LinkedList<Integer> visited) {
-        if(visited.contains(start)) {
-            return;
+    private String dfsBranch(int start, boolean[] visited) {
+        if(visited[start]) {
+            return "";
         }
-        visited.add(start);
+        visited[start] = true;
+
+        String text = nodes[start] + ", ";
         for(int i = 0; i < numEdges.length; i++) {
             if(i == start) {
                 continue;
             }
 
-            if(numEdges[start][i] > 0 && !visited.contains(i)) {
-                dfsBranch(i, visited);
+            if(numEdges[start][i] > 0 && !visited[i]) {
+                text += dfsBranch(i, visited);
             }
         }
+        return text;
     }
 }

@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Document implements IWithName {
     public String name;
-    // TODO? You can change implementation of Link collection
     public SortedMap<String, Link> links;
 
     public Document(String name) {
