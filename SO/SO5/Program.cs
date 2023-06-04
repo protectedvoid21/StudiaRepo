@@ -15,7 +15,8 @@ var data = new DataGenerator()
 
 var algorithms = new Algorithm[] {
     new StrategyFirst(data.GetCopy(), "First", threshold, 10),
-    new StrategySecond(data.GetCopy(), "Second", threshold)
+    new StrategySecond(data.GetCopy(), "Second", threshold),
+    new StrategyThird(data.GetCopy(), "Third", threshold, 25, 25),
 };
 
 Console.WriteLine("Process usage strategies \n ---------------------------------------------------------------");
