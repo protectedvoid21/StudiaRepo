@@ -34,6 +34,7 @@ public class StrategyFirst : Algorithm {
                 
                 if (foundProcessor.AskForUsage() <= _threshold) {
                     foundProcessor.AddRequest(request.Amount);
+                    MigrationCount++;
                     found = true;
                     break;
                 }

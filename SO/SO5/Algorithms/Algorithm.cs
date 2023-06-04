@@ -2,10 +2,11 @@ namespace SO5.Algorithms;
 
 public abstract class Algorithm {
     public string Name { get; init; }
+    public int MigrationCount { get; protected set; }
     public Processor[] Processors { get; }
     protected readonly List<Request> _requests;
     private Random random = new();
-
+    
     protected int _threshold;
 
     protected Algorithm(AlgorithmData data, string name, int threshold) {
