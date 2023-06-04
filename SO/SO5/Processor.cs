@@ -24,9 +24,10 @@ public class Processor {
         _usage += request;
     }
 
-    public void TransferRequests(Processor processor, int amount) {
-        _usage -= amount;
-        processor.AddRequest(amount);
+    public void TransferRequests(Processor processor, int transferPercentage) {
+        int transferUsage = (int)((float)_usage / 100 * transferPercentage);
+        _usage -= transferUsage;
+        processor.AddRequest(transferUsage);
     }
 
     public int AskForUsage() {
