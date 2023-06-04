@@ -32,6 +32,7 @@ public class StrategySecond : Algorithm {
 
                 if (foundProcess.AskForUsage() <= _threshold) {
                     foundProcess.AddRequest(request.Amount);
+                    MigrationCount++;
                     found = true;
                     break;
                 }

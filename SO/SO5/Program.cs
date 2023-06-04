@@ -1,16 +1,21 @@
 ﻿using SO5;
 using SO5.Algorithms;
 
+const int processorCount = 10;
+const int minRequestSize = 3;
+const int maxRequestSize = 40;
+const int minRequestCount = 5;
+const int maxRequestCount = 30;
 const int threshold = 70;
-const int maxAskCount = 10;
+const int maxAskCount = 5;
 
 var data = new DataGenerator()
-    .SetProcessorCount(10)
+    .SetProcessorCount(processorCount)
     .SetMaxAppearTime(100)
-    .SetMinRequestSize(3)
-    .SetMaxRequestSize(40)
-    .SetMinRequestCount(5)
-    .SetMaxRequestCount(30)
+    .SetMinRequestSize(minRequestSize)
+    .SetMaxRequestSize(maxRequestSize)
+    .SetMinRequestCount(minRequestCount)
+    .SetMaxRequestCount(maxRequestCount)
     .Generate();
 
 var algorithms = new Algorithm[] {
@@ -29,5 +34,5 @@ foreach (var algorithm in algorithms) {
 }
 
 Console.Clear();
-AlgorithmAnalizer.Create(algorithmStatsList);
-
+AlgorithmAnalizer.Create(algorithmStatsList, processorCount, minRequestSize, maxRequestSize, minRequestCount,
+    maxRequestCount, threshold, maxAskCount);

@@ -19,6 +19,7 @@ public class StrategyThird : Algorithm {
                 }
                 
                 overloadedProcessor.TransferRequests(processor, _transferPercentage);
+                MigrationCount++;
             }
         }
     }
@@ -52,6 +53,7 @@ public class StrategyThird : Algorithm {
 
                 if (foundProcess.AskForUsage() <= _threshold) {
                     foundProcess.AddRequest(request.Amount);
+                    MigrationCount++;
                     found = true;
                     break;
                 }
