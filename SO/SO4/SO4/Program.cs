@@ -19,7 +19,7 @@ var algorithms = new Algorithm[] {
     new EqualAlgorithm(data.GetCopy(), "Equal"),
     new ProportionalAlgorithm(data.GetCopy(), "Proportional"),
     new FrequencyControlAlgorithm(data.GetCopy(), "FreqControl", 0.4f, 0.7f, 5),
-    new RegionAlgorithm(data.GetCopy(), "Region", 0.4f, 0.7f, 5, 60, new PauseBiggestProcessStrategy())
+    new RegionAlgorithm(data.GetCopy(), "Region", 0.4f, 0.7f, 20, 100, new PauseBiggestProcessStrategy())
 };
 
 Console.WriteLine("Memory access algorithms \n ---------------------------------------------------------------");
