@@ -1,5 +1,3 @@
-package dsaa.lab12;
-
 import java.util.LinkedList;
 
 public interface IStringMatcher {
