@@ -24,11 +24,11 @@ int main() {
     int beginX;
     int beginY;
 
-    printf("Enter the begin X: ");
+    /*printf("Enter the begin X: ");
     scanf("%d", &beginX);
 
     printf("Enter the begin Y: ");
-    scanf("%d", &beginY);
+    scanf("%d", &beginY);*/
 
     bool board[10][10];
 
@@ -74,12 +74,23 @@ int main() {
                 }
             }
         }
+        bool anyAlive = false;
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
+                if(board[i][j]) {
+                    anyAlive = true;
+                }
                 board[i][j] = newBoard[i][j];
             }
         }
+
         displayBoard(board);
+        if(anyAlive == false) {
+            printf("All dead\n");
+            break;
+        }
         Sleep(500);
     }
+
+    system("pause");
 }
