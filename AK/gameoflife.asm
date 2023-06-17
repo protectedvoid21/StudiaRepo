@@ -1,46 +1,10 @@
 .data
 	board: 		.space 400 # 10x10 board
 	temp:		.space 400 # 10x10 to override board
-	alive_char: .byte 'X'
-	dead_char:  .byte '.'
-	newline:    .asciiz "\n"
 
 .text
 
 j main
-
-print_new_line:
-	li $t7, 50   # liczba linii do wypisania
-    li $t6, 0    # licznik
-	new_line_loop:
-    	beq $t1, $t7, exit_new_line_loop # je?li licznik r?wny liczbie linii, wyjd? z p?tli
-    	la $a0, newline     # za?aduj adres znaku nowej linii do $a0
-    	li $v0, 4           # ustaw kod operacji 4 (wypisz ?a?cuch znak?w)
-    	syscall             # wywo?aj funkcj? systemow?
-    	addi $t6, $t6, 1    # zwi?ksz licznik o 1
-    	j new_line_loop     # powr?? do pocz?tku p?tli
-    
-    exit_new_line_loop:
-        sw $ra, 0($sp)
-    	addiu $sp, $sp, -4
-    	jr $ra
-
-wait:
-    li $t8, 1000000  # Liczba iteracji
-	wait_loop:
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	nop
-    	addi $t8, $t8, -1  # Dekrementacja licznika iteracji
-    	bnez $t8, wait_loop    # Powr?t do p?tli, je?li licznik nie jest r?wny zero
-    	jr $ra
 
 count_neighbors:
 	li $t5, 0 #neighbor count
@@ -68,9 +32,11 @@ count_neighbors:
 
 			#actually check neighbor
 			mul $t6, $t6, 40
+			mul $t7, $t7, 4
 			add $t6, $t6, $t7
 
-			blt $t6, 1, skip_vertical
+			lw $t7, board($t6)
+			blt $t7, 1, skip_vertical
 			addi $t5, $t5, 1
 												
 			skip_vertical:
@@ -92,7 +58,7 @@ count_neighbors:
 	
 	check_if_dead:
 	beq $t5, 3, set_alive
-	j set_alive
+	j set_dead
 			
 	set_alive:
 		li $t8, 1
@@ -105,18 +71,30 @@ count_neighbors:
 	
 
 main:
-	addi $s0, $zero, 0
-	addi $s1, $zero, 1
-	
-	addi $t0, $zero, 0
-		
+	li $t0, 0
 	create_board:
-		sw $s0, board($t0)
+		sw $zero, board($t0)
+		sw $zero, temp($t0)
 		addi $t0, $t0, 4
 		
 		blt $t0, 400, create_board
 		
-	li $t0, 0
+	load_custom_alive:
+		li $s0, 1
+		li $t0, 204
+		sw $s0, board($t0)
+		li $t0, 208
+		sw $s0, board($t0)
+		li $t0, 212
+		sw $s0, board($t0)
+		li $t0, 160
+		sw $s0, board($t0)
+		li $t0, 164
+		sw $s0, board($t0)
+		li $t0, 168
+		sw $s0, board($t0)
+		li $t0, 116
+		sw $s0, board($t0)
 	
 	loop:
 		li $t0, 0
@@ -124,46 +102,55 @@ main:
 		row_check:
 			li $t2, 0 # current column
 			column_check:
-				addi $t0, $t0, 4
 				jal count_neighbors
 				
+				addi $t0, $t0, 4
 				addi $t2, $t2, 1
-				ble $t2, 10, column_check
+				blt $t2, 10, column_check
 		
 			addi $t1, $t1, 1
-			ble $t1, 10, row_check
+			blt $t1, 10, row_check
 
 
-		li $t0, 0
+		li $v0, 11
+
+		li $t0, 0		
 		li $t1, 0
-
 		row_draw:
-			li $v0, 11
-			addi $t1, $t1, 1
 			li $t2, 0
 			column_draw:
-				addi $t2, $t2, 1
-
+				li $t3, 0
 				lw $t3, temp($t0)
 				sw $t3, board($t0)
 
+				beqz $t3, print_dead
+
 				print_alive:
 				li $a0, 'X'
+				j write_char
 
 				print_dead:
 				li $a0, '.'
+				j write_char
+
+				write_char:
 
 				syscall
 				addi $t0, $t0, 4
-				ble $t2, 10, column_draw
+				addi $t2, $t2, 1
+				blt $t2, 10, column_draw
 			
-			li $v0, 4
-			la $a0, newline
+			li $a0, 10
 			syscall
-			ble $t1, 10, row_draw
 
-		jal print_new_line
-		jal wait
+			addi $t1, $t1, 1
+			blt $t1, 10, row_draw
+
+		li $v0, 11
+		li $a0, 10
+		syscall
+
+		li $v0, 32
+		li $a0, 1000
+		syscall
 		j loop
-
-				
