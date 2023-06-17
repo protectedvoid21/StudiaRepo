@@ -85,6 +85,14 @@ main:
 		sw $s0, board($t0)
 		li $t0, 208
 		sw $s0, board($t0)
+		li $t0, 220
+		sw $s0, board($t0)
+		li $t0, 240
+		sw $s0, board($t0)
+		li $t0, 244
+		sw $s0, board($t0)
+		li $t0, 252
+		sw $s0, board($t0)
 		li $t0, 212
 		sw $s0, board($t0)
 		li $t0, 160
@@ -97,6 +105,15 @@ main:
 		sw $s0, board($t0)
 	
 	loop:
+		li $v0, 11
+		li $a0, 10
+		li $t8, 0
+		refresh:
+			syscall
+			
+			addi $t8, $t8, 1
+			blt $t8, 20, refresh
+
 		li $t0, 0
 		li $t1, 0 # current row
 		row_check:
@@ -145,10 +162,6 @@ main:
 
 			addi $t1, $t1, 1
 			blt $t1, 10, row_draw
-
-		li $v0, 11
-		li $a0, 10
-		syscall
 
 		li $v0, 32
 		li $a0, 1000
