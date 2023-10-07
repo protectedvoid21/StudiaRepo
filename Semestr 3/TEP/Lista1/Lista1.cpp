@@ -1,20 +1,63 @@
-// Lista1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include "CTable.h"
 
-int main()
-{
-    std::cout << "Hello World!\n";
+void v_alloc_table_fill_34(int iSize) {
+	const int fillNumber = 34;
+
+	if (iSize < 0) {
+		iSize = 0;
+	}
+
+	int *tab = new int[iSize];
+
+	for (int i = 0; i < iSize; i++) {
+		tab[i] = fillNumber;
+	}
+
+	for (int i = 0; i < iSize; i++) {
+		std::cout << tab[i] << std::endl;
+	}
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+bool b_alloc_table_2_dim(int **&piTable, int iSizeX, int iSizeY) {
+	piTable = new int *[iSizeX];
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	if (piTable == nullptr) {
+		return false;
+	}
+
+	for (int i = 0; i < iSizeX; i++) {
+		piTable[i] = new int[iSizeY];
+
+		if (piTable[i] == nullptr) {
+			for (int j = 0; j < i; j++) {
+				delete[] piTable[j];
+			}
+			delete[] piTable;
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool b_dealloc_table_2_dim(int **&piTable, int iSizeX, int iSizeY) {
+	for (int i = 0; i < iSizeX; i++) {
+		delete[] piTable[i];
+	}
+
+	delete[] piTable;
+	return true;
+}
+
+void v_mod_tab(CTable *pcTab, int iNewSize) {
+	pcTab->bSetNewSize(iNewSize);
+}
+
+void v_mod_tab(CTable cTab, int iNewSize) {
+	cTab.bSetNewSize(iNewSize);
+}
+
+int main() {
+
+}

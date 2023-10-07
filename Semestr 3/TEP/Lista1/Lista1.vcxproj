@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CTable.cpp" />
     <ClCompile Include="Lista1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

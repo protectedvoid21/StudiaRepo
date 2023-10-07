@@ -18,5 +18,13 @@
     <ClCompile Include="Lista1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
