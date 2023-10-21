@@ -1,59 +1,76 @@
 #include "CTable.h"
 
-CTable::CTable() {
-	s_name = defaultName;
-	tab = new int[defaultTabSize];
-	tableLength = defaultTabSize;
-	std::cout << "bezp: " << s_name << std::endl;
+Table::Table()
+{
+	_name = DEFAULT_NAME;
+	_pTab = new int[DEFAULT_TAB_SIZE];
+	_tableLength = DEFAULT_TAB_SIZE;
+	std::cout << SHOW_NAME_TEXT << _name << std::endl;
 }
 
-CTable::CTable(std::string sName, int iTableLen) {
-	std::cout << "parametr: " << sName << std::endl;
-	s_name = sName;
-	tab = new int[iTableLen];
-	tableLength = iTableLen;
-}
-
-CTable::CTable(const CTable &pcOther) {
-	s_name = pcOther.s_name + "_copy";
-	for (int i = 0; i < pcOther.tableLength; i++) {
-		tab[i] = pcOther.tab[i];
+Table::Table(std::string name, int tableLength)
+{
+	if (tableLength <= 0)
+	{
+		tableLength = DEFAULT_TAB_SIZE;
 	}
-	std::cout << "kopiuj: " << s_name << std::endl;
+
+	std::cout << PARAM_TEXT << name << std::endl;
+	_name = name;
+	_pTab = new int[tableLength];
+	_tableLength = tableLength;
 }
 
-CTable::~CTable() {
-	std::cout << "usuwam: " << s_name << std::endl;
-	delete[] tab;
+Table::Table(const Table &pcOther)
+{
+	_name = pcOther._name + COPY_SUFFIX_TEXT;
+	_tableLength = pcOther._tableLength;
+	_pTab = new int[_tableLength];
+	for (int i = 0; i < pcOther._tableLength; i++)
+	{
+		_pTab[i] = pcOther._pTab[i];
+	}
+	std::cout << COPY_TEXT << _name << std::endl;
 }
 
-void CTable::vSetName(std::string sName) {
-	s_name = sName;
+Table::~Table()
+{
+	std::cout << DELETE_TEXT << _name << std::endl;
+	delete[] _pTab;
 }
 
-bool CTable::bSetNewSize(int iTableLen) {
-	if (iTableLen < 0) {
+void Table::setName(std::string name)
+{
+	_name = name;
+}
+
+bool Table::setTabSize(int length)
+{
+	if (length <= 0)
+	{
 		return false;
 	}
 
-	int *newTab = new int[iTableLen];
-
-	for (int i = 0; i < iTableLen; i++) {
-		newTab[i] = tab[i];
-	}
-
-	delete[] tab;
-	tab = newTab;
-	tableLength = iTableLen;
+	delete[] _pTab;
+	_pTab = new int[length];
+	_tableLength = length;
 
 	return true;
 }
 
-CTable *CTable::pcClone() {
-	CTable *pcClone = new CTable(s_name, tableLength);
+void Table::display()
+{
+	std::cout << SHOW_NAME_TEXT << _name << std::endl;
+	std::cout << TABLE_LENGTH_TEXT << _tableLength << std::endl;
+}
 
-	for (int i = 0; i < tableLength; i++) {
-		pcClone->tab[i] = tab[i];
+Table *Table::pcClone()
+{
+	Table *pcClone = new Table(_name, _tableLength);
+
+	for (int i = 0; i < _tableLength; i++)
+	{
+		pcClone->_pTab[i] = _pTab[i];
 	}
 
 	return pcClone;
