@@ -11,14 +11,16 @@ class Number
 	void trimLeadingZeros(Number &number);
 	int cmp(const Number &otherNumber);
 	int absCmp(const Number &otherNumber);
+	Number(int *digitsArr, int digitCount, bool isNegative);
 public:
 	Number();
 	Number(int value);
 	Number(const Number &otherNumber);
 	~Number();
-	void operator=(const int num);
+	void operator=(const int &num);
 	void operator=(const Number &otherNumber);
 	bool operator==(const Number &otherNumber);
+	bool operator!=(const Number &otherNumber);
 	bool operator>(const Number &otherNumber);
 	bool operator>=(const Number &otherNumber);
 	bool operator<=(const Number &otherNumber);
@@ -27,6 +29,7 @@ public:
 	Number operator-(const Number &otherNumber);
 	Number operator*(const Number &otherNumber);
 	Number operator/(const Number &otherNumber);
+	bool isZero() const;
 	std::string toString();
 	std::string displayInfo();
 

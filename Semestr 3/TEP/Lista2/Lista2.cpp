@@ -118,6 +118,12 @@ void launchTests()
 	testDivision(TestCase(1, 1, 1, "Division"));
 	testDivision(TestCase(-3, 5, 0, "Division"));
 	testDivision(TestCase(3, -5, 0, "Division"));
+	testDivision(TestCase(5, 1, 5, "Division"));
+	testDivision(TestCase(10, 1, 10, "Division"));
+	testDivision(TestCase(100, 1, 100, "Division"));
+	testDivision(TestCase(1000, 1, 1000, "Division"));
+	testDivision(TestCase(10000, 1, 10000, "Division"));
+	testDivision(TestCase(100000, 1, 100000, "Division"));
 
 	std::cout << "Test completed\n";
 }

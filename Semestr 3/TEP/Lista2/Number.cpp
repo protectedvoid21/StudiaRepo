@@ -63,6 +63,13 @@ Number::Number(const Number &otherNumber)
 	}
 }
 
+Number::Number(int *digitsArr, int digitCount, bool isNegative)
+{
+	_digitsArr = digitsArr;
+	_digitCount = digitCount;
+	_isNegative = isNegative;
+}
+
 Number::Number()
 {
 	_isNegative = false;
@@ -81,7 +88,7 @@ Number::~Number()
 	delete[] _digitsArr;
 }
 
-void Number::operator=(const int num)
+void Number::operator=(const int &num)
 {
 	convertIntToDigitArray(num);
 }
@@ -143,6 +150,11 @@ int Number::absCmp(const Number &otherNumber)
 	return 0;
 }
 
+bool Number::operator!=(const Number &otherNumber)
+{
+	return cmp(otherNumber) != 0;
+}
+
 bool Number::operator==(const Number &otherNumber)
 {
 	return cmp(otherNumber) == 0;
@@ -167,11 +179,6 @@ bool Number::operator<(const Number &otherNumber)
 {
 	return cmp(otherNumber) < 0;
 }
-
-
-//123 + 40 DODAWANIE
-//-123 + (-40) DODAWANIE
-
 
 Number Number::operator+(const Number &otherNumber)
 {
@@ -222,12 +229,7 @@ Number Number::operator+(const Number &otherNumber)
 
 	int absCompareResult = absCmp(otherNumber);
 
-	Number addedNumber;
-	addedNumber._isNegative = (absCompareResult > 0 && _isNegative) || (absCompareResult < 0 && otherNumber._isNegative);
-	addedNumber._digitCount = newDigitCount;
-	addedNumber._digitsArr = sumArr;
-
-	return addedNumber;
+	return Number(sumArr, newDigitCount, (absCompareResult > 0 && _isNegative) || (absCompareResult < 0 && otherNumber._isNegative));
 }
 
 Number Number::operator-(const Number &otherNumber)
@@ -291,7 +293,7 @@ Number Number::operator-(const Number &otherNumber)
 		--resultSize;
 	}
 
-	Number number;       
+	Number number;
 	number._isNegative = swapped ? !biggerNumber->_isNegative : biggerNumber->_isNegative;
 	number._digitCount = resultSize;
 	number._digitsArr = resultDigits;
@@ -328,16 +330,16 @@ Number Number::operator*(const Number &otherNumber)
 		newDigitCount--;
 	}
 
-	Number multipliedNumber;
-	multipliedNumber._digitCount = newDigitCount;
-	multipliedNumber._digitsArr = productArr;
-	multipliedNumber._isNegative = _isNegative != otherNumber._isNegative;
-
-	return multipliedNumber;
+	return Number(productArr, newDigitCount, _isNegative != otherNumber._isNegative);
 }
 
 Number Number::operator/(const Number &otherNumber)
 {
+	if (otherNumber.isZero())
+	{
+		return Number();
+	}
+
 	int newDigitCount = _digitCount - otherNumber._digitCount + 1;
 	int *quotientArr = new int[newDigitCount];
 
@@ -349,22 +351,24 @@ Number Number::operator/(const Number &otherNumber)
 	Number tempNumber = *this;
 	Number tempOtherNumber = otherNumber;
 
-	for (int i = newDigitCount - 1; i >= 0; i--)
+	tempNumber._isNegative = false;
+	tempOtherNumber._isNegative = false;
+
+	for (int i = 0; i < newDigitCount; i++)
 	{
 		while (tempNumber >= tempOtherNumber)
 		{
 			tempNumber = tempNumber - tempOtherNumber;
 			quotientArr[i]++;
 		}
-		//tempOtherNumber /= 10;
 	}
 
-	Number quotientNumber;
-	quotientNumber._isNegative = _isNegative != otherNumber._isNegative;
-	quotientNumber._digitCount = newDigitCount;
-	quotientNumber._digitsArr = quotientArr;
+	return Number(quotientArr, newDigitCount, _isNegative != otherNumber._isNegative);
+}
 
-	return quotientNumber;
+bool Number::isZero() const
+{
+	return _digitCount == 1 && _digitsArr[0] == 0;
 }
 
 std::string Number::displayInfo()
