@@ -5,7 +5,7 @@ Table::Table()
 	_name = DEFAULT_NAME;
 	_pTab = new int[DEFAULT_TAB_SIZE];
 	_tableLength = DEFAULT_TAB_SIZE;
-	std::cout << SHOW_NAME_TEXT << _name << std::endl;
+	std::cout << NO_PARAM_CTOR_TEXT << _name << std::endl;
 }
 
 Table::Table(std::string name, int tableLength)
@@ -33,6 +33,22 @@ Table::Table(const Table &pcOther)
 	std::cout << COPY_TEXT << _name << std::endl;
 }
 
+Table::Table(bool isTesting)
+{
+	if (!isTesting)
+	{
+		Table();
+	}
+
+	_name = "Tester";
+	_tableLength = 4;
+	_pTab = new int[_tableLength];
+	for (int i = 0; i < _tableLength; i++)
+	{
+		_pTab[i] = i + 1;
+	}
+}
+
 Table::~Table()
 {
 	std::cout << DELETE_TEXT << _name << std::endl;
@@ -58,10 +74,28 @@ bool Table::setTabSize(int length)
 	return true;
 }
 
+void Table::addOneAndCopy(Table *&table)
+{
+	const int ADD_NUMBER = 1;
+
+	table = new Table(_name, _tableLength + 1);
+
+	for (int i = 0; i < _tableLength; i++)
+	{
+		table->_pTab[i] = _pTab[i];
+	}
+	table->_pTab[_tableLength] = ADD_NUMBER;
+}
+
 void Table::display()
 {
-	std::cout << SHOW_NAME_TEXT << _name << std::endl;
+	std::cout << NAME_DISPLAY_TEXT << _name << std::endl;
 	std::cout << TABLE_LENGTH_TEXT << _tableLength << std::endl;
+	std::cout << "Elementy: ";
+	for (int i = 0; i < _tableLength; i++)
+	{
+		std::cout << _pTab[i] << " ";
+	}
 }
 
 Table *Table::pcClone()

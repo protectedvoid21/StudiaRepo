@@ -7,7 +7,8 @@ class Table
 	const std::string DEFAULT_NAME = "Table";
 	const int DEFAULT_TAB_SIZE = 10;
 
-	const std::string SHOW_NAME_TEXT = "bezp: ";
+	const std::string NO_PARAM_CTOR_TEXT = "bezp: ";
+	const std::string NAME_DISPLAY_TEXT = "nazwa: ";
 	const std::string DELETE_TEXT = "usuwam: ";
 	const std::string PARAM_TEXT = "parametr: ";
 	const std::string COPY_TEXT = "kopiuj: ";
@@ -23,9 +24,11 @@ public:
 	Table();
 	Table(std::string name, int tableLength);
 	Table(const Table &pcOther);
+	Table(bool isTesting);
 	~Table();
 	void display();
 	void setName(std::string name);
 	bool setTabSize(int length);
+	void addOneAndCopy(Table *&table);
 	Table *pcClone();
 };

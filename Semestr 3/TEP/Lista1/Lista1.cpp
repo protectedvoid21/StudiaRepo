@@ -32,7 +32,7 @@ bool allocateTwoDimTable(int ***pTable, int width, int height)
 		return false;
 	}
 
-	*pTable = new int*[width];
+	*pTable = new int *[width];
 
 	for (int i = 0; i < width; i++)
 	{
@@ -46,9 +46,9 @@ bool allocateTwoDimTable(int ***pTable, int width, int height)
 	return true;
 }
 
-bool deallocTwoDimArray(int ***pTable, int width, int height)
+bool deallocTwoDimArray(int ***pTable, int width)
 {
-	if (width <= 0 || height <= 0 || pTable == nullptr)
+	if (width <= 0 || pTable == nullptr)
 	{
 		return false;
 	}
@@ -72,9 +72,22 @@ void modifyTable(Table table, int newArraySize)
 	table.setTabSize(newArraySize);
 }
 
+void modification()
+{
+	Table table(true);
+	Table *pointerTable;
+
+	table.addOneAndCopy(pointerTable);
+	pointerTable->display();
+
+	delete pointerTable;
+}
+
 int main()
 {
-	std::cout << "ZADANIE 1 (Wypelnienie 6 razy tablicy liczba 34)" << std::endl;
+	modification();
+
+	/*std::cout << "ZADANIE 1 (Wypelnienie 6 razy tablicy liczba 34)" << std::endl;
 	fillArrayWith34(6);
 	std::cout << "\n\n";
 
@@ -87,7 +100,7 @@ int main()
 	std::cout << "\n\n";
 
 	std::cout << "ZADANIE 3 (Dealokacja tablicy)" << std::endl;
-	deallocTwoDimArray(&tab, 5, 3);
+	deallocTwoDimArray(&tab, 5);
 	std::cout << "\n\n";
 
 	std::cout << "ZADANIE 4" << std::endl;
@@ -110,5 +123,5 @@ int main()
 
 	std::cout << "Zmienmy rozmiar tablicy na 10\n";
 	table.setTabSize(10);
-	table.display();
+	table.display();*/
 }
