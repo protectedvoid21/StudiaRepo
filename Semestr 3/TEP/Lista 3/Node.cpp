@@ -10,7 +10,7 @@ Node::Node(const Node &other) {
 
 double Node::evaluate(const std::map<std::string, double> &variables) {
     if (_operation->getParameterCount() == 0) {
-        return _operation->execute();
+        return _operation->execute(std::vector<double>());
     }
     
     std::vector<double> childResults;
@@ -21,4 +21,10 @@ double Node::evaluate(const std::map<std::string, double> &variables) {
     }
     
     return _operation->execute(childResults);
+}
+
+Node *Node::addChild(Node *child) {
+    _children.push_back(child);
+    child->_parent = this;
+    return child;
 }

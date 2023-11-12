@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <map>
 #include "Operation.h"
@@ -13,8 +14,6 @@ public:
     Node(Operation *operation);
 
     Node* addChild(Node *child);
-
-    Node* removeChild(Node *child);
 
     double evaluate(const std::map<std::string, double> &variables);
 };

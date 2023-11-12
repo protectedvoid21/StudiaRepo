@@ -1,5 +1,7 @@
 #include <stdexcept>
+#include <cstdlib>
 #include "Tree.h"
+#include "Operation.h"
 #include "Operations.h"
 
 Tree::Tree(const std::string& textInput, const std::map<std::string, Operation *>& operations) : _operations(operations) {
@@ -65,22 +67,22 @@ bool Tree::isOperation(const std::string &text) {
     return _operations[text] != NULL;
 }
 
-void Tree::createBranch(std::vector<std::string> words, Node *parent, Operation *operation) {
-    if(words.size() < operation->getParameterCount()) {
+void Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation *operation) {
+    if (words.size() < operation->getParameterCount()) {
         throw std::invalid_argument("Not enough parameters for operation");
     }
-    
-    for(int i = 0; i < operation->getParameterCount(); i++) {
+
+    for (int i = 0; i < operation->getParameterCount(); i++) {
         std::string word = words.front();
         words.erase(words.begin());
-        
+
         if (isNumber(word)) {
-            parent->addChild(new Node(new ConstantOperation(10)));
+            parent->addChild(new Node(new ConstantOperation(std::stod(word))));
         }
         else if (isOperation(word)) {
             createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word]);
         }
-        else if(isVariable(word)) {
+        else if (isVariable(word)) {
             parent->addChild(new Node(new VariableOperation(word)));
         }
         else {
@@ -89,7 +91,7 @@ void Tree::createBranch(std::vector<std::string> words, Node *parent, Operation 
     }
 }
 
-void Tree::parseToTree(std::string textInput) {
+void Tree::parseToTree(const std::string& textInput) {
     std::vector<std::string> words = splitByWhitespace(textInput);
 
     createBranch(words, _root, new InitOperation());

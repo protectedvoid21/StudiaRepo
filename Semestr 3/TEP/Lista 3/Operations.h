@@ -2,10 +2,6 @@
 #include <cmath>
 
 struct InitOperation : public Operation {
-    std::string getName() const {
-        return ""
-    }
-
     int getParameterCount() const {
         return 1;
     }
@@ -21,10 +17,6 @@ private:
 public:
     ConstantOperation(int value) {
         _value = value;
-    }
-    
-    std::string getName() const {
-        return "";
     }
 
     int getParameterCount() const {
@@ -44,10 +36,6 @@ public:
         _name = name;
     }
     
-    std::string getName() const {
-        return _name;
-    }
-    
     int getParameterCount() const {
         return 0;
     }
@@ -58,10 +46,6 @@ public:
 };
 
 struct AddOperation : public Operation {
-    std::string getName() const {
-        return "+";
-    }
-
     int getParameterCount() const {
         return 2;
     }
@@ -72,9 +56,6 @@ struct AddOperation : public Operation {
 };
 
 struct SubtractOperation : public Operation {
-    std::string getName() const {
-        return "-";
-    }
 
     int getParameterCount() const {
         return 2;
@@ -86,10 +67,6 @@ struct SubtractOperation : public Operation {
 };
 
 struct MultiplyOperation : public Operation {
-    std::string getName() const {
-        return "*";
-    }
-
     int getParameterCount() const {
         return 2;
     }
@@ -100,10 +77,6 @@ struct MultiplyOperation : public Operation {
 };
 
 struct DivideOperation : public Operation {
-    std::string getName() const {
-        return "/";
-    }
-
     int getParameterCount() const {
         return 2;
     }
@@ -114,10 +87,6 @@ struct DivideOperation : public Operation {
 };
 
 struct SinOperation : public Operation {
-    std::string getName() const {
-        return "sin";
-    }
-
     int getParameterCount() const {
         return 1;
     }
@@ -128,10 +97,6 @@ struct SinOperation : public Operation {
 };
 
 struct CosOperation : public Operation {
-    std::string getName() const {
-        return "cos";
-    }
-
     int getParameterCount() const {
         return 1;
     }
