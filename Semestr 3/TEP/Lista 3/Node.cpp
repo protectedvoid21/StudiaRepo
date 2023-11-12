@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "Operations.h"
 
 Node::Node(Operation* operation) : _operation(operation) {}
 
@@ -10,6 +11,10 @@ Node::Node(const Node &other) {
 
 double Node::evaluate(const std::map<std::string, double> &variables) {
     if (_operation->getParameterCount() == 0) {
+        VariableOperation* variableOperation = dynamic_cast<VariableOperation *>(_operation);
+        if (variableOperation != nullptr) {
+            return variables.at(variableOperation->getName());
+        }
         return _operation->execute(std::vector<double>());
     }
     

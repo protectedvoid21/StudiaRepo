@@ -36,6 +36,10 @@ public:
         _name = name;
     }
     
+    std::string getName() const {
+        return _name;
+    }
+    
     int getParameterCount() const {
         return 0;
     }
