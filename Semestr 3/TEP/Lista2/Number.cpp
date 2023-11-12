@@ -1,5 +1,4 @@
 #include "Number.h"
-#include <iostream>
 
 void Number::convertIntToDigitArray(int value)
 {
@@ -18,7 +17,7 @@ void Number::convertIntToDigitArray(int value)
 	_digitCount = 0;
 	while (temp > 0)
 	{
-		temp /= 10;
+		temp /= NUMERIC_BASE;
 		_digitCount++;
 	}
 	temp = value;
@@ -27,8 +26,8 @@ void Number::convertIntToDigitArray(int value)
 	int i = 0;
 	while (temp > 0)
 	{
-		_digitsArr[i] = temp % 10;
-		temp /= 10;
+		_digitsArr[i] = temp % NUMERIC_BASE;
+		temp /= NUMERIC_BASE;
 		i++;
 	}
 }
@@ -47,7 +46,7 @@ void Number::trimLeadingZeros(Number &number)
 		trimmedArr[j] = number._digitsArr[zeroDigitCount + j];
 	}
 	number._digitCount -= zeroDigitCount;
-	delete[] _digitsArr;
+	delete[] number._digitsArr;
 
 	number._digitsArr = trimmedArr;
 }
@@ -204,7 +203,7 @@ Number Number::operator+(const Number &otherNumber)
 		if (digitSum > MAX_DIGIT_VALUE)
 		{
 			sumExcess = 1;
-			digitSum -= 10;
+			digitSum -= NUMERIC_BASE;
 		}
 		else
 		{
@@ -246,21 +245,21 @@ Number Number::operator-(const Number &otherNumber)
 		biggerNumber = (Number *)&otherNumber;
 		smallerNumber = this;
 
-		if (biggerNumber->_isNegative && smallerNumber->_isNegative)
+		if (biggerNumber->_isNegative)
 		{
+			if (!smallerNumber->_isNegative)
+			{
+				biggerNumber->_isNegative = false;
+				return *biggerNumber + *smallerNumber;
+			}
 			smallerNumber->_isNegative = false;
 		}
-		else if (!biggerNumber->_isNegative && smallerNumber->_isNegative)
+		else if (smallerNumber->_isNegative)
 		{
 			smallerNumber->_isNegative = false;
 			Number result = *biggerNumber + *smallerNumber;
 			result._isNegative = true;
 			return result;
-		}
-		else if (biggerNumber->_isNegative)
-		{
-			biggerNumber->_isNegative = false;
-			return *biggerNumber + *smallerNumber;
 		}
 	}
 
@@ -276,7 +275,7 @@ Number Number::operator-(const Number &otherNumber)
 		int diff = firstDigit - secondDigit - borrow;
 		if (diff < 0)
 		{
-			diff += (MAX_DIGIT_VALUE + 1);
+			diff += NUMERIC_BASE;
 			borrow = 1;
 		}
 		else
@@ -293,12 +292,7 @@ Number Number::operator-(const Number &otherNumber)
 		--resultSize;
 	}
 
-	Number number;
-	number._isNegative = swapped ? !biggerNumber->_isNegative : biggerNumber->_isNegative;
-	number._digitCount = resultSize;
-	number._digitsArr = resultDigits;
-
-	return number;
+	return Number(resultDigits, resultSize, swapped ? !biggerNumber->_isNegative : biggerNumber->_isNegative);
 }
 
 Number Number::operator*(const Number &otherNumber)
@@ -321,8 +315,8 @@ Number Number::operator*(const Number &otherNumber)
 
 	for (int i = 0; i < newDigitCount - 1; i++)
 	{
-		productArr[i + 1] += productArr[i] / 10;
-		productArr[i] %= 10;
+		productArr[i + 1] += productArr[i] / NUMERIC_BASE;
+		productArr[i] %= NUMERIC_BASE;
 	}
 
 	if (productArr[newDigitCount - 1] == 0)
@@ -360,26 +354,70 @@ Number Number::operator/(const Number &otherNumber)
 		{
 			tempNumber = tempNumber - tempOtherNumber;
 			quotientArr[i]++;
+			if (quotientArr[i] == MAX_DIGIT_VALUE + 1)
+			{
+				quotientArr[i] = 0;
+				quotientArr[i + 1]++;
+			}
 		}
 	}
 
 	return Number(quotientArr, newDigitCount, _isNegative != otherNumber._isNegative);
 }
 
+Number Number::mod(const Number &otherNumber, Number **divisionResult)
+{
+	int newDigitCount = _digitCount - otherNumber._digitCount + 1;
+	int *quotientArr = new int[newDigitCount];
+
+	for (int i = 0; i < newDigitCount; i++)
+	{
+		quotientArr[i] = 0;
+	}
+
+	Number moduloNumber = *this;
+	Number tempOtherNumber = otherNumber;
+
+	moduloNumber._isNegative = false;
+	tempOtherNumber._isNegative = false;
+
+	for (int i = 0; i < newDigitCount; i++)
+	{
+		while (moduloNumber >= tempOtherNumber)
+		{
+			moduloNumber = moduloNumber - tempOtherNumber;
+			quotientArr[i]++;
+			if (quotientArr[i] == MAX_DIGIT_VALUE + 1)
+			{
+				quotientArr[i] = 0;
+				quotientArr[i + 1]++;
+			}
+		}
+	}
+
+	int leadingZeroCount = 0;
+	for (int i = 0; i < newDigitCount; i++)
+	{
+		if (quotientArr[i] == 0)
+		{
+			leadingZeroCount++;
+		}
+	}
+	newDigitCount -= leadingZeroCount;
+	int *quotientWithoutZero = new int[newDigitCount];
+	for (int i = 0; i < newDigitCount; i++)
+	{
+		quotientWithoutZero[i] = quotientArr[i + leadingZeroCount];
+	}
+	delete[] quotientArr;
+
+	*divisionResult = new Number(quotientWithoutZero, newDigitCount, false);
+	return moduloNumber;
+}
+
 bool Number::isZero() const
 {
 	return _digitCount == 1 && _digitsArr[0] == 0;
-}
-
-std::string Number::displayInfo()
-{
-	std::string text = "";
-	for (int i = 0; i < _digitCount; i++)
-	{
-		text += std::to_string(_digitsArr[i]);
-	}
-
-	return text;
 }
 
 std::string Number::toString()

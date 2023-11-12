@@ -29,11 +29,13 @@ public:
 	Number operator-(const Number &otherNumber);
 	Number operator*(const Number &otherNumber);
 	Number operator/(const Number &otherNumber);
+	Number mod(const Number &otherNumber, Number **result);
+
 	bool isZero() const;
 	std::string toString();
-	std::string displayInfo();
 
-	static const int MAX_DIGIT_VALUE = 9;
+	static const int NUMERIC_BASE = 10;
+	static const int MAX_DIGIT_VALUE = NUMERIC_BASE - 1;
 	static const int DEFAULT_DIGIT_COUNT = 1;
 };
 

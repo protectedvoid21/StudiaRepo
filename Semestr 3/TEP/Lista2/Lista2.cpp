@@ -70,6 +70,28 @@ void testDivision(const TestCase &testCase)
 	testCase.display(resultInt);
 }
 
+void testModulo(int first, int second)
+{
+	Number firstNumber(first);
+	Number secondNumber(second);
+	Number *divisionResult;
+
+	Number modResult = firstNumber.mod(secondNumber, &divisionResult);
+	std::cout << firstNumber.toString() << " % " << secondNumber.toString() << " = " << divisionResult->toString() << " reszta " << modResult.toString() << std::endl;
+}
+
+void modification()
+{
+	testModulo(6, 4);
+	testModulo(13, 5);
+	testModulo(21, 3);
+	testModulo(5, 5);
+	testModulo(107, 27);
+	testModulo(321, 43);
+	testModulo(100, 25);
+	testModulo(243980, 3259);
+}
+
 void launchTests()
 {
 	testAddition(TestCase(32, 48, 80, "Addition"));
@@ -109,6 +131,7 @@ void launchTests()
 	testMultiplication(TestCase(3, -5, -15, "Multiplication"));
 	testMultiplication(TestCase(-3, -5, 15, "Multiplication"));
 
+	testDivision(TestCase(503, 5, 100, "Division"));
 	testDivision(TestCase(32, 48, 0, "Division"));
 	testDivision(TestCase(1327, 92, 14, "Division"));
 	testDivision(TestCase(143, 5, 28, "Division"));
@@ -118,6 +141,10 @@ void launchTests()
 	testDivision(TestCase(1, 1, 1, "Division"));
 	testDivision(TestCase(-3, 5, 0, "Division"));
 	testDivision(TestCase(3, -5, 0, "Division"));
+	testDivision(TestCase(-432, -5, 86, "Division"));
+	testDivision(TestCase(-432, 5, -86, "Division"));
+	testDivision(TestCase(432, 5, 86, "Division"));
+	testDivision(TestCase(30, 5, 6, "Division"));
 	testDivision(TestCase(5, 1, 5, "Division"));
 	testDivision(TestCase(10, 1, 10, "Division"));
 	testDivision(TestCase(100, 1, 100, "Division"));
@@ -130,5 +157,7 @@ void launchTests()
 
 int main()
 {
-	launchTests();
+	//launchTests();
+
+	modification();
 }
