@@ -28,9 +28,8 @@ void testOperators() {
     //std::cout << tree3.evaluate(std::map<std::string, double>()) << std::endl;
 }
 
-int main() {
-    testOperators();
-    /*std::map<std::string, Operation *> operations;
+void runTreeManager() {
+    std::map<std::string, Operation *> operations;
     operations["+"] = new AddOperation();
     operations["-"] = new SubtractOperation();
     operations["*"] = new MultiplyOperation();
@@ -39,12 +38,17 @@ int main() {
     operations["cos"] = new CosOperation();
 
     std::string input;
-    
+
     TreeManager treeManager(operations);
 
     while (input != "exit") {
         std::cout << "Enter command: ";
         std::getline(std::cin, input);
         treeManager.getInput(input);
-    }*/
+    }
+}
+
+int main() {
+    //testOperators();
+    runTreeManager();
 }

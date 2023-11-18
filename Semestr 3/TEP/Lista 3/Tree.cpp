@@ -48,14 +48,13 @@ bool Tree::isOperation(const std::string &text) {
 }
 
 TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation *operation, TreeBuildResult &result) {
-    while (words.size() < operation->getParameterCount()) {
-        result.addWarning("Not enough parameters for operation " + operation->getName() + " at '" + print() + "'. Adding 1 as parameter.");
-        
-        words.emplace_back("1");
-        _inputTokens.emplace_back("1");
-    }
-
     for (int i = 0; i < operation->getParameterCount(); i++) {
+        if (words.empty()) {
+            result.addWarning("Not enough parameters for operation at '" + print() + "'. Adding 1 as parameter.");
+
+            words.emplace_back("1");
+            _inputTokens.emplace_back("1");
+        }
         std::string word = words.front();
         words.erase(words.begin());
 
