@@ -1,21 +1,23 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include "Node.h"
+#include "TreeBuildResult.h"
 
 class Tree {
     Node *_root;
     std::map<std::string, Operation *> _operations;
-
-    bool isOperation(const std::string& text);
+    std::vector<std::string> _inputTokens;
     
-    void parseToTree(const std::string& textInput);
-
+    bool isOperation(const std::string &text);
+    TreeBuildResult createBranch(std::vector<std::string> &words, Node *parent, Operation *operation, TreeBuildResult &result);
 public:
-    Tree(const std::string& textInput, const std::map<std::string, Operation *>& operations);
-
+    Tree(const std::vector<std::string> &tokens, const std::map<std::string, Operation *> &operations);
+    TreeBuildResult buildTree();
     double evaluate(const std::map<std::string, double> &variables);
-
-    void createBranch(std::vector<std::string> &words, Node *parent, Operation *operation);
+    std::set<std::string> getVariables() const;
+    std::string print() const;
 };

@@ -10,12 +10,11 @@ Node::Node(const Node &other) {
 }
 
 double Node::evaluate(const std::map<std::string, double> &variables) {
-    if (_operation->getParameterCount() == 0) {
-        VariableOperation* variableOperation = dynamic_cast<VariableOperation *>(_operation);
-        if (variableOperation != nullptr) {
-            return variables.at(variableOperation->getName());
-        }
+    if (_operation->getType() == OperationType::CONSTANT) {
         return _operation->execute(std::vector<double>());
+    }
+    if (_operation->getType() == OperationType::VARIABLE) {
+        return variables.at(_operation->getName());
     }
     
     std::vector<double> childResults;
@@ -33,3 +32,13 @@ Node *Node::addChild(Node *child) {
     child->_parent = this;
     return child;
 }
+
+Operation *Node::getOperation() const {
+    return _operation;
+}
+
+std::vector<Node *> Node::getChildren() const {
+    return _children;
+}
+
+

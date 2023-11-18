@@ -1,75 +1,39 @@
 #include <stdexcept>
-#include <cstdlib>
+#include <set>
 #include "Tree.h"
 #include "Operation.h"
 #include "Operations.h"
+#include "TextUtils.h"
 
-Tree::Tree(const std::string& textInput, const std::map<std::string, Operation *>& operations) : _operations(operations) {
+
+Tree::Tree(const std::vector<std::string> &tokens, const std::map<std::string, Operation *> &operations) : _operations(operations) {
+    _inputTokens = tokens;
     _root = new Node(new InitOperation());
-    parseToTree(textInput);
+}
+
+TreeBuildResult Tree::buildTree() {
+    std::vector<std::string> tokens;
+    tokens.reserve(_inputTokens.size());
+    for (const std::string &token: _inputTokens) {
+        tokens.push_back(token);
+    }
+    TreeBuildResult result;
+    return createBranch(tokens, _root, new InitOperation(), result);
 }
 
 double Tree::evaluate(const std::map<std::string, double> &variables) {
     return _root->evaluate(variables);
 }
 
-std::vector<std::string> splitByWhitespace(std::string text) {
-    std::vector<std::string> tokens;
-    std::string currentToken;
-
-    for (char c: text) {
-        if (c == ' ') {
-            if (currentToken.length() > 0) {
-                tokens.push_back(currentToken);
-                currentToken = "";
-            }
-        }
-        else {
-            currentToken += c;
-        }
-    }
-
-    if (currentToken.length() > 0) {
-        tokens.push_back(currentToken);
-    }
-
-    return tokens;
-}
-
-bool isNumber(std::string text) {
-    for (char c: text) {
-        if (!isdigit(c) && c != '.') {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool isVariable(std::string text) {
-    if(text.length() == 0) {
-        return false;
-    }
-    if(!isalpha(text[0])) {
-        return false;
-    }
-    
-    for(char c : text) {
-        if(!isalnum(c)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 bool Tree::isOperation(const std::string &text) {
-    return _operations[text] != NULL;
+    return _operations[text] != nullptr;
 }
 
-void Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation *operation) {
-    if (words.size() < operation->getParameterCount()) {
-        throw std::invalid_argument("Not enough parameters for operation");
+TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation *operation, TreeBuildResult &result) {
+    while (words.size() < operation->getParameterCount()) {
+        result.addWarning("Not enough parameters for operation " + operation->getName() + " at '" + print() + "'. Adding 1 as parameter.");
+        words.emplace_back("1");
+        _inputTokens.emplace_back("1");
     }
 
     for (int i = 0; i < operation->getParameterCount(); i++) {
@@ -80,19 +44,53 @@ void Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation
             parent->addChild(new Node(new ConstantOperation(std::stod(word))));
         }
         else if (isOperation(word)) {
-            createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word]);
+            if (!createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result).isSuccess()) {
+                return result;
+            }
         }
         else if (isVariable(word)) {
             parent->addChild(new Node(new VariableOperation(word)));
         }
         else {
-            throw std::invalid_argument("Invalid variable name");
+            result.addError("Invalid token '" + word + "' at '" + print() + "'.");
+            return result;
         }
     }
+
+    return result;
 }
 
-void Tree::parseToTree(const std::string& textInput) {
-    std::vector<std::string> words = splitByWhitespace(textInput);
+std::set<std::string> getAllVariablesUnderNode(Node *node, const std::set<std::string> &variableNames) {
+    std::set<std::string> variables = variableNames;
+    Operation *currentOperation = node->getOperation();
 
-    createBranch(words, _root, new InitOperation());
+    if (currentOperation->getType() == OperationType::VARIABLE) {
+        variables.insert(currentOperation->getName());
+    }
+
+    for (Node *child: node->getChildren()) {
+        variables = getAllVariablesUnderNode(child, variables);
+    }
+
+    return variables;
+}
+
+std::set<std::string> Tree::getVariables() const {
+    std::set<std::string> variableNames;
+
+    return getAllVariablesUnderNode(_root, variableNames);
+}
+
+std::string Tree::print() const {
+    std::string text;
+
+    for (const std::string &token: _inputTokens) {
+        text += token;
+
+        if (token != _inputTokens.back()) {
+            text += " ";
+        }
+    }
+
+    return text;
 }

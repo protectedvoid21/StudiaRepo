@@ -9,6 +9,24 @@ struct InitOperation : public Operation {
     double execute(const std::vector<double> &parameters) const {
         return parameters[0];
     }
+    
+    OperationType getType() const {
+        return FUNCTION;
+    }
+    
+    std::string getName() const {
+        return "";
+    }
+};
+
+struct FunctionOperation : public Operation {
+    OperationType getType() const {
+        return FUNCTION;
+    }
+    
+    std::string getName() const {
+        return "";
+    }
 };
 
 struct ConstantOperation : public Operation {
@@ -26,9 +44,17 @@ public:
     double execute(const std::vector<double> &parameters) const {
         return _value;
     }
+    
+    std::string getName() const {
+        return "";
+    }
+    
+    OperationType getType() const {
+        return CONSTANT;
+    }
 };
 
-struct VariableOperation : public Operation {
+struct VariableOperation : public FunctionOperation {
 private:
     std::string _name;
 public:
@@ -47,9 +73,13 @@ public:
     double execute(const std::vector<double> &parameters) const {
         return parameters[0];
     }
+    
+    OperationType getType() const {
+        return VARIABLE;
+    }
 };
 
-struct AddOperation : public Operation {
+struct AddOperation : public FunctionOperation {
     int getParameterCount() const {
         return 2;
     }
@@ -59,7 +89,7 @@ struct AddOperation : public Operation {
     }
 };
 
-struct SubtractOperation : public Operation {
+struct SubtractOperation : public FunctionOperation {
 
     int getParameterCount() const {
         return 2;
@@ -70,7 +100,7 @@ struct SubtractOperation : public Operation {
     }
 };
 
-struct MultiplyOperation : public Operation {
+struct MultiplyOperation : public FunctionOperation {
     int getParameterCount() const {
         return 2;
     }
@@ -80,7 +110,7 @@ struct MultiplyOperation : public Operation {
     }
 };
 
-struct DivideOperation : public Operation {
+struct DivideOperation : public FunctionOperation {
     int getParameterCount() const {
         return 2;
     }
@@ -90,7 +120,7 @@ struct DivideOperation : public Operation {
     }
 };
 
-struct SinOperation : public Operation {
+struct SinOperation : public FunctionOperation {
     int getParameterCount() const {
         return 1;
     }
@@ -100,7 +130,7 @@ struct SinOperation : public Operation {
     }
 };
 
-struct CosOperation : public Operation {
+struct CosOperation : public FunctionOperation {
     int getParameterCount() const {
         return 1;
     }
