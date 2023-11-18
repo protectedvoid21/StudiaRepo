@@ -12,7 +12,7 @@ Tree::Tree(const std::vector<std::string> &tokens, const std::map<std::string, O
 }
 
 Tree::~Tree() {
-    delete _root->getChildren()[0];
+    delete _root;
 }
 
 TreeBuildResult Tree::buildTree() {
@@ -105,12 +105,11 @@ std::set<std::string> Tree::getVariables() const {
 std::string Tree::print() const {
     std::string text;
 
-    for (const std::string &token: _inputTokens) {
-        text += token;
-
-        if (token != _inputTokens.back()) {
-            text += " ";
-        }
+    for (int i = 0; i < _inputTokens.size() - 1; i++) {
+        text += _inputTokens[i] + " ";
+    }
+    if (!_inputTokens.empty()) {
+        text += _inputTokens[_inputTokens.size() - 1];
     }
 
     return text;
@@ -140,7 +139,7 @@ TreeBuildResult Tree::join(const std::vector<std::string> &tokens) {
     return buildResult;
 }
 
-/*Tree Tree::operator+(const Tree &other) const {
+Tree Tree::operator+(const Tree &other) const {
     Tree *resultTree = new Tree(_inputTokens, _operations);
     resultTree->join(other._inputTokens);
     return *resultTree;
@@ -149,6 +148,6 @@ TreeBuildResult Tree::join(const std::vector<std::string> &tokens) {
 Tree Tree::operator=(const Tree &other) const {
     Tree resultTree = Tree(other._inputTokens, _operations);
     return resultTree;
-}*/
+}
 
 

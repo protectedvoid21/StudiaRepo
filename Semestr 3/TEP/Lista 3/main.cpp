@@ -23,13 +23,14 @@ void testOperators() {
     
     std::cout << "Tree built." << std::endl;
     
-    //Tree tree3 = tree1 + tree2;
-    //std::cout << tree3.print() << std::endl;
+    Tree tree3 = tree1 + tree2;
+    std::cout << tree3.print() << std::endl;
+    //std::cout << tree3.evaluate(std::map<std::string, double>()) << std::endl;
 }
 
 int main() {
-    //testOperators();
-    std::map<std::string, Operation *> operations;
+    testOperators();
+    /*std::map<std::string, Operation *> operations;
     operations["+"] = new AddOperation();
     operations["-"] = new SubtractOperation();
     operations["*"] = new MultiplyOperation();
@@ -45,5 +46,5 @@ int main() {
         std::cout << "Enter command: ";
         std::getline(std::cin, input);
         treeManager.getInput(input);
-    }
+    }*/
 }

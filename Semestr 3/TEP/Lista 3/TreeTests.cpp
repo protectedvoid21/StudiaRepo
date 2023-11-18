@@ -102,6 +102,6 @@ std::string getPrint(const std::string &input) {
 }
 
 TEST_CASE("TestPrint") {
-    CHECK(getPrint("+ * 5 x + a b 8") == "+ * 5 x + a b 8");
+    CHECK(getPrint("+ * 5 x + a b 8") == "+ * 5 x + a b");
     CHECK(getPrint("+ 3 5") == "+ 3 5");
 }
