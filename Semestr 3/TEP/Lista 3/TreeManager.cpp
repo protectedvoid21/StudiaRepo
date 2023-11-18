@@ -17,13 +17,11 @@ void TreeManager::getInput(const std::string &textInput) {
     std::string commandName = tokens[0];
     tokens.erase(tokens.begin());
 
-    if (_tree == nullptr) {
-        if (commandName == "enter") {
-            createTree(tokens);
-        }
-        else {
-            std::cout << "Tree has not been created. Use 'enter' command to create a tree" << std::endl;
-        }
+    if (commandName == "enter") {
+        createTree(tokens);
+    }
+    else if (_tree == nullptr) {
+        std::cout << "Tree has not been created. Use 'enter' command to create a tree" << std::endl;
         return;
     }
     else if (commandName == "print") {
@@ -89,7 +87,24 @@ void TreeManager::compute(std::vector<std::string> &tokens) {
 }
 
 void TreeManager::join(std::vector<std::string> &tokens) {
+    if (tokens.empty()) {
+        std::cout << "No parameters were given." << std::endl;
+        return;
+    }
 
+    TreeBuildResult joinResult = _tree->join(tokens);
+    
+    for(const std::string &error: joinResult.getErrors()) {
+        std::cout << "[ERROR]: " << error << std::endl;
+    }
+    for(const std::string &warning: joinResult.getWarnings()) {
+        std::cout << "[WARNING]: " << warning << std::endl;
+    }
+
+    if (!joinResult.isSuccess()) {
+        return;
+    }
+    std::cout << "Tree has been joined successfully." << std::endl;
 }
 
 void TreeManager::print() const {

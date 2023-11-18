@@ -9,6 +9,12 @@ Node::Node(const Node &other) {
     _children = other._children;
 }
 
+Node::~Node() {
+    for (Node *child : _children) {
+        delete child;
+    }
+}
+
 double Node::evaluate(const std::map<std::string, double> &variables) {
     if (_operation->getType() == OperationType::CONSTANT) {
         return _operation->execute(std::vector<double>());
@@ -41,4 +47,15 @@ std::vector<Node *> Node::getChildren() const {
     return _children;
 }
 
+Node *Node::getParent() const {
+    return _parent;
+}
+
+void Node::insertChild(int index, Node *node) {
+    if (index < 0 || index >= _children.size()) {
+        return;
+    }
+    
+    _children[index] = node;
+}
 

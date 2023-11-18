@@ -13,7 +13,10 @@ class Node {
 
 public:
     Node(Operation *operation);
+    ~Node();
     Node *addChild(Node *child);
+    Node *getParent() const;
+    void insertChild(int index, Node *node);
     std::vector<Node *> getChildren() const;
     double evaluate(const std::map<std::string, double> &variables);
     Operation *getOperation() const;

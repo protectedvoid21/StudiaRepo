@@ -11,9 +11,14 @@ Tree::Tree(const std::vector<std::string> &tokens, const std::map<std::string, O
     _root = new Node(new InitOperation());
 }
 
+Tree::~Tree() {
+    delete _root->getChildren()[0];
+}
+
 TreeBuildResult Tree::buildTree() {
     std::vector<std::string> tokens;
     tokens.reserve(_inputTokens.size());
+    
     for (const std::string &token: _inputTokens) {
         tokens.push_back(token);
     }
@@ -32,6 +37,7 @@ bool Tree::isOperation(const std::string &text) {
 TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent, Operation *operation, TreeBuildResult &result) {
     while (words.size() < operation->getParameterCount()) {
         result.addWarning("Not enough parameters for operation " + operation->getName() + " at '" + print() + "'. Adding 1 as parameter.");
+        
         words.emplace_back("1");
         _inputTokens.emplace_back("1");
     }
@@ -55,6 +61,17 @@ TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent
             result.addError("Invalid token '" + word + "' at '" + print() + "'.");
             return result;
         }
+    }
+
+    if (!words.empty()) {
+        std::string warningText = "Too many parameters for some operations. These parameters will be ignored:";
+        
+        for(const std::string &word: words) {
+            warningText += " " + word;
+            _inputTokens.erase(words.begin());
+        }
+        
+        result.addWarning(warningText);
     }
 
     return result;
@@ -93,4 +110,28 @@ std::string Tree::print() const {
     }
 
     return text;
+}
+
+TreeBuildResult Tree::join(const std::vector<std::string> &tokens) {
+    Tree *tree = new Tree(tokens, _operations);
+    TreeBuildResult buildResult = tree->buildTree();
+
+    if (!buildResult.isSuccess()) {
+        return buildResult;
+    }
+    
+    _inputTokens.erase(_inputTokens.end() - 1);
+    _inputTokens.insert(_inputTokens.end(), tree->_inputTokens.begin(), tree->_inputTokens.end());
+
+    Node *rightLowerNode = _root;
+
+    int childCount;
+    while (!rightLowerNode->getChildren().empty()) {
+        childCount = rightLowerNode->getChildren().size();
+        rightLowerNode = rightLowerNode->getChildren()[childCount - 1];
+    }
+    
+    rightLowerNode->getParent()->insertChild(childCount - 1, tree->_root->getChildren()[0]);
+
+    return buildResult;
 }
