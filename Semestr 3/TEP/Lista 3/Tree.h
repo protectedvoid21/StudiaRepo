@@ -22,4 +22,7 @@ public:
     double evaluate(const std::map<std::string, double> &variables);
     std::set<std::string> getVariables() const;
     std::string print() const;
+ /*   
+    Tree operator+(const Tree &other) const;
+    Tree operator=(const Tree &other) const;*/
 };

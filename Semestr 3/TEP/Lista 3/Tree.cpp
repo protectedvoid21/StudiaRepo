@@ -23,7 +23,20 @@ TreeBuildResult Tree::buildTree() {
         tokens.push_back(token);
     }
     TreeBuildResult result;
-    return createBranch(tokens, _root, new InitOperation(), result);
+    result = createBranch(tokens, _root, new InitOperation(), result);
+
+    if (!tokens.empty()) {
+        std::string warningText = "Too many parameters for some operations. These parameters will be ignored:";
+
+        for(const std::string &word: tokens) {
+            warningText += " " + word;
+            _inputTokens.erase(tokens.begin());
+        }
+
+        result.addWarning(warningText);
+    }
+    
+    return result;
 }
 
 double Tree::evaluate(const std::map<std::string, double> &variables) {
@@ -50,7 +63,9 @@ TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent
             parent->addChild(new Node(new ConstantOperation(std::stod(word))));
         }
         else if (isOperation(word)) {
-            if (!createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result).isSuccess()) {
+            TreeBuildResult branchResult;
+            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result);
+            if (!branchResult.isSuccess()) {
                 return result;
             }
         }
@@ -61,17 +76,6 @@ TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent
             result.addError("Invalid token '" + word + "' at '" + print() + "'.");
             return result;
         }
-    }
-
-    if (!words.empty()) {
-        std::string warningText = "Too many parameters for some operations. These parameters will be ignored:";
-        
-        for(const std::string &word: words) {
-            warningText += " " + word;
-            _inputTokens.erase(words.begin());
-        }
-        
-        result.addWarning(warningText);
     }
 
     return result;
@@ -135,3 +139,16 @@ TreeBuildResult Tree::join(const std::vector<std::string> &tokens) {
 
     return buildResult;
 }
+
+/*Tree Tree::operator+(const Tree &other) const {
+    Tree *resultTree = new Tree(_inputTokens, _operations);
+    resultTree->join(other._inputTokens);
+    return *resultTree;
+}
+
+Tree Tree::operator=(const Tree &other) const {
+    Tree resultTree = Tree(other._inputTokens, _operations);
+    return resultTree;
+}*/
+
+
