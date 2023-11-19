@@ -25,7 +25,7 @@ void testOperators() {
     
     Tree tree3 = tree1 + tree2;
     std::cout << tree3.print() << std::endl;
-    //std::cout << tree3.evaluate(std::map<std::string, double>()) << std::endl;
+    std::cout << tree3.evaluate(std::map<std::string, double>()) << std::endl;
 }
 
 void runTreeManager() {

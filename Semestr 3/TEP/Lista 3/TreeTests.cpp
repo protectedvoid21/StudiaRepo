@@ -19,89 +19,92 @@ std::map<std::string, Operation *> generateOperationsMap() {
     return operations;
 }
 
-void testFunction(const std::string &input, const std::map<std::string, Operation *> &operations,
-                  const std::map<std::string, double> &variables, double expected) {
-
-    std::vector<std::string> tokens = splitByWhitespace(input);
+Tree getTree(const std::string &input) {
+    auto operations = generateOperationsMap();
+    auto tokens = splitByWhitespace(input);
     Tree tree(tokens, operations);
-    
+
     tree.buildTree();
 
-    CHECK(tree.evaluate(variables) == expected);
+    return tree;
+}
+
+double getEvaluation(const std::string &input, const std::map<std::string, double> &variables) {
+    auto tree = getTree(input);
+
+    return tree.evaluate(variables);
+}
+
+std::set<std::string> getVariables(const std::string &input) {
+    auto tree = getTree(input);
+
+    return tree.getVariables();
+}
+
+std::string getPrint(const std::string &input) {
+    auto tree = getTree(input);
+
+    return tree.print();
+}
+
+std::string getJoin(const std::string &input1, const std::string &input2) {
+    auto operations = generateOperationsMap();
+
+    auto tokens1 = splitByWhitespace(input1);
+    auto tokens2 = splitByWhitespace(input2);
+
+    Tree tree1(tokens1, operations);
+    Tree tree2(tokens2, operations);
+
+    tree1.buildTree();
+    tree2.buildTree();
+
+    Tree tree3 = tree1 + tree2;
+
+    return tree3.print();
 }
 
 
 TEST_CASE("TestCorrectInputWithoutVariables") {
-    auto operations = generateOperationsMap();
-    
-    testFunction("+ + 3 4 5", operations, std::map<std::string, double>(), 12);
-    testFunction("+ * 5 7 - 10 3", operations, std::map<std::string, double>(), 42);
-    testFunction("+ * 5 4 * + 5 2 8", operations, std::map<std::string, double>(), 76);
+    CHECK(getEvaluation("+ + 3 4 5", std::map<std::string, double>()) == 12);
+    CHECK(getEvaluation("+ * 5 7 - 10 3", std::map<std::string, double>()) == 42);
+    CHECK(getEvaluation("+ * 5 4 * + 5 2 8", std::map<std::string, double>()) == 76);
 }
 
 TEST_CASE("EmptyInput") {
-    auto operations = generateOperationsMap();
-    
-    testFunction("", operations, std::map<std::string, double>(), 0);
+    CHECK(getEvaluation("", std::map<std::string, double>()) == 1);
 }
 
 TEST_CASE("TestCorrectInputWithVariables") {
-    auto operations = generateOperationsMap();
-    std::map<std::string, double> variables;
-    variables["x"] = 3;
-    variables["a"] = 5;
-    variables["b"] = 2;
-    
-    testFunction("+ * 5 x * + a b 8", operations, variables, 71);
-}
+    std::map<std::string, double> variables = {{"x", 3}, {"a", 5}, {"b", 2}};
 
-std::set<std::string> getVariables(const std::string &input) {
-    auto operations = generateOperationsMap();
-    auto tokens = splitByWhitespace(input);
-    Tree tree(tokens, operations);
-    
-    tree.buildTree();
-    
-    return tree.getVariables();
+    CHECK(getEvaluation("+ * 5 x * + a b 8", variables) == 71);
 }
 
 TEST_CASE("TestGetVariables") {
-    auto operations = generateOperationsMap();
-    std::map<std::string, double> variables;
-    variables["x"] = 3;
-    variables["a"] = 5;
-    variables["b"] = 2;
-    
-    std::set<std::string> expected;
-    expected.insert("x");
-    expected.insert("a");
-    expected.insert("b");
-    
-    CHECK(getVariables("+ * 5 x * + a b 8") == expected);
-}
-
-TEST_CASE("TestGetVariablesWithoutAny") {
-    auto operations = generateOperationsMap();
-    std::map<std::string, double> variables;
-
-    std::set<std::string> expected;
-
-    CHECK(getVariables("+ * 5 9 * + 1 5 8") == expected);
-}
-
-
-std::string getPrint(const std::string &input) {
-    auto operations = generateOperationsMap();
-
-    auto tokens = splitByWhitespace(input);
-    Tree tree(tokens, operations);
-
-    tree.buildTree();
-    
-    return tree.print();
+    CHECK(getVariables("+ * 5 x * + a b 8") == std::set<std::string>{"x", "a", "b"});
+    CHECK(getVariables("+ * 5 1 * + 5 10 8") == std::set<std::string>{});
+    CHECK(getVariables("+ * 5 9 * + 1 5 8") == std::set<std::string>{});
+    CHECK(getVariables("b") == std::set<std::string>{"b"});
+    CHECK(getVariables("") == std::set<std::string>{});
+    CHECK(getVariables("5") == std::set<std::string>{});
 }
 
 TEST_CASE("TestPrint") {
     CHECK(getPrint("+ * 5 x + a b 8") == "+ * 5 x + a b");
     CHECK(getPrint("+ 3 5") == "+ 3 5");
+}
+
+TEST_CASE("TestJoinOperator") {
+    CHECK(getJoin("+ 3 5", "* 2 4") == "+ 3 * 2 4");
+    CHECK(getJoin("+ 3", "- 10 20") == "+ 3 - 10 20");
+    CHECK(getJoin("", "+ 10 20") == "+ 10 20");
+}
+
+TEST_CASE("RepairInvalidInputByAddingParameters") {
+    CHECK(getPrint("+ 3") == "+ 3 1");
+    CHECK(getPrint("+ +") == "+ + 1 1 1");
+    CHECK(getPrint("+ + 3") == "+ + 3 1 1");
+    CHECK(getPrint("+ + +") == "+ + + 1 1 1 1");
+    CHECK(getPrint("+") == "+ 1 1");
 }

@@ -23,6 +23,6 @@ public:
     std::set<std::string> getVariables() const;
     std::string print() const;
     
-    Tree operator+(const Tree &other) const;
-    Tree operator=(const Tree &other) const;
+    Tree operator+(const Tree &other);
+    Tree operator=(const Tree &other);
 };

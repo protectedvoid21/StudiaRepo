@@ -54,7 +54,7 @@ TreeBuildResult Tree::createBranch(std::vector<std::string> &words, Node *parent
 
             words.emplace_back("1");
             _inputTokens.emplace_back("1");
-        }
+        }   
         std::string word = words.front();
         words.erase(words.begin());
 
@@ -104,11 +104,11 @@ std::set<std::string> Tree::getVariables() const {
 std::string Tree::print() const {
     std::string text;
 
-    for (int i = 0; i < _inputTokens.size() - 1; i++) {
-        text += _inputTokens[i] + " ";
-    }
     if (!_inputTokens.empty()) {
-        text += _inputTokens[_inputTokens.size() - 1];
+        text += _inputTokens[0];
+    }
+    for (int i = 1; i < _inputTokens.size(); i++) {
+        text += " " + _inputTokens[i];
     }
 
     return text;
@@ -138,15 +138,22 @@ TreeBuildResult Tree::join(const std::vector<std::string> &tokens) {
     return buildResult;
 }
 
-Tree Tree::operator+(const Tree &other) const {
-    Tree *resultTree = new Tree(_inputTokens, _operations);
-    resultTree->join(other._inputTokens);
-    return *resultTree;
+Tree Tree::operator+(const Tree &other) {
+    Tree resultTree = Tree(_inputTokens, _operations);
+    resultTree.join(other._inputTokens);
+    resultTree.buildTree();
+    return resultTree;
 }
 
-Tree Tree::operator=(const Tree &other) const {
-    Tree resultTree = Tree(other._inputTokens, _operations);
-    return resultTree;
+Tree Tree::operator=(const Tree &other) {
+    if (this == &other) {
+        return *this;
+    }
+    
+    _inputTokens = other._inputTokens;
+    _root = other._root;
+    _operations = other._operations;
+    return *this;
 }
 
 
