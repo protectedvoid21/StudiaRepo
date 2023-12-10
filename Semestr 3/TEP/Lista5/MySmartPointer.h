@@ -1,0 +1,8 @@
+//
+// Created by niezn on 09.12.2023.
+//
+
+#ifndef LISTA5_MYSMARTPOINTER_H
+#define LISTA5_MYSMARTPOINTER_H
+
+#endif //LISTA5_MYSMARTPOINTER_H
