@@ -73,6 +73,12 @@ double stringToValue<double>(const std::string &text)
     return std::stod(text);
 }
 
+template <>
+bool stringToValue<bool>(const std::string &text)
+{
+    return text != "0";
+}
+
 template <typename T>
 TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *parent, Operation<T> *operation, TreeBuildResult &result)
 {
@@ -108,7 +114,7 @@ TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *
         else
         {
             result.addWarning("Invalid token '" + word + "' at '" + print() + "'. Replacing it with \"Sample text\".");
-            return result;
+            parent->addChild(new Node(new ConstantOperation<T>(stringToValue<T>("Sample text"))));
         }
     }
 
@@ -256,6 +262,58 @@ TreeBuildResult Tree<std::string>::createBranch(std::vector<std::string> &words,
         {
             result.addError("Invalid token '" + word + "' at '" + print() + "'.");
             return result;
+        }
+    }
+
+    return result;
+}
+
+//specializations for bool
+
+template <>
+TreeBuildResult Tree<bool>::createBranch(std::vector<std::string> &words, Node<bool> *parent, Operation<bool> *operation, TreeBuildResult &result)
+{
+    if (parent != _root && operation->getParameterCount() == 1)
+    {
+        result.addError("Invalid operation at '" + print() + "'.");
+        result.addError("Create new tree otherwise you may get unexpected results.");
+        _root = new Node(new InitOperation<bool>());
+        return result;
+    }
+    
+    for (int i = 0; i < operation->getParameterCount(); i++)
+    {
+        if (words.empty())
+        {
+            result.addWarning("Not enough parameters for operation at '" + print() + "'. Adding false as parameter.");
+
+            words.emplace_back("0");
+            _inputTokens.emplace_back("0");
+        }
+        std::string word = words.front();
+        words.erase(words.begin());
+
+        if (isNumber(word))
+        {
+            parent->addChild(new Node(new ConstantOperation<bool>(stringToValue<bool>(word))));
+        }
+        else if (isOperation(word))
+        {
+            TreeBuildResult branchResult;
+            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result);
+            if (!branchResult.isSuccess())
+            {
+                return branchResult;
+            }
+        }
+        else if (isVariable(word))
+        {
+            parent->addChild(new Node(new VariableOperation<bool>(word)));
+        }
+        else
+        {
+            result.addWarning("Invalid token '" + word + "' at '" + print() + "'. Replacing it with false.");
+            parent->addChild(new Node(new ConstantOperation<bool>(false)));
         }
     }
 

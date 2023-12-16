@@ -119,6 +119,12 @@ double TreeManager<double>::extractValue(const std::string &text) const
     return std::stod(text);
 }
 
+template <>
+bool TreeManager<bool>::extractValue(const std::string &text) const
+{
+    return text != "0";
+}
+
 template <typename T>
 void TreeManager<T>::compute(std::vector<std::string> &tokens)
 {

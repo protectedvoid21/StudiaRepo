@@ -1,8 +1,26 @@
-//
-// Created by niezn on 09.12.2023.
-//
+class RefCounter
+{
+private:
+    int count;
+    
+public:
+    RefCounter()
+    {
+        count = 1;
+    }
 
-#ifndef LISTA5_REFCOUNTER_H
-#define LISTA5_REFCOUNTER_H
+    int add()
+    {
+        return ++count;
+    }
 
-#endif //LISTA5_REFCOUNTER_H
+    int dec()
+    {
+        return --count;
+    };
+
+    int get()
+    {
+        return count;
+    }
+};

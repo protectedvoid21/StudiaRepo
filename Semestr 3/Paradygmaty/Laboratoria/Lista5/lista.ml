@@ -3,7 +3,7 @@ type prize =
   | AdditionalTickets of ticket list
 and
 ticket = 
-  | Unrevealed of (unit -> prize) 
+  | Unrevealed of prize Lazy.t 
   | Revealed of prize
 ;;
 
@@ -17,7 +17,7 @@ let rec buyTicket table ticketNumber =
       if counter >= ticketNumber then
         match head with
         | Unrevealed prizeFn -> (
-            match prizeFn () with
+            match Lazy.force prizeFn with
             | Value s -> Revealed (Value s) :: tail
             | AdditionalTickets n -> n @ tail
           )
@@ -47,11 +47,12 @@ let printTable table =
 ;;
 
 
-let exampleTable = [Unrevealed (fun () -> AdditionalTickets [Unrevealed (fun () -> Value "Bronx"); Unrevealed (fun () -> Value "Biblia C++")]); 
-                    Unrevealed (fun () -> Value "Samochod"); 
-                    Unrevealed (fun () -> Value "Telewizor"); 
-                    Unrevealed (fun () -> AdditionalTickets [Unrevealed (fun () -> Value "Ksiazka"); Unrevealed (fun () -> Value "Kubek")]); 
-                    Unrevealed (fun () -> Value "Laptop")]
+let exampleTable = [Unrevealed (lazy (AdditionalTickets [Unrevealed (lazy (Value "Bronx")); Unrevealed (lazy (Value "Biblia C++"))])); 
+                    Unrevealed (lazy (Value "Samochod")); 
+                    Unrevealed (lazy (Value "Telewizor")); 
+                    Unrevealed (lazy (AdditionalTickets [Unrevealed (lazy (Value "Ksiazka")); Unrevealed (lazy (Value "Kubek"))])); 
+                    Unrevealed (lazy (Value "Laptop"))]
+
 ;;
 
 let table1 = buyTicket exampleTable 2;;
@@ -66,3 +67,21 @@ printTable table2;;
 printTable table3;;
 printTable table4;;
 printTable table5;;
+
+
+
+
+let exampleTable = [Unrevealed (lazy (Value "Samochod"));  
+                    Unrevealed (lazy (AdditionalTickets [Unrevealed (lazy (Value "Ksiazka")); Unrevealed (lazy (Value "Kubek"))])); 
+                    Unrevealed (lazy (Value "Laptop"))]
+;;
+  
+let table1 = buyTicket exampleTable 1;;
+let table2 = buyTicket table1 1;;
+let table3 = buyTicket table2 1;;
+let table4 = buyTicket table3 1;;
+
+printTable table1;;
+printTable table2;;
+printTable table3;;
+printTable table4;;

@@ -329,3 +329,101 @@ struct DivideOperation<std::string> : public Operation<std::string>
         return "/";
     }
 };
+
+//specializations for bool
+
+template <>
+struct AddOperation<bool> : public Operation<bool>
+{
+    int getParameterCount() const
+    {
+        return 2;
+    }
+
+    bool execute(const std::vector<bool> &parameters) const
+    {
+        return parameters[0] || parameters[1];
+    }
+
+    OperationType getType() const
+    {
+        return FUNCTION;
+    }
+
+    std::string getName() const
+    {
+        return "";
+    }
+};
+
+template <>
+struct SubtractOperation<bool> : public Operation<bool>
+{
+    int getParameterCount() const
+    {
+        return 2;
+    }
+
+    bool execute(const std::vector<bool> &parameters) const
+    {
+        return parameters[0] && !parameters[1];
+    }
+
+    OperationType getType() const
+    {
+        return FUNCTION;
+    }
+
+    std::string getName() const
+    {
+        return "";
+    }
+};
+
+template <>
+struct MultiplyOperation<bool> : public Operation<bool>
+{
+    int getParameterCount() const
+    {
+        return 2;
+    }
+
+    bool execute(const std::vector<bool> &parameters) const
+    {
+        return parameters[0] && parameters[1];
+    }
+
+    OperationType getType() const
+    {
+        return FUNCTION;
+    }
+
+    std::string getName() const
+    {
+        return "";
+    }
+};
+
+template <>
+struct DivideOperation<bool> : public Operation<bool>
+{
+    int getParameterCount() const
+    {
+        return 2;
+    }
+
+    bool execute(const std::vector<bool> &parameters) const
+    {
+        return parameters[0] || !parameters[1];
+    }
+
+    OperationType getType() const
+    {
+        return FUNCTION;
+    }
+
+    std::string getName() const
+    {
+        return "";
+    }
+};

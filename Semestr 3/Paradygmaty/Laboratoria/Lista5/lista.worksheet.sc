@@ -11,6 +11,8 @@ def skipTakeL[A](list: LazyList[A]): LazyList[A] = {
     helper(list, 1, 1)
 }
 
+skipTakeL(LazyList.from(2)).take(50).toList
+
 skipTakeL(LazyList.from(1 to 100)).toList
 skipTakeL(LazyList.from(-30 to 150)).toList
 skipTakeL(LazyList()).toList

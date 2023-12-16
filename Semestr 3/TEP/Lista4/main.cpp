@@ -38,6 +38,8 @@ void runTreeManager()
     operations["-"] = new SubtractOperation<T>();
     operations["*"] = new MultiplyOperation<T>();
     operations["/"] = new DivideOperation<T>();
+    operations["sin"] = new SinOperation<T>();
+    operations["cos"] = new CosOperation<T>();
 
     std::string input;
 
@@ -81,4 +83,5 @@ int main()
     //runTreeManager<int>();
     //runTreeManager<double>();
     //runTreeManager<std::string>();
+    runTreeManager<bool>();
 }

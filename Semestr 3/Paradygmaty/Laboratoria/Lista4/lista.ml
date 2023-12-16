@@ -1,22 +1,37 @@
-(*1) Zdefiniuj:
-a. Typ tree3 (drzewo trójkowe) o następujących cechach:
-• Drzewo puste jest drzewem trójkowym,
-• Węzeł drzewa składa się z elementu oraz 0 – 3 poddrzew.
+type tree3 = 
+  | Empty
+  | Node of int * tree3 * tree3 * tree3;;
+  
+let tree = 
+  Node(1, 
+    Node(2, 
+      Node(4, Empty, Empty, Empty), 
+      Node(5, Empty, Empty, Empty), 
+      Node(6, Empty, Empty, Empty)
+    ), 
+    Node(3, 
+      Node(7, Empty, Empty, Empty), 
+      Node(8, Empty, Empty, Empty), 
+      Node(9, Empty, Empty, Empty)
+    ), 
+    Node(10, 
+      Node(11, Empty, Empty, Empty), 
+      Node(12, Empty, Empty, Empty), 
+      Node(13, Empty, Empty, Empty)
+    )
+  );;
 
-b. Zdefiniuj funkcjonał mapTree3 w postaci rozwiniętej, wykonujący operację mapowania dla
-drzewa trójkowego.*)
-
-type tree3 = Empty | Node of int * tree3 * tree3 * tree3;;
-
-let rec mapTree3 f t = match t with
-  | Empty -> Empty
-  | Node (x, t1, t2, t3) -> Node (f x, mapTree3 f t1, mapTree3 f t2, mapTree3 f t3)
+let mapTree3 f tree = 
+  let rec aux = function
+    | Empty -> Empty
+    | Node (value, left, middle, right) -> 
+      Node (f value, aux left, aux middle, aux right)
+  in
+  aux tree
 ;;
 
-mapTree3(fun x -> x * 7) (Node(1, Node(2, Empty, Empty, Empty), Empty, Node(3, Empty, Empty, Empty)));;
+mapTree3 (fun x -> x * 1) tree;;
 
-
-(*Zadanie 2*)
 type file_type = 
   | Directory of string * file_type list
   | File of string
@@ -27,7 +42,7 @@ let sample_system =
   Disk('C', [
     Directory("Program Files", [
       Directory("Java", [
-        File("java.exe");
+        Directory("JDK", [File("java.exe");]);
         File("documentation.txt");
         File("alotofboilerplate.txt");
         File("publicstaticvoidmainstringargs.XD")
@@ -35,6 +50,7 @@ let sample_system =
       Directory("C#", [
         Directory("Roslyn", []);
         Directory("Folder of better languages", []);
+        File("java.exe");
         File("csharp.exe");
         File("csharpcompiler.exe");
         File("csharpinterpreter.exe");
@@ -45,23 +61,26 @@ let sample_system =
         File("ocamlc.exe");
         File("csharp.exe");
         File("ocamllex.exe");
+      ]);
     ]);
-  ]);
-]);;
-    
+  ]);;
+
 let rec find_file_path current_dir current_path target_file = 
   match current_dir with
   | File file_name -> if file_name = target_file then current_path ^ "\\" ^ file_name else ""
-  | Directory (dir_name, file_system_list) -> 
+  | Directory (dir_name, subdirs) -> 
     let new_path = current_path ^ "\\" ^ dir_name in
-    let rec helper files =
-      match files with
-      | [] -> ""
-      | hd::tl -> 
-        let path = find_file_path hd new_path target_file in
-        if path <> "" then path else helper tl
-    in
-    helper file_system_list
+
+    if dir_name = target_file 
+      then new_path 
+    else
+      let rec helper = function
+        | [] -> ""
+        | head :: tail -> 
+          let path = find_file_path head new_path target_file in
+          if path <> "" then path else helper tail
+      in
+      helper subdirs
 ;;
 
 let find_file_in_disk (Disk (drive_letter, file_system_list)) target_file = 
@@ -71,7 +90,7 @@ let find_file_in_disk (Disk (drive_letter, file_system_list)) target_file =
     | [] -> ""
     | head :: tail -> 
       let path = find_file_path head drive target_file in
-      if path != "" then path else aux tail
+      if path <> "" then path else aux tail
   in
 
   let path = aux file_system_list in
@@ -79,6 +98,8 @@ let find_file_in_disk (Disk (drive_letter, file_system_list)) target_file =
 ;;
 
 find_file_in_disk sample_system "csharp.exe";;
+find_file_in_disk sample_system "java.exe";;
 find_file_in_disk sample_system "csharpcompiler.exe";;
+find_file_in_disk sample_system "Roslyn";;
 find_file_in_disk sample_system "ocaml.exe";;
 find_file_in_disk sample_system "ddddd.exe";;
