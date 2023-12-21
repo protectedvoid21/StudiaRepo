@@ -5,7 +5,7 @@ using namespace  TimeCounters;
 
 
 
-CTimeCounter::CTimeCounter()
+TimeCounter::TimeCounter()
 {
 	b_start_inited  =  false;
 	b_finish_inited  =  false;
@@ -13,7 +13,7 @@ CTimeCounter::CTimeCounter()
 
 
 
-void  CTimeCounter::vSetStartNow()
+void  TimeCounter::setStartNow()
 {
 	b_start_inited  =  true;
 	QueryPerformanceFrequency(&li_freq);
@@ -22,7 +22,7 @@ void  CTimeCounter::vSetStartNow()
 
 
 //if returned value is false it means the timer was not set on start
-bool  CTimeCounter::bGetTimePassed(double  *pdTimePassedSec)
+bool  TimeCounter::getTimePassed(double  *pdTimePassedSec)
 {
 	if  (b_start_inited  ==  false)  return(false);
 
@@ -40,7 +40,7 @@ bool  CTimeCounter::bGetTimePassed(double  *pdTimePassedSec)
 }//bool  CTimeCounter::bGetTimePassed(double  *pdTimePassedMs)
 
 
-bool  CTimeCounter::bSetFinishOn(double  dTimeToFinishSec)
+bool  TimeCounter::bSetFinishOn(double  dTimeToFinishSec)
 {
 	if  ( (b_start_inited  ==  false)||(dTimeToFinishSec <= 0) )  return(false);
 
@@ -55,7 +55,7 @@ bool  CTimeCounter::bSetFinishOn(double  dTimeToFinishSec)
 }//bool  CTimeCounter::bSetFinishOn(double  dTimeToFinishMs)
 
 
-bool  CTimeCounter::bIsFinished()
+bool  TimeCounter::bIsFinished()
 {
 	if  ( (b_start_inited  !=  true)||(b_finish_inited  !=  true) )
 		return(true);

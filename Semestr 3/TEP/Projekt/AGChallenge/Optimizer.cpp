@@ -6,7 +6,7 @@
 
 using namespace std;
 
-COptimizer::COptimizer(CLFLnetEvaluator &cEvaluator)
+Optimizer::Optimizer(LFLNetEvaluator &cEvaluator)
 	: c_evaluator(cEvaluator)
 {
 	random_device c_seed_generator;
@@ -15,13 +15,13 @@ COptimizer::COptimizer(CLFLnetEvaluator &cEvaluator)
 	d_current_best_fitness = 0;
 }//COptimizer::COptimizer(CEvaluator &cEvaluator)
 
-void COptimizer::vInitialize()
+void Optimizer::initialize()
 {
 	d_current_best_fitness = -DBL_MAX;
 	v_current_best.clear();
 }//void COptimizer::vInitialize()
 
-void COptimizer::vRunIteration()
+void Optimizer::runIteration()
 {
 	vector<int> v_candidate;
 	v_fill_randomly(v_candidate);
@@ -39,7 +39,7 @@ void COptimizer::vRunIteration()
 
 
 
-void COptimizer::v_fill_randomly(vector<int> &vSolution)
+void Optimizer::v_fill_randomly(vector<int> &vSolution)
 {
 	vSolution.resize((size_t)c_evaluator.iGetNumberOfBits());
 

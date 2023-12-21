@@ -10,59 +10,55 @@ using namespace TimeCounters;
 
 using namespace std;
 
-#define dMAX_TIME 20 * 60
+#define MAX_TIME 20 * 60
 
 
-void vRunExperiment(CLFLnetEvaluator &cConfiguredEvaluator)
+void runExperiment(LFLNetEvaluator &configuredElevator)
 {
 	try
 	{
-		CTimeCounter c_time_counter;
+		TimeCounter timeCounter;
 
-		double d_time_passed;
+		double timePassed;
 
-		COptimizer c_optimizer(cConfiguredEvaluator);
+		Optimizer opitmizer(configuredElevator);
 
-		c_time_counter.vSetStartNow();
+		timeCounter.setStartNow();
 
-		c_optimizer.vInitialize();
+		opitmizer.initialize();
 
-		c_time_counter.bGetTimePassed(&d_time_passed);
+		timeCounter.getTimePassed(&timePassed);
 
-		while (d_time_passed <= dMAX_TIME)
+		while (timePassed <= MAX_TIME)
 		{
-			c_optimizer.vRunIteration();
-			c_optimizer.pvGetCurrentBest();
+			opitmizer.runIteration();
+			opitmizer.getCurrentBest();
 
-			c_time_counter.bGetTimePassed(&d_time_passed);
-		}//while (d_time_passed <= MAX_TIME)
-	}//try
-	catch (exception &c_exception)
+			timeCounter.getTimePassed(&timePassed);
+		}
+	}
+	catch (exception &exception)
 	{
-		cout << c_exception.what() << endl;
-	}//catch (exception &c_exception)
-}//void vRunExperiment(const CEvaluator &cConfiguredEvaluator)
+		cout << exception.what() << endl;
+	}
+}
 
-
-
-void  vRunLFLExperiment(CString  sNetName)
+void  runLFLExperiment(CString  netName)
 {
-	CLFLnetEvaluator c_lfl_eval;
-	c_lfl_eval.bConfigure(sNetName);
-	vRunExperiment(c_lfl_eval);
-	
-}//void vRunRastriginExperiment(int iNumberOfBits, int iBitsPerFloat, int iMaskSeed)
+	LFLNetEvaluator lflEvalutaion;
+	lflEvalutaion.bConfigure(netName);
+	runExperiment(lflEvalutaion);
 
+}
 
-
-void main(int iArgCount, char **ppcArgValues)
+void main(int argCount, char **argValues)
 {
-	random_device c_mask_seed_generator;
-	int i_mask_seed = (int)c_mask_seed_generator();
+	random_device maskSeedGenerator;
+	int maskSeed = (int)maskSeedGenerator();
 
 
-	CString  s_test;
-	vRunLFLExperiment("104b00");
+	CString test;
+	runLFLExperiment("104b00");
 
 	/*vRunIsingSpinGlassExperiment(81, 0, i_mask_seed);
 	vRunIsingSpinGlassExperiment(81, 0, iSEED_NO_MASK);

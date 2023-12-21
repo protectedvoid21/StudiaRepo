@@ -42,7 +42,7 @@ using namespace  MyMath;
 
 
 
-class  CLFLnetEvaluator;
+class  LFLNetEvaluator;
 class  CVirtualWayDatabase;
 class  CSingleTrajectorySet;
 
@@ -58,7 +58,7 @@ public:
 	bool  bSetWay(long  *plNewWay, int  iNewWayLength);
 
 
-	int  iLoadWay(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool  bTranslate);
+	int  iLoadWay(FILE  *pfSource, LFLNetEvaluator *pcTranslator, bool  bTranslate);
 	void  vCreateReportFile(FILE  *pfReport);
 
 	double  dCountFOM(CNETsimulator  *pcNetSim);
@@ -109,8 +109,8 @@ public:
 	bool  bGet2VirtualWaysWithLowLevelFOM(CNETsimulator  *pcNetSim, CVirtualWay  **pcMother, CVirtualWay  **pcFather = NULL, bool  bTranslated = false);
 
 
-	int   iLoadVirtualWays(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool bTranslate);
-	int   iInputNewVirtWay(CVirtualWay  *pcNewWay, CLFLnetEvaluator  *pcTransltor,
+	int   iLoadVirtualWays(FILE  *pfSource, LFLNetEvaluator *pcTranslator, bool bTranslate);
+	int   iInputNewVirtWay(CVirtualWay  *pcNewWay, LFLNetEvaluator  *pcTransltor,
 		CVirtualWay  **pcTheSameWayAsNew = NULL);//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database
 
 //information methods
@@ -141,7 +141,7 @@ public:
 	CVirtualWayDatabase();
 	~CVirtualWayDatabase();
 
-	int   iLoadVirtualWays(CString  sFileName, CLFLnetEvaluator *pcTranslator, bool  bTranslate);
+	int   iLoadVirtualWays(CString  sFileName, LFLNetEvaluator *pcTranslator, bool  bTranslate);
 
 
 	int   iCloneVirtualWays(long lStartNode = -1);
@@ -180,7 +180,7 @@ private:
 
 	CVirtualWaysSingleSet  **pc_virtual_ways_sets;
 
-	CLFLnetEvaluator  *pc_translator;
+	LFLNetEvaluator  *pc_translator;
 
 
 	long  l_number_of_nodes;
@@ -194,11 +194,11 @@ private:
 
 
 
-class  CLFLnetEvaluator
+class  LFLNetEvaluator
 {
 public:
-	CLFLnetEvaluator();
-	~CLFLnetEvaluator();
+	LFLNetEvaluator();
+	~LFLNetEvaluator();
 
 	double  dEvaluate(vector<int>  *pvSolution);
 	int  iGetNumberOfBits() { return(i_number_of_pairs); }
@@ -262,7 +262,7 @@ private:
 
 class  CSingleTrajectorySet
 {
-	friend  class CLFLnetEvaluator;
+	friend  class LFLNetEvaluator;
 
 public:
 

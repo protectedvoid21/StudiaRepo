@@ -9,7 +9,7 @@
 
 
 
-CLFLnetEvaluator::CLFLnetEvaluator() 
+LFLNetEvaluator::LFLNetEvaluator() 
 {
 	pl_nodes_rename_table = NULL;
 	pl_links_rename_table = NULL;
@@ -32,7 +32,7 @@ CLFLnetEvaluator::CLFLnetEvaluator()
 }//CLFLnetEvaluator::CLFLnetEvaluator() 
 
 
-CLFLnetEvaluator::~CLFLnetEvaluator()
+LFLNetEvaluator::~LFLNetEvaluator()
 {
 	if (pl_nodes_rename_table != NULL)
 		delete[]  pl_nodes_rename_table;
@@ -63,7 +63,7 @@ CLFLnetEvaluator::~CLFLnetEvaluator()
 
 
 
-double  CLFLnetEvaluator::dEvaluate(vector<int>  *pvSolution)
+double  LFLNetEvaluator::dEvaluate(vector<int>  *pvSolution)
 {
 	double  d_result;
 	pc_fitness_computer->bSetAndRateSolution(pvSolution, &d_result, pl_capacities, i_PENALTY);
@@ -72,14 +72,14 @@ double  CLFLnetEvaluator::dEvaluate(vector<int>  *pvSolution)
 
 
 
-int  CLFLnetEvaluator::iGetNumberOfValues(int  iPairNumber)
+int  LFLNetEvaluator::iGetNumberOfValues(int  iPairNumber)
 {
 	return(pc_fitness_computer->iGetNumberOfValues(iPairNumber));
 }//int  CLFLnetEvaluator::iGetNumberOfValues(int  iPairNumber)
 
 
 
-bool  CLFLnetEvaluator::bConfigure(CString  sNetName)
+bool  LFLNetEvaluator::bConfigure(CString  sNetName)
 {
 	//FILE  *pf_net;
 	CString  s_net_path, s_con_path;
@@ -125,7 +125,7 @@ returned values:
 1  -  ok
 0  -  memory allocation problem
 */
-int   CLFLnetEvaluator::iInputTrajectorySetToFind(long  *plNodePairs, long  *plCapacities, int  iNumberOfPairs)
+int   LFLNetEvaluator::iInputTrajectorySetToFind(long  *plNodePairs, long  *plCapacities, int  iNumberOfPairs)
 {
 
 	i_number_of_pairs = 0;
@@ -169,7 +169,7 @@ int   CLFLnetEvaluator::iInputTrajectorySetToFind(long  *plNodePairs, long  *plC
 
 
 
-bool  CLFLnetEvaluator::b_read_demands(CString  sPairsFile)
+bool  LFLNetEvaluator::b_read_demands(CString  sPairsFile)
 {
 
 	FILE  *pf_pairs;
@@ -230,7 +230,7 @@ bool  CLFLnetEvaluator::b_read_demands(CString  sPairsFile)
 
 
 
-bool  CLFLnetEvaluator::b_get_shortest_ways()
+bool  LFLNetEvaluator::b_get_shortest_ways()
 {
 	vector  <long *>  v_virt_ways;
 	vector  <long>  v_virt_ways_lengths;
@@ -283,7 +283,7 @@ bool  CLFLnetEvaluator::b_get_shortest_ways()
 
 
 
-bool  CLFLnetEvaluator::b_load_topology(CString  sNet)
+bool  LFLNetEvaluator::b_load_topology(CString  sNet)
 {
 	FILE  *pf_source;
 
@@ -368,7 +368,7 @@ returned values:
 -2    -  node num too small
 -1    -  node num too high
 */
-long  CLFLnetEvaluator::lTranslateNodeNum(long  lNodeNum)
+long  LFLNetEvaluator::lTranslateNodeNum(long  lNodeNum)
 {
 
 	if (lNodeNum < 1)  return(-2);
@@ -387,7 +387,7 @@ returned values:
 -2    -  link num too small
 -1    -  link num too high
 */
-long  CLFLnetEvaluator::lTranslateLinkNum(long  lLinkNum)
+long  LFLNetEvaluator::lTranslateLinkNum(long  lLinkNum)
 {
 
 	if (lLinkNum < 1)  return(-2);
@@ -398,7 +398,7 @@ long  CLFLnetEvaluator::lTranslateLinkNum(long  lLinkNum)
 }//long  CTopologyTranslator::lTranslateNodeNum(long  lNodeNum)
 
 
-int  CLFLnetEvaluator::i_links_count(CString  sFileName)
+int  LFLNetEvaluator::i_links_count(CString  sFileName)
 {
 	FILE  *pf_source;
 	CString  s_buf;
@@ -471,7 +471,7 @@ int  CLFLnetEvaluator::i_links_count(CString  sFileName)
 
 
 
-long  CLFLnetEvaluator::l_skip_comments_and_open(CString  sFileName, FILE **pfFile, CString  *psComments)
+long  LFLNetEvaluator::l_skip_comments_and_open(CString  sFileName, FILE **pfFile, CString  *psComments)
 {
 
 	char  c_buf;
@@ -539,7 +539,7 @@ returned values:
 -5 - node number for link creation is not valid
 -6 - unexpected link number (link number is too big)
 */
-int  CLFLnetEvaluator::i_read_one_node(FILE  *pfSource, long *plActualLinkNumber)
+int  LFLNetEvaluator::i_read_one_node(FILE  *pfSource, long *plActualLinkNumber)
 {
 
 	long  l_node_number;
@@ -701,7 +701,7 @@ returned values:
 -2 -  memory allocation problems
 -3 -  node creation unsuccessfull
 */
-int  CVirtualWayDatabase::iLoadVirtualWays(CString  sFileName, CLFLnetEvaluator *pcTranslator, bool  bTranslate)
+int  CVirtualWayDatabase::iLoadVirtualWays(CString  sFileName, LFLNetEvaluator *pcTranslator, bool  bTranslate)
 {
 
 
@@ -1874,7 +1874,7 @@ returned  values:
 -5 -  bad link number
 -6 -  way setting unsuccessfull
 */
-int  CVirtualWay::iLoadWay(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool  bTranslate)
+int  CVirtualWay::iLoadWay(FILE  *pfSource, LFLNetEvaluator *pcTranslator, bool  bTranslate)
 {
 
 
@@ -2131,7 +2131,7 @@ returned  values:
 -5 -  virtual way not apropriate for a given topology
 */
 int  CVirtualWaysSingleSet::iLoadVirtualWays
-(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool  bTranslate)
+(FILE  *pfSource, LFLNetEvaluator *pcTranslator, bool  bTranslate)
 {
 
 	long  l_number_of_ways;
@@ -2186,7 +2186,7 @@ returned values:
 -3 -  memory allocation problems
 */
 int  CVirtualWaysSingleSet::iInputNewVirtWay
-(CVirtualWay  *pcNewWay, CLFLnetEvaluator  *pcTranslator,
+(CVirtualWay  *pcNewWay, LFLNetEvaluator  *pcTranslator,
 	CVirtualWay  **pcTheSameWayAsNew)//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database
 {
 

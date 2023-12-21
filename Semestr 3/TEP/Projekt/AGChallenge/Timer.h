@@ -9,15 +9,15 @@
 
 namespace  TimeCounters
 {
-	class  CTimeCounter
+	class  TimeCounter
 	{
 	public:
 
-		CTimeCounter();
-		~CTimeCounter()  {};
+		TimeCounter();
+		~TimeCounter()  {};
 
-		void  vSetStartNow();
-		bool  bGetTimePassed(double  *pdTimePassedSec);//if returned value is false it means the timer was not set on start
+		void  setStartNow();
+		bool  getTimePassed(double  *pdTimePassedSec);//if returned value is false it means the timer was not set on start
 		bool  bSetFinishOn(double  dTimeToFinishSec);
 		bool  bIsFinished();
 
