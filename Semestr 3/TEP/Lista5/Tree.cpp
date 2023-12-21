@@ -1,20 +1,29 @@
 #include "Tree.h"
 #include "TextUtils.h"
 
-template <typename T>
-Tree<T>::Tree(const std::vector<std::string> &tokens, const std::map<std::string, Operation<T> *> &operations) : _operations(operations)
-        {
-                _inputTokens = tokens;
-        _root = new Node(new InitOperation<T>());
-        }
+template<typename T>
+Tree<T>::Tree(const std::vector<std::string> &tokens, const std::map<std::string, Operation<T> *> &operations)
+        : _operations(operations)
+{
+    _inputTokens = tokens;
+    _root = new Node(new InitOperation<T>());
+}
 
-template <typename T>
+template<typename T>
+Tree<T>::Tree(const Tree<T> &otherTree)
+{
+    _inputTokens = otherTree._inputTokens;
+    _root = otherTree._root;
+    _operations = otherTree._operations;
+}
+
+template<typename T>
 Tree<T>::~Tree()
 {
     delete _root;
 }
 
-template <typename T>
+template<typename T>
 TreeBuildResult Tree<T>::buildTree()
 {
     std::vector<std::string> tokens;
@@ -43,50 +52,52 @@ TreeBuildResult Tree<T>::buildTree()
     return result;
 }
 
-template <typename T>
+template<typename T>
 T Tree<T>::evaluate(const std::map<std::string, T> &variables)
 {
     return _root->evaluate(variables);
 }
 
-template <typename T>
+template<typename T>
 bool Tree<T>::isOperation(const std::string &text)
 {
     return _operations[text] != nullptr;
 }
 
-template <typename T>
+template<typename T>
 T stringToValue(const std::string &text)
 {
     return static_cast<T>(text);
 }
 
-template <>
+template<>
 int stringToValue<int>(const std::string &text)
 {
     return std::stoi(text);
 }
 
-template <>
+template<>
 double stringToValue<double>(const std::string &text)
 {
     return std::stod(text);
 }
 
-template <>
+template<>
 bool stringToValue<bool>(const std::string &text)
 {
     return text != "0";
 }
 
-template <typename T>
-TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *parent, Operation<T> *operation, TreeBuildResult &result)
+template<typename T>
+TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *parent, Operation<T> *operation,
+                                      TreeBuildResult &result)
 {
     for (int i = 0; i < operation->getParameterCount(); i++)
     {
         if (words.empty())
         {
-            result.addWarning("Not enough parameters for operation at '" + print() + "'. Adding \"Sample text\" as parameter.");
+            result.addWarning(
+                    "Not enough parameters for operation at '" + print() + "'. Adding \"Sample text\" as parameter.");
 
             words.emplace_back("Sample text");
             _inputTokens.emplace_back("Sample text");
@@ -101,7 +112,8 @@ TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *
         else if (isOperation(word))
         {
             TreeBuildResult branchResult;
-            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result);
+            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word],
+                                        result);
             if (!branchResult.isSuccess())
             {
                 return branchResult;
@@ -121,7 +133,7 @@ TreeBuildResult Tree<T>::createBranch(std::vector<std::string> &words, Node<T> *
     return result;
 }
 
-template <typename T>
+template<typename T>
 std::set<std::string> getAllVariablesUnderNode(Node<T> *node, const std::set<std::string> &variableNames)
 {
     std::set<std::string> variables = variableNames;
@@ -140,7 +152,7 @@ std::set<std::string> getAllVariablesUnderNode(Node<T> *node, const std::set<std
     return variables;
 }
 
-template <typename T>
+template<typename T>
 std::set<std::string> Tree<T>::getVariables() const
 {
     std::set<std::string> variableNames;
@@ -148,7 +160,7 @@ std::set<std::string> Tree<T>::getVariables() const
     return getAllVariablesUnderNode(_root, variableNames);
 }
 
-template <typename T>
+template<typename T>
 std::string Tree<T>::print() const
 {
     std::string text;
@@ -165,7 +177,7 @@ std::string Tree<T>::print() const
     return text;
 }
 
-template <typename T>
+template<typename T>
 TreeBuildResult Tree<T>::join(const std::vector<std::string> &tokens)
 {
     Tree *tree = new Tree(tokens, _operations);
@@ -193,26 +205,42 @@ TreeBuildResult Tree<T>::join(const std::vector<std::string> &tokens)
     return buildResult;
 }
 
-template <typename T>
-Tree<T> Tree<T>::operator+(const Tree<T> &other)
+template<typename T>
+Tree<T>::Tree(Tree<T> &&otherTree)
+{
+    _inputTokens = otherTree._inputTokens;
+    _root = otherTree._root;
+    _operations = otherTree._operations;
+
+    otherTree._root = nullptr;
+    otherTree._inputTokens.clear();
+    otherTree._operations.clear();
+}
+
+template<typename T>
+Tree<T> Tree<T>::operator+(Tree<T> &&other)
 {
     Tree resultTree = Tree(_inputTokens, _operations);
-    resultTree.join(other._inputTokens);
+    resultTree.join(std::move(other._inputTokens));
     resultTree.buildTree();
     return resultTree;
 }
 
-template <typename T>
-Tree<T> Tree<T>::operator=(const Tree<T> &other)
+template<typename T>
+Tree<T> Tree<T>::operator=(Tree<T> &&other)
 {
     if (this == &other)
     {
         return *this;
     }
-
+    
     _inputTokens = other._inputTokens;
     _root = other._root;
     _operations = other._operations;
+
+    other._root = nullptr;
+    other._inputTokens.clear();
+    other._operations.clear();
     return *this;
 }
 
@@ -225,8 +253,9 @@ bool isStringConstant(const std::string &text)
     return firstLetter == '"' && lastLetter == '"';
 }
 
-template <>
-TreeBuildResult Tree<std::string>::createBranch(std::vector<std::string> &words, Node<std::string> *parent, Operation<std::string> *operation, TreeBuildResult &result)
+template<>
+TreeBuildResult Tree<std::string>::createBranch(std::vector<std::string> &words, Node<std::string> *parent,
+                                                Operation<std::string> *operation, TreeBuildResult &result)
 {
     for (int i = 0; i < operation->getParameterCount(); i++)
     {
@@ -248,7 +277,8 @@ TreeBuildResult Tree<std::string>::createBranch(std::vector<std::string> &words,
         else if (isOperation(word))
         {
             TreeBuildResult branchResult;
-            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result);
+            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word],
+                                        result);
             if (!branchResult.isSuccess())
             {
                 return branchResult;
@@ -270,8 +300,10 @@ TreeBuildResult Tree<std::string>::createBranch(std::vector<std::string> &words,
 
 //specializations for bool
 
-template <>
-TreeBuildResult Tree<bool>::createBranch(std::vector<std::string> &words, Node<bool> *parent, Operation<bool> *operation, TreeBuildResult &result)
+template<>
+TreeBuildResult
+Tree<bool>::createBranch(std::vector<std::string> &words, Node<bool> *parent, Operation<bool> *operation,
+                         TreeBuildResult &result)
 {
     if (parent != _root && operation->getParameterCount() == 1)
     {
@@ -280,7 +312,7 @@ TreeBuildResult Tree<bool>::createBranch(std::vector<std::string> &words, Node<b
         _root = new Node(new InitOperation<bool>());
         return result;
     }
-    
+
     for (int i = 0; i < operation->getParameterCount(); i++)
     {
         if (words.empty())
@@ -300,7 +332,8 @@ TreeBuildResult Tree<bool>::createBranch(std::vector<std::string> &words, Node<b
         else if (isOperation(word))
         {
             TreeBuildResult branchResult;
-            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word], result);
+            branchResult = createBranch(words, parent->addChild(new Node(_operations[word])), _operations[word],
+                                        result);
             if (!branchResult.isSuccess())
             {
                 return branchResult;

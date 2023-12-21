@@ -11,6 +11,7 @@
 template <typename T>
 class Tree
 {
+private:
     Node<T> *_root;
     std::map<std::string, Operation<T> *> _operations;
     std::vector<std::string> _inputTokens;
@@ -19,6 +20,8 @@ class Tree
     TreeBuildResult createBranch(std::vector<std::string> &words, Node<T> *parent, Operation<T> *operation, TreeBuildResult &result);
 public:
     Tree(const std::vector<std::string> &tokens, const std::map<std::string, Operation<T> *> &operations);
+    Tree(const Tree<T> &otherTree);
+    Tree(Tree<T> &&otherTree);
     ~Tree();
     TreeBuildResult buildTree();
     TreeBuildResult join(const std::vector<std::string> &tokens);
@@ -26,8 +29,8 @@ public:
     std::set<std::string> getVariables() const;
     std::string print() const;
 
-    Tree operator+(const Tree &other);
-    Tree operator=(const Tree &other);
+    Tree operator+(Tree &&other);
+    Tree operator=(Tree &&other);
 };
 
 #include "Tree.cpp"

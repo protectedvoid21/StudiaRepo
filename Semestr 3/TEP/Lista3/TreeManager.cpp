@@ -1,29 +1,15 @@
-#include <iomanip>
 #include "TreeManager.h"
 
-template <typename T>
-TreeManager<T>::TreeManager(const std::map<std::string, Operation<T> *> &operations)
+
+TreeManager::TreeManager(const std::map<std::string, Operation *> &operations)
 {
     _tree = nullptr;
     _operations = operations;
 }
 
-template <typename T>
-std::vector<std::string> tokenize(const std::string &text)
+void TreeManager::getInput(const std::string &textInput)
 {
-    return splitByWhitespace(text);
-}
-
-template <>
-std::vector<std::string> tokenize<std::string>(const std::string &text)
-{
-    return splitBySymbol(text, '"');
-}
-
-template <typename T>
-void TreeManager<T>::getInput(const std::string &textInput)
-{
-    std::vector<std::string> tokens = tokenize<T>(textInput);
+    std::vector<std::string> tokens = splitByWhitespace(textInput);
 
     if (tokens.empty())
     {
@@ -34,7 +20,7 @@ void TreeManager<T>::getInput(const std::string &textInput)
     std::string commandName = tokens[0];
     tokens.erase(tokens.begin());
 
-    if (commandName == ENTER_COMMAND)
+    if (commandName == "enter")
     {
         createTree(tokens);
     }
@@ -43,19 +29,19 @@ void TreeManager<T>::getInput(const std::string &textInput)
         std::cout << "Tree has not been created. Use 'enter' command to create a tree" << std::endl;
         return;
     }
-    else if (commandName == PRINT_COMMAND)
+    else if (commandName == "print")
     {
         print();
     }
-    else if (commandName == VARS_COMMAND)
+    else if (commandName == "vars")
     {
         getVariables();
     }
-    else if (commandName == JOIN_COMMAND)
+    else if (commandName == "join")
     {
         join(tokens);
     }
-    else if (commandName == COMP_COMMAND)
+    else if (commandName == "comp")
     {
         compute(tokens);
     }
@@ -65,8 +51,7 @@ void TreeManager<T>::getInput(const std::string &textInput)
     }
 }
 
-template <typename T>
-void TreeManager<T>::createTree(std::vector<std::string> &tokens)
+void TreeManager::createTree(std::vector<std::string> &tokens)
 {
     if (tokens.empty())
     {
@@ -75,6 +60,7 @@ void TreeManager<T>::createTree(std::vector<std::string> &tokens)
     }
 
     _tree = new Tree(tokens, _operations);
+
     TreeBuildResult buildResult = _tree->buildTree();
 
     for (const std::string &error : buildResult.getErrors())
@@ -93,41 +79,7 @@ void TreeManager<T>::createTree(std::vector<std::string> &tokens)
     std::cout << "Tree has been created successfully." << std::endl;
 }
 
-template <typename T>
-T TreeManager<T>::extractValue(const std::string &text) const
-{
-    return static_cast<T>(text);
-}
-
-template <>
-std::string TreeManager<std::string>::extractValue(const std::string &text) const
-{
-    if (text[0] == '"') {
-        return text.substr(1, text.size() - 2);
-    }
-    return text;
-}
-
-template <>
-int TreeManager<int>::extractValue(const std::string &text) const
-{
-    return std::stoi(text);
-}
-
-template <>
-double TreeManager<double>::extractValue(const std::string &text) const
-{
-    return std::stod(text);
-}
-
-template <>
-bool TreeManager<bool>::extractValue(const std::string &text) const
-{
-    return text != "0";
-}
-
-template <typename T>
-void TreeManager<T>::compute(std::vector<std::string> &tokens)
+void TreeManager::compute(std::vector<std::string> &tokens)
 {
     std::set<std::string> variables = _tree->getVariables();
 
@@ -142,19 +94,18 @@ void TreeManager<T>::compute(std::vector<std::string> &tokens)
         return;
     }
 
-    std::map<std::string, T> variablesMap;
+    std::map<std::string, double> variablesMap;
     int tokenIndex = 0;
     for (const std::string &variable : variables)
     {
-        variablesMap[variable] = extractValue(tokens[tokenIndex]);
+        variablesMap[variable] = std::stod(tokens[tokenIndex]);
         tokenIndex++;
     }
 
     std::cout << _tree->evaluate(variablesMap) << std::endl;
 }
 
-template <typename T>
-void TreeManager<T>::join(std::vector<std::string> &tokens)
+void TreeManager::join(std::vector<std::string> &tokens)
 {
     if (tokens.empty())
     {
@@ -180,14 +131,12 @@ void TreeManager<T>::join(std::vector<std::string> &tokens)
     std::cout << "Tree has been joined successfully." << std::endl;
 }
 
-template <typename T>
-void TreeManager<T>::print() const
+void TreeManager::print() const
 {
     std::cout << _tree->print() << std::endl;
 }
 
-template <typename T>
-void TreeManager<T>::getVariables() const
+void TreeManager::getVariables() const
 {
     std::cout << "Variables: ";
     std::set<std::string> variables = _tree->getVariables();

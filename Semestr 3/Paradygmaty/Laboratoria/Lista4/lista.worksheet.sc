@@ -15,8 +15,7 @@ mapTree3((x: Int) => x * 5)(sampleTree3)
 
 //Zadanie 2
 
-sealed trait RootSystem 
-    case class Disk(name: Char, children: List[FileSystem]) extends RootSystem
+case class Disk(name: Char, children: List[FileSystem])
 
 sealed trait FileSystem
     case class Directory(name: String, children: List[FileSystem]) extends FileSystem

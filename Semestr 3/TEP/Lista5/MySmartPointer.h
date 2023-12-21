@@ -31,7 +31,7 @@ public:
         }
     }
     
-    T operator=(const MySmartPointer &pcOther)
+    MySmartPointer<T> operator=(const MySmartPointer &pcOther)
     {
         if(this == &pcOther) return *this;
         
@@ -46,6 +46,14 @@ public:
         refCounter->add();
         
         return *this;
+    }
+    
+    MySmartPointer<T> duplicate() 
+    {
+        MySmartPointer<T> smartPointer = MySmartPointer<T>(pointer);
+        smartPointer.refCounter = refCounter;
+        
+        return smartPointer;
     }
 
     T &operator*()
