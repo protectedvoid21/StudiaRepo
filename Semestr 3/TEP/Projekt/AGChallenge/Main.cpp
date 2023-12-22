@@ -46,7 +46,7 @@ void runExperiment(LFLNetEvaluator &configuredElevator)
 void  runLFLExperiment(CString  netName)
 {
 	LFLNetEvaluator lflEvalutaion;
-	lflEvalutaion.bConfigure(netName);
+	lflEvalutaion.configure(netName);
 	runExperiment(lflEvalutaion);
 
 }

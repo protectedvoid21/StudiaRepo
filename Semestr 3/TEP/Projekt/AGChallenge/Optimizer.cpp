@@ -26,7 +26,7 @@ void Optimizer::runIteration()
 	vector<int> v_candidate;
 	v_fill_randomly(v_candidate);
 
-	double d_candidate_fitness = c_evaluator.dEvaluate(&v_candidate);
+	double d_candidate_fitness = c_evaluator.evaluate(&v_candidate);
 
 	if (d_candidate_fitness > d_current_best_fitness)
 	{
@@ -41,10 +41,10 @@ void Optimizer::runIteration()
 
 void Optimizer::v_fill_randomly(vector<int> &vSolution)
 {
-	vSolution.resize((size_t)c_evaluator.iGetNumberOfBits());
+	vSolution.resize((size_t)c_evaluator.getNumberOfBits());
 
 	for (int ii = 0; ii < vSolution.size(); ii++)
 	{
-		vSolution.at(ii) = lRand(c_evaluator.iGetNumberOfValues(ii));
+		vSolution.at(ii) = lRand(c_evaluator.getNumberOfValues(ii));
 	}//for (size_t i = 0; i < vSolution.size(); i++)
 }//void COptimizer::v_fill_randomly(const vector<int> &vSolution)

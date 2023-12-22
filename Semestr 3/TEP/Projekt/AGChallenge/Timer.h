@@ -14,20 +14,21 @@ namespace  TimeCounters
 	public:
 
 		TimeCounter();
-		~TimeCounter()  {};
+		~TimeCounter()
+		{ };
 
 		void  setStartNow();
-		bool  getTimePassed(double  *pdTimePassedSec);//if returned value is false it means the timer was not set on start
-		bool  bSetFinishOn(double  dTimeToFinishSec);
-		bool  bIsFinished();
+		bool  getTimePassed(double *timePassedSec);//if returned value is false it means the timer was not set on start
+		bool  setFinishOn(double  timeToFinishSec);
+		bool  isFinished();
 
 	private:
-		bool  b_start_inited;
-		LARGE_INTEGER  li_start_position;
-		LARGE_INTEGER  li_freq;
-		
-		bool  b_finish_inited;
-		LARGE_INTEGER  li_finish_position;
+		bool  startInited;
+		LARGE_INTEGER  startPosition;
+		LARGE_INTEGER  freq;
+
+		bool  finishInited;
+		LARGE_INTEGER  finishPosition;
 
 	};//class  CTimeCounter
 };//namespace  TimeCounters

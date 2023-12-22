@@ -1,75 +1,77 @@
-
 //#include  "stdafx.h"
 #include  "timer.h"
-using namespace  TimeCounters;
-
+using namespace TimeCounters;
 
 
 TimeCounter::TimeCounter()
 {
-	b_start_inited  =  false;
-	b_finish_inited  =  false;
-}//CTimeCounter::CTimeCounter()
+	startInited = false;
+	finishInited = false;
+} //CTimeCounter::CTimeCounter()
 
 
-
-void  TimeCounter::setStartNow()
+void TimeCounter::setStartNow()
 {
-	b_start_inited  =  true;
-	QueryPerformanceFrequency(&li_freq);
-	QueryPerformanceCounter(&li_start_position);
-}//void  CTimeCounter::vSetStartNow()
+	startInited = true;
+	QueryPerformanceFrequency(&freq);
+	QueryPerformanceCounter(&startPosition);
+} //void  CTimeCounter::vSetStartNow()
 
 
 //if returned value is false it means the timer was not set on start
-bool  TimeCounter::getTimePassed(double  *pdTimePassedSec)
+bool TimeCounter::getTimePassed(double *timePassedSec)
 {
-	if  (b_start_inited  ==  false)  return(false);
+	if (startInited == false)
+	{
+		return false;
+	}
 
-	LARGE_INTEGER  li_now;
-	QueryPerformanceCounter(&li_now);
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
 
-	double  d_result;
+	double result;
 
-	d_result  =  (li_now.QuadPart  -  li_start_position.QuadPart);
-	d_result  =  d_result  /  li_freq.QuadPart;
-	
-	*pdTimePassedSec  =  d_result;
+	result = now.QuadPart - startPosition.QuadPart;
+	result = result / freq.QuadPart;
 
-	return(true);
-}//bool  CTimeCounter::bGetTimePassed(double  *pdTimePassedMs)
+	*timePassedSec = result;
 
+	return true;
+}
 
-bool  TimeCounter::bSetFinishOn(double  dTimeToFinishSec)
+bool TimeCounter::setFinishOn(double timeToFinishSec)
 {
-	if  ( (b_start_inited  ==  false)||(dTimeToFinishSec <= 0) )  return(false);
+	if (startInited == false || timeToFinishSec <= 0)
+	{
+		return false;
+	}
 
-	b_finish_inited  =  true;
+	finishInited = true;
 
-	li_finish_position.QuadPart  =  
-		li_start_position.QuadPart  
-		+  
-		li_freq.QuadPart * dTimeToFinishSec;
+	finishPosition.QuadPart =
+		startPosition.QuadPart
+		+
+		freq.QuadPart * timeToFinishSec;
 
-	return(true);
-}//bool  CTimeCounter::bSetFinishOn(double  dTimeToFinishMs)
+	return true;
+}
 
 
-bool  TimeCounter::bIsFinished()
+bool TimeCounter::isFinished()
 {
-	if  ( (b_start_inited  !=  true)||(b_finish_inited  !=  true) )
-		return(true);
+	if (startInited != true || finishInited != true)
+	{
+		return true;
+	}
 
-	LARGE_INTEGER  li_now;
-	QueryPerformanceCounter(&li_now);
-	if  (li_now.QuadPart  >  li_finish_position.QuadPart)
-		return(true);
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	if (now.QuadPart > finishPosition.QuadPart)
+	{
+		return true;
+	}
 	else
-		return(false);
-};//bool  CTimeCounter::bIsFinished()
-
-
-
-
-
-
+	{
+		return false;
+	}
+}

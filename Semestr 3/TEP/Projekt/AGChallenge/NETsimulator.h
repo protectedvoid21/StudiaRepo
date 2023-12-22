@@ -16,486 +16,399 @@
 using namespace std;
 
 
-
-namespace NETsimulator
+namespace NetSimulator
 {
-
 	//predefinition of NETway tools
-	class  CNETnode;
-	class  CNETlink;
-	class  CNETconnection;
+	class NETNode;
+	class NETLink;
+	class NETConnection;
 
 	//simulator interface  definition
-	class  CNETsimulator
+	class NETSimulator
 	{
-
 	public:
+		virtual int getSimulatorType() = 0;
+		virtual int copySimulator(NETSimulator* otherSimulator) = 0;
 
-		virtual  int  iGetSimulatorType()  = 0;
-		virtual  int  iCopySimulator(CNETsimulator  *pcOtherSimulator)  = 0;
+		virtual bool setAllowCapacityOverloading(bool allow) = 0; //returns the actual state
 
-		virtual  bool  bAllowCapacityOverloading(bool  bAllow)  =  0;//returns the actual state
-
-		virtual  long  lAddNewNode(long  lCapacity,  CString  sName) =  0;//returns the node id
-		virtual  int   iDeleteNode(long  lNodeId)  =  0;
-		virtual  int   iSetNodeCapacity(long  lNodeId, long  lNewCapacity)  =  0;
-
-
-		virtual  long  lCreateLink(long  lStartNodeId, long  lFinishNodeId, long lCapacity)  =  0;
-		virtual  int   iDeleteLink(long  lLinkId)  =  0;
+		virtual long addNewNode(long capacity, CString name) = 0; //returns the node id
+		virtual int deleteNode(long nodeId) = 0;
+		virtual int setNodeCapacity(long nodeId, long newCapacity) = 0;
 
 
-		virtual  int   iCheckConnection
-			(long  *plWay, int iWayLength, long  lCapacity, bool bCheckActualCapacity = true)  =  0;
-		virtual  long  lFindLinkIdForNodes(long  lStartNodeId,  long  lFinishNodeId)  =  0;
+		virtual long createLink(long startNodeId, long finishNodeId, long capacity) = 0;
+		virtual int deleteLink(long linkId) = 0;
 
-		virtual  long  lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity)  =  0;
-		virtual  int   iRemoveConnection(long  lConnectionId)  =  0;
-		virtual  int   iRemoveAllConnections()  =  0;
+		virtual int checkConnection(long* way, int wayLength, long capacity, bool checkActualCapacity = true) = 0;
+		virtual long findLinkIdForNodes(long startNodeId, long finishNodeId) = 0;
 
-		
-
-		virtual  long  lGetActNodeCapacity(long  lNodeId)  =  0;
-		virtual  long  lGetActLinkCapacity(long  lLinkId)  =  0;
-		virtual  long  lGetMaxNodeCapacity(long  lNodeId)  =  0;
-		virtual  long  lGetMaxLinkCapacity(long  lLinkId)  =  0;
+		virtual long setUpConnection(long* way, int wayLength, long capacity) = 0;
+		virtual int removeConnection(long connectionId) = 0;
+		virtual int removeAllConnections() = 0;
 
 
-		virtual  double  dCountNodeLFN(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)  =  0;
-		virtual  double  dCountNodeLFL(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)  =  0;
+		virtual long getActNodeCapacity(long nodeId) = 0;
+		virtual long getActLinkCapacity(long linkId) = 0;
+		virtual long getMaxNodeCapacity(long nodeId) = 0;
+		virtual long getMaxLinkCapacity(long linkId) = 0;
 
-		virtual  long  lGetNodesNum()  =  0;
-		virtual  long  lGetLinksNum()  =  0;
+
+		virtual double countNodeLfn(long nodeId, long penalty, bool* capacityExtending, double* fitnessPure,
+		                            double* penaltyPure) = 0;
+		virtual double countNodeLfl(long nodeId, long penalty, bool* capacityExtending, double* fitnessPure,
+		                            double* penaltyPure) = 0;
+
+		virtual long getNodesNum() = 0;
+		virtual long getLinksNum() = 0;
 
 
-		CNETsimulator()  {b_check_connection_on  =  false; b_const_sat_incr_demands = false;};
-		virtual  ~CNETsimulator()  {};
+		NETSimulator()
+		{
+			checkConnectionOn = false;
+			constSatIncrDemands = false;
+		}
 
-		void  vSetConstSatIncrDemands(bool  bConstSatIncrDemands) {b_const_sat_incr_demands = bConstSatIncrDemands;};
+		virtual ~NETSimulator()
+		{
+		}
 
-		virtual  int   iPresentNetwork(CString  sFileName)  =  0;
-		virtual  void  vPresentNetwork(FILE  *pfDestFile,  bool  bActualState)  =  0;
-		virtual  int   iCreateBasicVirtualDatabaseFile(CString  sFileName)  =  0;
+		void setConstSatIncrDemands(bool value) { constSatIncrDemands = value; }
 
-		void  vTurnConnectionCheck(bool  bOnOff)  {b_check_connection_on  =  bOnOff;};
+		virtual int presentNetwork(CString fileName) = 0;
+		virtual void presentNetwork(FILE* destFile, bool actualState) = 0;
+		virtual int createBasicVirtualDatabaseFile(CString fileName) = 0;
 
-		virtual  int  iGetShortestWays(int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)  =  0;
-		virtual  int  iGetShortestWaysForNodes(int iStartNodeId, int iFinishNodeId, int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)  =  0;
+		void turnConnectionCheck(bool onOff) { checkConnectionOn = onOff; }
+
+		virtual int getShortestWays(int shortestWaysNumber, vector<long*>* ways, vector<long>* waysLenghts) = 0;
+		virtual int getShortestWaysForNodes(int startNodeId, int finishNodeId, int shortestWaysNumber,
+		                                    vector<long*>* ways, vector<long>* waysLenghts) = 0;
 
 	protected:
-		bool  b_check_connection_on;//usually set on off - checks wheather the proposed connection is not "wrong"
-		bool  b_const_sat_incr_demands;
+		bool checkConnectionOn; //usually set on off - checks wheather the proposed connection is not "wrong"
+		bool constSatIncrDemands;
+	};
 
 
-	};//class  NETsimulator
+#define  CONST_SAT_MAX_DEMAND_INCREASE  99999
 
-
-
-
-
-
-
-
-
-
-
-	#define  CONST_SAT_MAX_DEMAND_INCREASE  99999
-
-	class  CNETsimulatorSimplyfied  :  public  CNETsimulator
+	class NETSimulatorSimplified : public NETSimulator
 	{
-
 	public:
+		int getSimulatorType() { return 2; }
+		int copySimulator(NETSimulator* otherSimulator);
 
-		int  iGetSimulatorType()  {return(2);};
-		int  iCopySimulator(CNETsimulator  *pcOtherSimulator);
+		bool setAllowCapacityOverloading(bool allow)
+		{
+			allowCapacityOveloading = allow;
+			return allow;
+		} //returns the actual state
 
-		bool  bAllowCapacityOverloading(bool  bAllow)
-			{b_allow_capacity_oveloading = bAllow;return(bAllow);};//returns the actual state
-
-		long  lAddNewNode(long  lCapacity,  CString  sName);//returns the node id
-		int   iDeleteNode(long  lNodeId)  {return(1);};//method doesn't work for this network simulator
-		int   iSetNodeCapacity(long  lNodeId, long  lNewCapacity){return(1);};//method doesn't work for this network simulator
-
-
-		long  lCreateLink(long  lStartNodeId, long  lFinishNodeId, long lCapacity);
-		int   iDeleteLink(long  lLinkId)  {return(1);};//method doesn't work for this network simulator
-
-
-		int   iCheckConnection
-			(long  *plWay, int iWayLength, long  lCapacity, bool bCheckActualCapacity = true);
-		long  lFindLinkIdForNodes(long  lStartNodeId,  long  lFinishNodeId);
-			//{return(lStartNodeId * l_node_id_tool  +  lFinishNodeId);};
-			
-
-		long  lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity);
-		//method doesn't work for this network simulator\/ but you can remove connection using lSetUpConnection with the "-" capacity and the connection checking set "off"
-		int   iRemoveConnection(long  lConnectionId)  {return(-2);};
-		int   iRemoveAllConnections();
-
-		
-
-		long  lGetActNodeCapacity(long  lNodeId)  {return(-3);};//method doesn't work for this network simulator
-		long  lGetActLinkCapacity(long  lLinkId);
-		long  lGetMaxNodeCapacity(long  lNodeId)  {return(-3);};//method doesn't work for this network simulator
-		long  lGetMaxLinkCapacity(long  lLinkId);
+		long addNewNode(long capacity, CString name); //returns the node id
+		int deleteNode(long nodeId) { return 1; } //method doesn't work for this network simulator
+		int setNodeCapacity(long nodeId, long newCapacity) { return 1; }
+		//method doesn't work for this network simulator
 
 
-		double  dCountNodeLFN(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure);
-		double  dCountNodeLFL(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure);
+		long createLink(long startNodeId, long finishNodeId, long capacity);
+		int deleteLink(long linkId) { return 1; } //method doesn't work for this network simulator
 
 
+		int checkConnection(long* way, int wayLength, long capacity, bool checkActualCapacity = true);
+		long findLinkIdForNodes(long startNodeId, long finishNodeId);
+		//{return(lStartNodeId * nodeIdTool  +  lFinishNodeId);};
 
-		CNETsimulatorSimplyfied();
-		~CNETsimulatorSimplyfied();
 
-		int   iPresentNetwork(CString  sFileName);
-		void  vPresentNetwork(FILE  *pfDestFile,  bool  bActualState);
-		int   iCreateBasicVirtualDatabaseFile(CString  sFileName);
+		long setUpConnection(long* way, int wayLength, long capacity);
+		//method doesn't work for this network simulator\/ but you can remove connection using setUpConnection with the "-" capacity and the connection checking set "off"
+		int removeConnection(long connectionId) { return -2; }
+		int removeAllConnections();
+
+
+		long getActNodeCapacity(long nodeId) { return -3; } //method doesn't work for this network simulator
+		long getActLinkCapacity(long linkId);
+		long getMaxNodeCapacity(long nodeId) { return -3; } //method doesn't work for this network simulator
+		long getMaxLinkCapacity(long linkId);
+
+
+		double countNodeLfn(long nodeId, long penalty, bool* capacityExtending, double* fitnessPure,
+		                    double* penaltyPure);
+		double countNodeLfl(long nodeId, long penalty, bool* capacityExtending, double* fitnessPure,
+		                    double* penaltyPure);
+
+
+		NETSimulatorSimplified();
+		~NETSimulatorSimplified();
+
+		int presentNetwork(CString fileName);
+		void presentNetwork(FILE* destFile, bool actualState);
+		int createBasicVirtualDatabaseFile(CString fileName);
 
 
 		//new methods for CONetAdmin
-		long  lGetNodesNum()  {return(l_node_id_tool);};
-		long  lGetLinksNum()  {return(l_number_of_links);};
+		long getNodesNum() { return nodeIdTool; }
+		long getLinksNum() { return numberOfLinks; }
 
-		bool  bIsTheSame(CNETsimulatorSimplyfied  *pcOtherNetowrk);
+		bool bIsTheSame(NETSimulatorSimplified* otherNetwork);
 
-		int  iGetShortestWays(int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts);
-		int  iGetShortestWaysForNodes(int iStartNodeId, int iFinishNodeId, int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts);
+		int getShortestWays(int shortestWaysNumber, vector<long*>* ways, vector<long>* waysLenghts);
+		int getShortestWaysForNodes(int startNodeId, int finishNodeId, int shortestWaysNumber, vector<long*>* ways,
+		                            vector<long>* waysLenghts);
 
-		int  iGetMinimumAllowedDemandIncrease()  {return(i_minimum_allowed_demand_increase);};
+		int getMinimumAllowedDemandIncrease() { return minimumAllowedDemandIncrease; }
 
 	private:
-
-		void  v_recompute_minimum_allowed_demand_increase();
+		void recomputeMinimumAllowedDemandIncrease();
 
 		//tools for get shortest ways
-		int  i_expand_path_tree(vector  <int>  *pvVisitedPathTree,  int iFinishNodeId);
-		bool  b_is_node_visited
-			(
-			vector  <int>  *pvVisitedPathsTree, 
-			int  iLastPathNodeIndex,
-			int  iCheckedNodeId
-			);
+		int expandPathTree(vector<int>* visitedPathTree, int finishNodeId);
+		bool isNodeVisited(vector<int>* visitedPathsTree, int lastPathNodeIndex, int checkedNodeId);
 
 
-		long  **pl_links_table_for_nodes;
-		long  **pl_actual_network_state;//if there are no connections inputted it's the same as pl_links_table_for_nodes
-		int  **pi_paths_per_link;
-		int  i_minimum_allowed_demand_increase;
+		long** linksTableForNodes;
+		long** actualNetworkState; //if there are no connections inputted it's the same as linksTableForNodes
+		int** pathsPerLink;
+		int minimumAllowedDemandIncrease;
 
-		long  l_node_id_tool;//used as counter of ids of nodes
-		
-		long  l_number_of_links;
-		long  *pl_links_addres_table;//store way: (linkId * 2)-start node (linkId * 2+1)-finish node
+		long nodeIdTool; //used as counter of ids of nodes
 
-		bool  b_allow_capacity_oveloading;
-		
-	};//class  CNETsimulatorSimplyfied  :  public  CNETsimulator
+		long numberOfLinks;
+		long* linksAddressTable; //store way: (linkId * 2)-start node (linkId * 2+1)-finish node
 
+		bool allowCapacityOveloading;
+	}; //class  NETSimulatorSimplified  :  public  NETSimulator
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-	class  CNETsimulatorComplex  :  public  CNETsimulator
+	class NETsimulatorComplex : public NETSimulator
 	{
-
 	public:
+		int getSimulatorType() { return 2; }
+		int copySimulator(NETSimulator* otherSimulator) { return 0; }
 
-		int  iGetSimulatorType()  {return(2);};
-		int  iCopySimulator(CNETsimulator  *pcOtherSimulator)  {return(0);};
+		bool setAllowCapacityOverloading(bool allow) { return false; } //method doesn't work for this network simulator
 
-		bool  bAllowCapacityOverloading(bool  bAllow){return(false);};//method doesn't work for this network simulator
-
-		long  lAddNewNode(long  lCapacity,  CString  sName);//returns the node id
-		int   iDeleteNode(long  lNodeId);
-		int   iSetNodeCapacity(long  lNodeId, long  lNewCapacity);
-
-
-		long  lCreateLink(long  lStartNodeId, long  lFinishNodeId, long lCapacity);
-		int   iDeleteLink(long  lLinkId);
+		long addNewNode(long capacity, CString name); //returns the node id
+		int deleteNode(long nodeId);
+		int setNodeCapacity(long nodeId, long newCapacity);
 
 
-		int   iCheckConnection
-			(long  *plWay, int iWayLength, long  lCapacity, bool bCheckActualCapacity = true);
-		long  lFindLinkIdForNodes(long  lStartNodeId,  long  lFinishNodeId);
-
-		long  lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity);
-		int   iRemoveConnection(long  lConnectionId);
-		int   iRemoveAllConnections();
-
-		
-
-		long  lGetActNodeCapacity(long  lNodeId);
-		long  lGetActLinkCapacity(long  lLinkId);
-		long  lGetMaxNodeCapacity(long  lNodeId);
-		long  lGetMaxLinkCapacity(long  lLinkId);
+		long createLink(long startNodeId, long finishNodeId, long capacity);
+		int deleteLink(long linkId);
 
 
-		double  dCountNodeLFN(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdPenaltyPure);
-		double  dCountNodeLFL(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdPenaltyPure)  {return(0);};
+		int checkConnection(long* way, int wayLength, long capacity, bool checkActualCapacity = true);
+		long findLinkIdForNodes(long startNodeId, long finishNodeId);
+
+		long setUpConnection(long* way, int wayLength, long capacity);
+		int removeConnection(long connectionId);
+		int removeAllConnections();
+
+
+		long getActNodeCapacity(long nodeId);
+		long getActLinkCapacity(long linkId);
+		long getMaxNodeCapacity(long nodeId);
+		long getMaxLinkCapacity(long linkId);
+
+
+		double countNodeLfn(long nodeId, long penalty, bool* capacityExtending, double* penaltyPure);
+
+		double countNodeLfl(long nodeId, long penalty, bool* capacityExtending, double* penaltyPure)
+		{
+			return 0;
+		}
 
 		//new methods for CONetAdmin
-		long  lGetNodesNum()  {return(c_list_of_nodes.lGetCapacity());};
-		long  lGetLinksNum()  {return(c_list_of_links.lGetCapacity());};
+		long getNodesNum() { return listOfNodes.getCapacity(); }
+		long getLinksNum() { return listOfLinks.getCapacity(); }
 
 
+		NETsimulatorComplex();
+		~NETsimulatorComplex();
 
-		CNETsimulatorComplex();
-		~CNETsimulatorComplex();
+		int presentNetwork(CString fileName);
+		void presentNetwork(FILE* destFile, bool actualState) { return; }
+		//method doesn't work for this network simulator
+		int createBasicVirtualDatabaseFile(CString fileName);
 
-		int   iPresentNetwork(CString  sFileName);
-		void  vPresentNetwork(FILE  *pfDestFile,  bool  bActualState) {return;};//method doesn't work for this network simulator
-		int   iCreateBasicVirtualDatabaseFile(CString  sFileName);
+		int getShortestWays(int shortestWaysNumber, vector<long*>* ways, vector<long>* waysLenghts) { return -1; }
 
-		int  iGetShortestWays(int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)  {return(-1);};
-		int  iGetShortestWaysForNodes(int iStartNodeId, int iFinishNodeId, int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)  {return(-1);};
-
+		int getShortestWaysForNodes(int startNodeId, int finishNodeId, int shortestWaysNumber, vector<long*>* ways,
+		                            vector<long>* waysLenghts) { return -1; }
 
 	private:
+		//similar to checkConnection, but it really sets the connection information for nodes abd links!
+		bool setConnectionForNodesAndLinks(long* way, int wayLength, NETConnection* newConnection,
+		                                   long connectionCapacity);
 
-		//similar to iCheckConnection, but it really sets the connection information for nodes abd links!
-		bool  b_set_connection_for_nodes_and_links
-				(long  *plWay, int iWayLength,  
-				CNETconnection *pcNewConnection, long  lConnectionCapacity);
-
-		bool  b_remove_connection_on_the_way(long  *plWay, int iWayLength,  long  lConnectionId);
+		bool removeConnectionOnTheWay(long* way, int wayLength, long connectionId);
 
 
-
-		CMyList  c_list_of_nodes;
-		CMyList  c_list_of_links;
-		CMyList  c_list_of_connections;
-
-
-		long  l_node_id_tool;//used as counter of ids of nodes
-		long  l_link_id_tool;//used as counter of ids of nodes
-		long  l_connection_id_tool;//used as counter of ids of nodes
+		MyList listOfNodes;
+		MyList listOfLinks;
+		MyList listOfConnections;
 
 
-		
+		long nodeIdTool; //used as counter of ids of nodes
+		long linkIdTool; //used as counter of ids of nodes
+		long connectionIdTool; //used as counter of ids of nodes
+
+
 		//acces optimalization tools
-		CNETnode		**pc_nodes_table;
-		CNETlink		**pc_links_table;
-	//	CNETconnection  **pc_connections_table;
+		NETNode** nodesTable;
+		NETLink** linksTable;
+		//	NETConnection  **pc_connections_table;
+	}; //class  NETsimulatorComplex  :  public  NETSimulator
 
 
-	};//class  CNETsimulatorComplex  :  public  CNETsimulator
-
-
-
-
-
-
-
-
-	class  CNETnode
+	class NETNode
 	{
-	friend  class  CNETsimulatorComplex;
+		friend class NETsimulatorComplex;
 
 	public:
+		long getId() { return id; }
 
-		long  lGetId()  {return(l_id);};
-
-		long  lGetActualCapacity()  {return(l_actual_capacity);};
-		long  lGetMaxCapacity()  {return(l_max_capacity);};
-		bool  bSetCapacity(long  lNewCapacity);
-
+		long getActualCapacity() { return actualCapacity; }
+		long getMaxCapacity() { return maxCapacity; }
+		bool setCapacity(long newCapacity);
 
 
-
-		bool  bAddNewLink(bool  bInOut, CNETlink  *pcNewLink);
-		bool  bRemoveLink(bool  bInOut, CNETlink  *pcRemovedLink);
-
-
-		bool  bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity);
-		int   iRemoveConnection(long  lConnectionId);
+		bool addNewLink(bool inOut, NETLink* newLink);
+		bool removeLink(bool inOut, NETLink* removedLink);
 
 
-		bool  bIsDeletable();//if the node is attracted to any connection or link then it is undeletable
-		void  vSetName(CString  sNewName)  {s_name  =  sNewName;};
-		
+		bool setUpConnection(NETConnection* newConnection, long connectionCapacity);
+		int removeConnection(long connectionId);
 
 
-		CNETnode();
-		~CNETnode();
+		bool isDeletable(); //if the node is attracted to any connection or link then it is undeletable
+		void setName(CString newName) { name = newName; }
 
 
-		long  lCountLFN();
+		NETNode();
+		~NETNode();
 
-		void  vPresent(FILE  *pfReportFile);
+
+		long countLfn();
+
+		void present(FILE* reportFile);
 
 	private:
-
-		bool  b_change_id(long  lNewId);
-
+		bool changeId(long newId);
 
 
+		//inforamtion part
+
+		long id; //identification number of this node (given from outside)
+
+		CString name; //set by user (unimportant from system point of view)
 
 
-	//inforamtion part
-
-		long  l_id;//identification number of this node (given from outside)
-
-		CString  s_name;//set by user (unimportant from system point of view)
-
-			
-		long  l_max_capacity;
-		long  l_actual_capacity;
+		long maxCapacity;
+		long actualCapacity;
 
 
-		CMyList  c_list_net_links_out;//list of links going from the node to the other ones
-		CMyList  c_list_net_links_in;//list of links going to the node to the other ones
-		CMyList  c_list_of_net_connections;//list of connections going through the node
+		MyList listNetLinksOut; //list of links going from the node to the other ones
+		MyList listNetLinksIn; //list of links going to the node to the other ones
+		MyList listOfNetConnections; //list of connections going through the node
+	}; //class  NETNode
 
 
-	};//class  CNETnode
-
-
-
-
-
-
-
-
-
-	class  CNETlink
+	class NETLink
 	{
-	friend  class  CNETsimulatorComplex;
+		friend class NETsimulatorComplex;
 
 	public:
+		long getId() { return id; }
 
-		long  lGetId()  {return(l_id);};
-
-		long  lGetActualCapacity()  {return(l_actual_capacity);};
-		long  lGetMaxCapacity()  {return(l_max_capacity);};
-		bool  bSetCapacity(long  lNewCapacity);
-
-
-		bool  bPlugFinishStart(bool  bFinishStart, long lNodeId, CNETnode *pcNode);
-
-		long  lGetStartNodeId()  {return(l_start_node_id);};
-		long  lGetFinishNodeId()  {return(l_finish_node_id);};
+		long getActualCapacity() { return actualCapacity; }
+		long getMaxCapacity() { return maxCapacity; }
+		bool setCapacity(long newCapacity);
 
 
-		bool  bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity);
-		int   iRemoveConnection(long  lConnectionId);
+		bool plugFinishStart(bool finishStart, long nodeId, NETNode* node);
 
-		
-		bool  bIsDeletable();//if the link is attracted to any connection then it is undeletable
-		void  vSetName(CString  sNewName)  {s_name  =  sNewName;};
+		long getStartNodeId() { return startNodeId; }
+		long getFinishNodeId() { return finishNodeId; }
 
 
+		bool setUpConnection(NETConnection* newConnection, long connectionCapacity);
+		int removeConnection(long connectionId);
 
 
-		void  vCreateBasiCVirtualWay(FILE  *pfReportFile);
+		bool isDeletable(); //if the link is attracted to any connection then it is undeletable
+		void setName(CString newName)
+		{
+			name = newName;
+		}
 
-		CNETlink();
-		~CNETlink();
 
+		void createBasicVirtualWay(FILE* reportFile);
 
+		NETLink();
+		~NETLink();
 
 	private:
+		bool changeId(long newId);
 
 
-		bool  b_change_id(long  lNewId);
-		
+		//data part
 
 
+		long id; //identification number of this link  (given from outside)
 
-	//data part
-
-
-		long  l_id;//identification number of this link  (given from outside)
-
-		CString  s_name;//set by user (unimportant from system point of view)
+		CString name; //set by user (unimportant from system point of view)
 
 
-
-		long  l_max_capacity;
-		long  l_actual_capacity;
-
+		long maxCapacity;
+		long actualCapacity;
 
 
 		//start and finish node information
-		long  l_start_node_id;
-		CNETnode  *pc_start_node;
+		long startNodeId;
+		NETNode* startNode;
 
-		long  l_finish_node_id;
-		CNETnode  *pc_finish_node;
-
-
-
-		CMyList  c_list_of_net_connections;//list of connections going through the link
-		
+		long finishNodeId;
+		NETNode* finishNode;
 
 
-	};//class  CNETlink
+		MyList listOfNetConnections; //list of connections going through the link
+	};
 
 
-
-
-
-
-
-
-
-
-	class  CNETconnection
+	class NETConnection
 	{
-	friend  class  CNETsimulatorComplex;
+		friend class NETsimulatorComplex;
 
 	public:
-		
-		
-		long  lGetId()  {return(l_id);};
+		long getId() { return id; }
 
-		long  lGetCapacity()  {return(l_capacity);};
-		
-
-		bool  bSetConnectionWay(long  *plNewWay,  int  iWayLength);
-		int   iGetConnectionWay(long  **plWay);
-
-		
-
-		bool  bSetCapacity(long  lNewCapacity);
-		void  vSetName(CString  sNewName)  {s_name  =  sNewName;};
+		long getCapacity() { return capacity; }
 
 
-		CNETconnection();
-		~CNETconnection();
-		
+		bool setConnectionWay(long* newWay, int wayLength);
+		int getConnectionWay(long** way);
+
+
+		bool setCapacity(long newCapacity);
+		void setName(CString newName) { name = newName; }
+
+
+		NETConnection();
+		~NETConnection();
 
 	private:
-
-		bool  b_change_id(long  lNewId);
-
-
-		long  l_id;
-
-		CString  s_name;//set by user (unimportant from system point of view)
+		bool changeId(long newId);
 
 
+		long id;
 
-		long  l_capacity;//how much capacity it takes
-
-		long  *pl_way;
-		int   i_way_length;
-
-	};//class  CNETconnection
-
-};//namespace NETsimulator
+		CString name; //set by user (unimportant from system point of view)
 
 
+		long capacity; //how much capacity it takes
 
-
-
+		long* pl_way;
+		int i_way_length;
+	}; //class  NETConnection
+}; //namespace NetSimulator

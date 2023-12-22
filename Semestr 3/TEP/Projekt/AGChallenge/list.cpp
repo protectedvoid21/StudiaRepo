@@ -8,46 +8,46 @@
 
 
 
-//----------implentation of CMyNode---------------------
+//----------implentation of MyNode---------------------
 
-bool   CMyNode::bInsertObject(void *ptOBJECT)
+bool   MyNode::insertObject(void *object)
 {
-	if  (pc_object != NULL) return (false);
+	if  (object != NULL) return false;
   
 
-	pc_object  =  ptOBJECT;
-	return (true);
+	object  =  object;
+	return true;
 }
 
 
 
-bool   CMyNode::bDeleteObject()
+bool   MyNode::deleteObject()
 {
-   if  (pc_object ==  NULL)  return (false);
-   delete  pc_object;
-   pc_object  =  NULL;
-   return(true);
+   if  (object ==  NULL)  return false;
+   delete  object;
+   object  =  NULL;
+   return true;
 }
 
 
-void  CMyNode::vINIT()
+void  MyNode::init()
 {
-	pc_next  =  NULL;
-	pc_prev  =  NULL;
+	nextNode  =  NULL;
+	prevNode  =  NULL;
 	
-	pc_object  =  NULL;
+	object  =  NULL;
 }
 
 
 
-void  CMyNode::vBYE(bool  bDelObject)
+void  MyNode::bye(bool  bDelObject)
 {
 	if  (bDelObject  ==  true)
 	{
-		if  (pc_object != NULL)
+		if  (object != NULL)
 		{
-			bDeleteObject();
-		}//if  (pc_object != NULL)
+			deleteObject();
+		}//if  (object != NULL)
 
 	}//if  (bDelObject  ==  true)
 }
@@ -55,227 +55,227 @@ void  CMyNode::vBYE(bool  bDelObject)
 
 
 
-//---------implementatio of CMyList---------------------
+//---------implementatio of MyList---------------------
 
-bool  CMyList::bAdd()
+bool  MyList::add()
 {
-	CMyNode  *pc_new_node  =  NULL;
+	MyNode  *pc_new_node  =  NULL;
 
 
-	pc_new_node  =  new  CMyNode;
+	pc_new_node  =  new  MyNode;
 
-	if  (pc_new_node == NULL)  return(false);//failed to allocate memory for a new node
-	pc_new_node->vINIT();  //init of the object (because we most probably don't use the constructors)
+	if  (pc_new_node == NULL)  return false;//failed to allocate memory for a new node
+	pc_new_node->init();  //init of the object (because we most probably don't use the constructors)
 
 	//if the allocate operation was succesful we start to change List settings, so
 	// the node is really added and remebered at the end of the list
-	l_capacity++; //we increase the actual number of objects
+	capacity++; //we increase the actual number of objects
 	
-	if  (pc_first_node == NULL ) //we are adding first node to the list
+	if  (firstNode == NULL ) //we are adding first node to the list
 	{
-	    pc_first_node  =  pc_new_node;
-		pc_last_node   =  pc_new_node;
+	    firstNode  =  pc_new_node;
+		lastNode   =  pc_new_node;
 	
-		pc_actual_node  =  pc_last_node;
-		l_position  =  l_capacity; // posiotion set to the last node
+		actualNode  =  lastNode;
+		position  =  capacity; // posiotion set to the last node
 		
-		return(true);
-	}//if  (pc_first_node == pc_last_node == NULL) 
+		return true;
+	}//if  (firstNode == lastNode == NULL) 
 	else  //we are not adding the first node
 	{
-		pc_last_node->bSetNext(pc_new_node);
-		pc_new_node->bSetPrev(pc_last_node);  //inserting the pc_new_node at the end of the chain of nodes
+		lastNode->setNext(pc_new_node);
+		pc_new_node->bSetPrev(lastNode);  //inserting the pc_new_node at the end of the chain of nodes
 		
-		pc_last_node  =  pc_new_node; //we are always adding at the end of the list
+		lastNode  =  pc_new_node; //we are always adding at the end of the list
 
-		pc_actual_node  =  pc_last_node;
-		l_position  =  l_capacity; // posiotion set to the last node
+		actualNode  =  lastNode;
+		position  =  capacity; // posiotion set to the last node
 				
-		return(true);
-	}//else of if (pc_first_node == pc_last_node == NULL) 
-   return(true);
+		return true;
+	}//else of if (firstNode == lastNode == NULL) 
+   return true;
 
 }
 
 
 
 
-bool    CMyList::bAdd(void  *pvNewObject)
+bool    MyList::add(void  *pvNewObject)
 {
-	if  (bAdd()  ==   false)  return(false);
+	if  (add()  ==   false)  return false;
 
-	if  (pc_actual_node->bInsertObject(pvNewObject)  ==  false)  
+	if  (actualNode->insertObject(pvNewObject)  ==  false)  
 	{
-		bDeleteActual(false);
-		return(false);
-	}//if  (pc_actual_node->bInsertObject(pvNewObject)  ==  false)  
+		deleteActual(false);
+		return false;
+	}//if  (actualNode->insertObject(pvNewObject)  ==  false)  
 
 
-	return(true);
+	return true;
 }
 
 
 
-bool   CMyList::bSetPos(long  lWantedPosition)
+bool   MyList::setPos(long  wantedPosition)
 {
 	long  l_counter;
 	
-	if  (lWantedPosition  >  l_capacity)  return  (false);
-	if  (lWantedPosition  <= 0 )  return  (false);
+	if  (wantedPosition  >  capacity)  return  false;
+	if  (wantedPosition  <= 0 )  return  false;
 
 	l_counter  =  1;
-	pc_actual_node  =  pc_first_node;
+	actualNode  =  firstNode;
 
 
-	while (l_counter < lWantedPosition)
+	while (l_counter < wantedPosition)
 	{
-		pc_actual_node  =  pc_actual_node->pcGetNext();
+		actualNode  =  actualNode->getNext();
 		l_counter++;
-	}//while (l_counter < lWantedPosition)
+	}//while (l_counter < wantedPosition)
                        
-	return(true);
+	return true;
 
 }
 
 
 
 
-bool  CMyList::bSendObjAddr(CMyList  *Target)
+bool  MyList::sendObjAddress(MyList  *target)
 {
 	long  li;
 	
-	bFirst();
+	first();
 
-	for (li = 0; li < l_capacity; li++)
+	for (li = 0; li < capacity; li++)
 	{
-		if  ( Target->bAdd() ==  false )  return(false) ;
-		if  ( Target->pcGetNode()->bInsertObject(  pcGetNode()->pvGetObject() )  ==  false )  return(false);
+		if  ( target->add() ==  false )  return false ;
+		if  ( target->getNode()->insertObject(  getNode()->getObject() )  ==  false )  return false;
 
-		bNext();
+		next();
 	}
 
 
-	return(true);
+	return true;
 }
 
 
 
 
 
-//if bDeleteObject is true the hold object will be deleted, if not only the node will be destroyed!
-bool   CMyList::bDeleteActual(bool   bDeleteObject)
+//if deleteObject is true the hold object will be deleted, if not only the node will be destroyed!
+bool   MyList::deleteActual(bool   deleteObject)
 {
-	CMyNode  *pc_node_to_delete;
+	MyNode  *pc_node_to_delete;
 
-	if (l_capacity == 0)  return(false);
+	if (capacity == 0)  return false;
 
-	pc_node_to_delete  =  pc_actual_node;
+	pc_node_to_delete  =  actualNode;
 
 	//first we have to remove the node from the node chain...
 	//...by setting next node->prevNode (if the next node exist's)...
-	if  (pc_node_to_delete->pcGetNext() != NULL)
-		pc_node_to_delete->pcGetNext()->bSetPrev(pc_node_to_delete->pcGetPrev());
+	if  (pc_node_to_delete->getNext() != NULL)
+		pc_node_to_delete->getNext()->bSetPrev(pc_node_to_delete->getPrev());
 	//...and by setting previous node->nextNode (if the previous node exist's)...
-	if  (pc_node_to_delete->pcGetPrev() != NULL)
-		pc_node_to_delete->pcGetPrev()->bSetNext(pc_node_to_delete->pcGetNext());
+	if  (pc_node_to_delete->getPrev() != NULL)
+		pc_node_to_delete->getPrev()->setNext(pc_node_to_delete->getNext());
 
 		
 	//if pc_node_to_delete is the first node we must set it...
-	if  (pc_node_to_delete == pc_first_node)
-		pc_first_node  =  pc_node_to_delete->pcGetNext();
+	if  (pc_node_to_delete == firstNode)
+		firstNode  =  pc_node_to_delete->getNext();
 
 
 	//if pc_node_to_delete is the last node we must set it...
-	if  (pc_node_to_delete == pc_last_node)
-		pc_last_node  =  pc_node_to_delete->pcGetPrev();
+	if  (pc_node_to_delete == lastNode)
+		lastNode  =  pc_node_to_delete->getPrev();
 
 
 	//...now we clean up after the node to delete...
-	pc_node_to_delete->vBYE(bDeleteObject);
+	pc_node_to_delete->bye(deleteObject);
 
 
 	//...and delete him finally!
 	delete  pc_node_to_delete;
 
 	//DONT FORGET WE HAVE 1 OBJECT LESS
-	l_capacity--;
+	capacity--;
 
 	//and  about setting a new actual position (we will always set it to the begining)
-	pc_actual_node  =  pc_first_node;
-	if  (pc_actual_node  ==  NULL)
-		l_position  =  0;
+	actualNode  =  firstNode;
+	if  (actualNode  ==  NULL)
+		position  =  0;
 	else
-		l_position  =  1;
+		position  =  1;
    
-	return(true);
+	return true;
 }
 
 
 
-bool  CMyList::bFirst()
+bool  MyList::first()
 {
-	if  (pc_first_node != NULL)  
+	if  (firstNode != NULL)  
 	{
-		pc_actual_node  =  pc_first_node;
-		l_position  =  1;
-		return(true);
+		actualNode  =  firstNode;
+		position  =  1;
+		return true;
 	}
 	else
-		return(false);
+		return false;
 
 }
 
 
 
-bool   CMyList::bLast()
+bool   MyList::last()
 {
-	if  (pc_last_node != NULL)  
+	if  (lastNode != NULL)  
 	{
-		pc_actual_node  =  pc_last_node;
-		l_position  =  l_capacity;
-		return(true);
+		actualNode  =  lastNode;
+		position  =  capacity;
+		return true;
 	}
 	else
-		return(false);
+		return false;
 }
 
 
 
 
-bool  CMyList::bNext()
+bool  MyList::next()
 {
 	//if the list is empty we cannot move
-	if  (pc_first_node  ==  NULL)
-		return  (false);
+	if  (firstNode  ==  NULL)
+		return  false;
 
 	//if we are at the end of the list we also cannot move
-	if  (pc_actual_node  ==  pc_last_node)
-		return(false);
+	if  (actualNode  ==  lastNode)
+		return false;
 
 	//if we get into here it means we can move
-	pc_actual_node  =  pc_actual_node->pcGetNext();
-	l_position++;
-	return(true);
+	actualNode  =  actualNode->getNext();
+	position++;
+	return true;
 
 }
 
 
 
-bool   CMyList::bPrev()
+bool   MyList::prev()
 {
 
     //if the list is empty we cannot move
-	if  (pc_first_node  ==  NULL)
-		return  (false);
+	if  (firstNode  ==  NULL)
+		return  false;
 
 	//if we are at the beginning of the list we also cannot move
-	if  (pc_actual_node  ==  pc_first_node)
-		return(false);
+	if  (actualNode  ==  firstNode)
+		return false;
 
 	//if we get into here it means we can move
-	pc_actual_node  =  pc_actual_node->pcGetPrev();
-	l_position--;
-	return(true);
+	actualNode  =  actualNode->getPrev();
+	position--;
+	return true;
 
 
 }
@@ -284,28 +284,28 @@ bool   CMyList::bPrev()
 
 
 
-CMyList::CMyList()
+MyList::MyList()
 {
-	pc_first_node   =  NULL;
-	pc_last_node    =  NULL;
-	pc_actual_node  =  NULL;
+	firstNode   =  NULL;
+	lastNode    =  NULL;
+	actualNode  =  NULL;
 	
-	l_capacity  =  0;
-	l_position  =  0;
+	capacity  =  0;
+	position  =  0;
 
 }
 
 
-CMyList::~CMyList()
+MyList::~MyList()
 {
-	vBYE(false);
+	bye(false);
 }
 
-void  CMyList::vBYE(bool  bDeleteObject)
+void  MyList::bye(bool  deleteObject)
 {
 	//sets on the beginning and then deletes all the nodes
-	if  (bFirst()  ==  true)
-		while(bDeleteActual(bDeleteObject) == true) ;
+	if  (first()  ==  true)
+		while(deleteActual(deleteObject) == true) ;
 
 }
 
