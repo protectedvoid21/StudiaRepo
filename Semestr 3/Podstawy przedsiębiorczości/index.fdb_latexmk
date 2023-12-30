@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex index"] 1703614836 "index.aux" "index.bbl" "index" 1703614838
+["bibtex index"] 1703882275 "index.aux" "index.bbl" "index" 1703938478
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "bibliography.bib" 1703614800 1136 90d1e0f374eda7c73bde5672b084c881 ""
-  "index.aux" 1703614837 796 5412f2f91c8a0c161630cba1dda6ba3c "xelatex"
+  "bibliography.bib" 1703881953 2863 2a507400903b69ad5f85494d82449614 ""
+  "index.aux" 1703938476 1266 a521abee0a51ba5ddef55aa19dffe530 "xelatex"
   (generated)
   "index.bbl"
   "index.blg"
-["xdvipdfmx"] 1703614838 "index.xdv" "index.pdf" "index" 1703614838
-  "index.xdv" 1703614837 60476 2679c55bc3cf5061cf6dc663d9906c66 "xelatex"
+["xdvipdfmx"] 1703938477 "index.xdv" "index.pdf" "index" 1703938478
+  "index.xdv" 1703938476 161776 829b161dc60bc653c51aad29c9a0e9f8 "xelatex"
   (generated)
   "index.pdf"
-["xelatex"] 1703614836 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" "index.xdv" "index" 1703614838
+["xelatex"] 1703938474 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" "index.xdv" "index" 1703938478
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/xetex/xelatex.fmt" 1703328117 24055910 11dddb2dd07c08a7505dc5aec573f222 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768654 1528 7e12f4c0fcf5a072cebdcfbfc610f54c ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmmi10.tfm" 1136765053 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -52,7 +52,15 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/fontspec/fontspec-xetex.sty" 1642213122 162076 2f6d31c4632f2730c57b9c0fda038e15 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/fontspec/fontspec.cfg" 1642213122 549 c4adac819276241fea8eb79c5ab7b99e ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/fontspec/fontspec.sty" 1642213122 1656 7e824878bad4df5a3e8bba4e463d9126 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color.cfg" 1465890692 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/graphics.cfg" 1465890692 1224 978390e9c2234eab29404bc21b268d1e ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics-def/xetex.def" 1663915090 14788 1dde73f396dd97d88c838bee2a352abe ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/color.sty" 1665063979 7233 e46ce9241d2b2ca2a78155475fdd557a ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphics.sty" 1665063979 18387 8f900a490197ebaf93c02ae9476d4b09 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphicx.sty" 1665063979 8010 a8d949cbdbc5c983593827c9eec252e1 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1665063979 2671 7e67d78d9b88c845599a85b2d41f2e39 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/mathcolor.ltx" 1665063979 3171 1cf0d440b5464e2f034398ce4ef36f75 ""
+  "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty" 1665063979 4023 293ea1c16429fc0c4cf605f4da1791a9 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/hycolor/hycolor.sty" 1580380792 18571 4c28a13fc3d975e6e81c9bea1d697276 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hxetex.def" 1663874908 44397 7213830d5a9ff4f7500a50adc5c41cfa ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hyperref.sty" 1663874908 222717 db0002f5ce98ef1fbf091c8625b33d7e ""
@@ -71,11 +79,12 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty" 1670403145 22490 8cac309b79a4c53a4ffce4b1b07aead0 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/titling/titling.sty" 1252044708 7358 95ac619994bd30d405a74f3eca431c84 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" 1703614834 5834 bae33d3e439b7b6f58f65ed4cbae6b22 ""
-  "index.aux" 1703614837 796 5412f2f91c8a0c161630cba1dda6ba3c "xelatex"
-  "index.bbl" 1703614836 1139 572a6233afba8cf62b64013e14fa4fc8 "bibtex index"
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" 1703938473 15047 19ecfa33a24b8fceb5be340e51d53cc0 ""
+  "img/udzialMSP.png" 1703615474 171992 221884c43c794b3cea380b437956cedf ""
+  "index.aux" 1703938476 1266 a521abee0a51ba5ddef55aa19dffe530 "xelatex"
+  "index.bbl" 1703882275 2783 68e4f19e59cf50017a06f2e86965730f "bibtex index"
   "index.out" 0 -1 0 "xelatex"
-  "index.tex" 1703614834 5834 bae33d3e439b7b6f58f65ed4cbae6b22 ""
+  "index.tex" 1703938473 15047 19ecfa33a24b8fceb5be340e51d53cc0 ""
   (generated)
   "index.aux"
   "index.log"

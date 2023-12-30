@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Komisja}
 Komisja Europejska.
@@ -25,5 +25,47 @@ Bank~Gospodarstwa Krajowego.
 \newblock Pożyczka płynnościowa dla mŚp z poir.
 \newblock
   \url{https://www.bgk.pl/male-i-srednie-przedsiebiorstwa/pakiet-pomocy-bgk/wsparcie-z-wykorzystaniem-srodkow-unijnych/pozyczka-plynnosciowa-dla-msp-z-poir/}.
+
+\bibitem{KredytTechnologicznyFENG}
+Bank~Gospodarstwa Krajowego.
+\newblock Kredyt technologiczny feng 2021-2027.
+\newblock
+  \url{https://www.bgk.pl/male-i-srednie-przedsiebiorstwa/finansowanie-dzialalnosci-biezacej/pozyczki-unijne/kredyt-technologiczny-feng-2021-2027/}.
+
+\bibitem{BgkProgramStart}
+Polska Agencja~Rozwoju Przedsiębiorczości.
+\newblock Pożyczki z "rządowego programu pierwszy biznes - wsparcie w
+  starcie".
+\newblock
+  \url{https://www.bgk.pl/male-i-srednie-przedsiebiorstwa/zalozenie-firmy/pozyczki-z-programu-pierwszy-biznes-wsparcie-w-starcie/#c17888}.
+
+\bibitem{BgkProgramEkologia}
+Polska Agencja~Rozwoju Przedsiębiorczości.
+\newblock Efektywność energetyczna i oze.
+\newblock
+  \url{https://www.bgk.pl/male-i-srednie-przedsiebiorstwa/efektywnosc-energetyczna-i-oze/}.
+
+\bibitem{FunduszeEuropejskieMŚP}
+Fundusze Europejskie.
+\newblock Programy wsparcia sektora mŚp z funduszy europejskich.
+\newblock
+  \url{https://www.funduszeeuropejskie.gov.pl/wyszukiwarka/mikro-male-i-srednie-przedsiebiorstwa/}.
+
+\bibitem{PrawoPrzedsiębiorców}
+Sejm~Rzeczypospolitej Polskiej.
+\newblock Ustawa - prawo przedsiębiorców.
+\newblock
+  \url{https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180000646}.
+
+\bibitem{UstawaOInwestycjach}
+Sejm~Rzeczypospolitej Polskiej.
+\newblock Ustawa - o wspieraniu nowych inwestycji.
+\newblock
+  \url{https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180001162}.
+
+\bibitem{PolskaStrefaInwestycji}
+Rząd~Rzeczypospolitej Polskiej.
+\newblock Polska strefa inwestycji.
+\newblock \url{https://www.biznes.gov.pl/pl/polska-strefa-inwestycji}.
 
 \end{thebibliography}
