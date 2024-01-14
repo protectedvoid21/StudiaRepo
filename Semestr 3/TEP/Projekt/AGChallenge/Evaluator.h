@@ -17,255 +17,290 @@
 
 
 using namespace std;
-using namespace NetSimulator;
-using namespace MyMath;
+using  namespace  NETsimulator;
+using namespace  MyMath;
 
-#define TESTCASE_FOLDER   "data\\"
-#define TESTCASE_NET_POSTFIX   ".net"
-#define TESTCASE_CON_POSTFIX   ".con"
-#define VIRT_WAY_TEMP_FILE   "temp.cod"
+#define s_TESTCASE_FOLDER   "data\\"
+#define s_TESTCASE_NET_POSTFIX   ".net"
+#define s_TESTCASE_CON_POSTFIX   ".con"
+#define s_VIRT_WAY_TEMP_FILE   "temp.cod"
 
 
 #define i_ASCII_CARRIAGE_RETURN   13
 #define i_ASCII_NEW_LINE		  10
 
-#define CLONE_ROUNDS			  2
+#define i_CLONE_ROUNDS			  2
 
 #define i_ERR_FILE_NOT_FOUND   -1
 #define i_ERR_FILE_UNEXPECTED_FILE_END   -2
 
 #define i_SHORTEST_WAYS_RANGE			  16
 
-#define PENALTY			  10
+#define i_PENALTY			  10
 
 
-class LFLNetEvaluator;
-class VirtualWayDatabase;
-class CSingleTrajectorySet;
 
 
-class VirtualWay
+
+class  CLFLnetEvaluator;
+class  CVirtualWayDatabase;
+class  CSingleTrajectorySet;
+
+
+class  CVirtualWay
 {
+
 public:
-	int iId;
 
-	int iGetWay(long** plWay);
-	bool bSetWay(long* plNewWay, int iNewWayLength);
+	int  iId;
 
-
-	int iLoadWay(FILE* pfSource, LFLNetEvaluator* pcTranslator, bool bTranslate);
-	void vCreateReportFile(FILE* pfReport);
-
-	double dCountFOM(NETSimulator* pcNetSim);
+	int   iGetWay(long  **plWay);
+	bool  bSetWay(long  *plNewWay, int  iNewWayLength);
 
 
-	bool operator==(VirtualWay& pcOther);
+	int  iLoadWay(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool  bTranslate);
+	void  vCreateReportFile(FILE  *pfReport);
 
-	VirtualWay();
-	~VirtualWay();
+	double  dCountFOM(CNETsimulator  *pcNetSim);
+
+
+	bool  operator==(CVirtualWay  &pcOther);
+
+	CVirtualWay();
+	~CVirtualWay();
 
 	//the offsprings pointers are returned but handling them is the task of CVirtualWaysDatabase
-	int iCross
+	int  iCross
 	(
-		VirtualWay* pcFather, VirtualWay** pcChild1, VirtualWay** pcChild2,
-		VirtualWayDatabase* pCVirtualWays,
-		NETSimulator* pcNetSim = NULL
+		CVirtualWay *pcFather, CVirtualWay **pcChild1, CVirtualWay **pcChild2,
+		CVirtualWayDatabase  *pCVirtualWays,
+		CNETsimulator  *pcNetSim = NULL
 	);
 
-	int iMutate
+	int  iMutate
 	(
-		VirtualWay** pcNewWay,
-		VirtualWayDatabase* pCVirtualWays,
-		NETSimulator* pcNetSim = NULL
+		CVirtualWay  **pcNewWay,
+		CVirtualWayDatabase  *pCVirtualWays,
+		CNETsimulator  *pcNetSim = NULL
 	);
+
 
 private:
-	long* pl_way;
-	int i_way_length;
 
-	void v_remove_loops_from_way();
-}; //class  VirtualWay
+	long  *pl_way;
+	int   i_way_length;
+
+	void  v_remove_loops_from_way();
+
+};//class  CVirtualWay
 
 
-class CVirtualWaysSingleSet
+
+
+class  CVirtualWaysSingleSet
 {
-	friend class VirtualWayDatabase; //needed for acces to virtual ways list when cloning
+	friend  class  CVirtualWayDatabase;//needed for acces to virtual ways list when cloning
 
 
 public:
-	VirtualWay* pcGetVirtualWayAtOffset(int iOffset);
-	VirtualWay* pcGetVirtualWay();
-	bool bGet2VirtualWaysWithLowLevelFOM(NETSimulator* pcNetSim, VirtualWay** pcMother, VirtualWay** pcFather = NULL,
-	                                     bool bTranslated = false);
+
+	CVirtualWay*  pcGetVirtualWayAtOffset(int  iOffset);
+	CVirtualWay   *pcGetVirtualWay();
+	bool  bGet2VirtualWaysWithLowLevelFOM(CNETsimulator  *pcNetSim, CVirtualWay  **pcMother, CVirtualWay  **pcFather = NULL, bool  bTranslated = false);
 
 
-	int iLoadVirtualWays(FILE* pfSource, LFLNetEvaluator* pcTranslator, bool bTranslate);
-	int iInputNewVirtWay(VirtualWay* pcNewWay, LFLNetEvaluator* pcTransltor,
-	                     VirtualWay** pcTheSameWayAsNew = NULL);
-	//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database
+	int   iLoadVirtualWays(FILE  *pfSource, CLFLnetEvaluator *pcTranslator, bool bTranslate);
+	int   iInputNewVirtWay(CVirtualWay  *pcNewWay, CLFLnetEvaluator  *pcTransltor,
+		CVirtualWay  **pcTheSameWayAsNew = NULL);//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database
 
-	//information methods
-	long lGetNumberOfWays(long** plLengthSets, int* piTableLen);
-	void vCreateReportFile(FILE* pfReport);
+//information methods
+	long  lGetNumberOfWays(long  **plLengthSets, int *piTableLen);
+	void  vCreateReportFile(FILE  *pfReport);
 
 
 	CVirtualWaysSingleSet();
 	~CVirtualWaysSingleSet();
 
+
 private:
-	MyList c_virtual_ways;
-}; //class  CVirtualWaysSingleSet
 
 
-class VirtualWayDatabase
+	CMyList  c_virtual_ways;
+
+};//class  CVirtualWaysSingleSet
+
+
+
+
+
+
+class  CVirtualWayDatabase
 {
+
 public:
-	VirtualWayDatabase();
-	~VirtualWayDatabase();
+	CVirtualWayDatabase();
+	~CVirtualWayDatabase();
 
-	int loadVirtualWays(CString sFileName, LFLNetEvaluator* pcTranslator, bool bTranslate);
+	int   iLoadVirtualWays(CString  sFileName, CLFLnetEvaluator *pcTranslator, bool  bTranslate);
 
 
-	int cloneVirtualWays(long lStartNode = -1);
+	int   iCloneVirtualWays(long lStartNode = -1);
 	//start node is needed when we want to generate new ways for a specialized node
 
 
-	int iInputNewVirtWay
-	(VirtualWay* pcNewWay, long lStartNode, long lFinishNode,
-	 VirtualWay** pcTheSameWayAsNew = NULL,
-	 bool bTranslated = true);
-	//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database);
+	int   iInputNewVirtWay
+	(CVirtualWay  *pcNewWay, long  lStartNode, long  lFinishNode,
+		CVirtualWay  **pcTheSameWayAsNew = NULL, bool bTranslated = true);//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database);
 
 
-	int iGetVirtualWaysNumber(long lStartNode, long lFinishNode, bool bTranslated = true);
-	VirtualWay* pcGetVirtualWay(long lStartNode, long lFinishNode, bool bTranslated = true);
-	VirtualWay* pcGetVirtualWayAtOffset(long lStartNode, long lFinishNode, int iOffset, bool bTranslated = true);
-	bool bGet2VirtualWaysWithLowLevelFOM(NETSimulator* pcNetSim, long lStartNode, long lFinishNode,
-	                                     VirtualWay** pcMother, VirtualWay** pcFather = NULL,
-	                                     bool bTranslated = true);
+	int   iGetVirtualWaysNumber(long  lStartNode, long  lFinishNode, bool  bTranslated = true);
+	CVirtualWay   *pcGetVirtualWay(long  lStartNode, long  lFinishNode, bool  bTranslated = true);
+	CVirtualWay*  pcGetVirtualWayAtOffset(long  lStartNode, long lFinishNode, int iOffset, bool  bTranslated = true);
+	bool  bGet2VirtualWaysWithLowLevelFOM(CNETsimulator  *pcNetSim, long  lStartNode, long lFinishNode, CVirtualWay  **pcMother, CVirtualWay  **pcFather = NULL, bool  bTranslated = true);
 
 
-	int iCreateReportFile(CString sFileName);
-	int iCreateStatisticsReportFile(CString sFileName);
-
-private:
-	int i_input_new_virt_way
-	(VirtualWay* pcNewWay, long lTranslatedStartNode, long lTranslatedFinishNode,
-	 VirtualWay** pcTheSameWayAsNew);
-	//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database);
-
-	int i_clone_two_lists(MyList* pcStartList, MyList* pcFinishList, MyList* pcDestList);
 
 
-	CVirtualWaysSingleSet** pc_virtual_ways_sets;
 
-	LFLNetEvaluator* pc_translator;
-
-
-	long l_number_of_nodes;
-}; //class  VirtualWayDatabase
+	int  iCreateReportFile(CString  sFileName);
+	int  iCreateStatisticsReportFile(CString  sFileName);
 
 
-class LFLNetEvaluator
-{
-public:
-	LFLNetEvaluator();
-	~LFLNetEvaluator();
-
-	double evaluate(vector<int>* solution);
-	int getNumberOfBits() { return numberOfPairs; }
-	int getNumberOfValues(int iPairOffset);
-
-	long getNumberOfNodes() { return numberOfNodes; }
-	long getNumberOfLinks() { return numberOfLinks; }
-
-	long lTranslateNodeNum(long nodeNum);
-	long lTranslateLinkNum(long linkNum);
-
-	int checkConnection(long* way, int wayLength, long capacity, bool checkActualCapacity = true)
-	{
-		return netModel->checkConnection(way, wayLength, capacity, checkActualCapacity);
-	}
-
-	int inputTrajectorySetToFind(long* nodePairs, long* plCapacities, int iNumberOfPairs);
-
-
-	bool configure(CString netName);
 
 private:
-	bool loadTopology(CString sNet);
-	int i_links_count(CString sFileName);
-	long l_skip_comments_and_open(CString sFileName, FILE** pfFile, CString* psComments);
-	int i_read_one_node(FILE* pfSource, long* plActualLinkNumber);
-	bool getShortestWays();
-	bool readDemands(CString sPairsFile);
 
 
-	long numberOfNodes;
-	long* nodesRenameTable; //contains pairs [TFinderNodeNumber, NETsimulatorNumber]
-	double* nodesWeights;
+
+	int   i_input_new_virt_way
+	(CVirtualWay  *pcNewWay, long  lTranslatedStartNode, long  lTranslatedFinishNode,
+		CVirtualWay  **pcTheSameWayAsNew);//**pcTheSameWayAsNew is used for returning an addres of the way that is the same in the database);
+
+	int  i_clone_two_lists(CMyList  *pcStartList, CMyList  *pcFinishList, CMyList  *pcDestList);
 
 
-	long numberOfLinks;
-	long* linksRenameTable; //contains pairs [TFinderLinkNumber, NETsimulatorNumber]
-	double* linksWeights;
+	CVirtualWaysSingleSet  **pc_virtual_ways_sets;
+
+	CLFLnetEvaluator  *pc_translator;
 
 
-	long* pairs;
-	long* capa;
-	long pairsNum;
+	long  l_number_of_nodes;
 
 
-	long* startFinishPairs;
-	long* capacities;
-	int numberOfPairs;
+
+};//class  CVirtualWayDatabase
 
 
-	CSingleTrajectorySet* fitnessComputer;
-
-	VirtualWayDatabase virtualWays;
-	NETSimulator* netModel;
-
-	FOMfunction* fomCounter;
-}; //class  CLFLnetEvaluator
 
 
-class CSingleTrajectorySet
+
+
+class  CLFLnetEvaluator
 {
-	friend class LFLNetEvaluator;
+public:
+	CLFLnetEvaluator();
+	~CLFLnetEvaluator();
+
+	double  dEvaluate(vector<int>  *pvSolution);
+	int  iGetNumberOfBits() { return(i_number_of_pairs); }
+	int  iGetNumberOfValues(int  iPairOffset);
+
+
+
+	long  lGetNumberOfNodes() { return(l_number_of_nodes); };
+	long  lGetNumberOfLinks() { return(l_number_of_links); };
+
+	long  lTranslateNodeNum(long  lNodeNum);
+	long  lTranslateLinkNum(long  lLinkNum);
+
+	int  iCheckConnection(long  *plWay, int  iWayLength, long  lCapacity, bool bCheckActualCapacity = true){return(pc_net_model->iCheckConnection(plWay, iWayLength, lCapacity, bCheckActualCapacity));};
+	int   iInputTrajectorySetToFind(long  *plNodePairs, long  *plCapacities, int  iNumberOfPairs);
+
+
+	bool  bConfigure(CString  sNetName);
+private:
+	bool  b_load_topology(CString  sNet);
+	int  i_links_count(CString  sFileName);
+	long  l_skip_comments_and_open(CString  sFileName, FILE **pfFile, CString  *psComments);
+	int  i_read_one_node(FILE  *pfSource, long *plActualLinkNumber);
+	bool  b_get_shortest_ways();
+	bool  b_read_demands(CString  sPairsFile);
+
+
+	long  l_number_of_nodes;
+	long  *pl_nodes_rename_table;//contains pairs [TFinderNodeNumber, NETsimulatorNumber]
+	double  *pd_nodes_weights;
+
+
+	long  l_number_of_links;
+	long  *pl_links_rename_table;//contains pairs [TFinderLinkNumber, NETsimulatorNumber]
+	double  *pd_links_weights;
+
+
+
+	long  *pl_pairs;
+	long  *pl_capa;
+	long  l_pairs_num;
+
+
+	long  *pl_start_finish_pairs;
+	long  *pl_capacities;
+	int   i_number_of_pairs;
+
+
+	CSingleTrajectorySet  *pc_fitness_computer;
+
+	CVirtualWayDatabase  c_virtual_ways;
+	CNETsimulator  *pc_net_model;
+
+	CFOMfunction  *pcFOMcounter;
+};//class  CLFLnetEvaluator
+
+
+
+
+
+
+class  CSingleTrajectorySet
+{
+	friend  class CLFLnetEvaluator;
 
 public:
+
 	CSingleTrajectorySet();
 	~CSingleTrajectorySet();
 
-	bool bInit(long* plStartFinishPairs, int iNumberOfPairs, VirtualWayDatabase* pcWaysDatabase,
-	           NETSimulator* pcNetSim, FOMfunction* pcFOMcounter, long* plCapacities, long lPenalty);
+	bool  bInit(long *plStartFinishPairs, int  iNumberOfPairs, CVirtualWayDatabase  *pcWaysDatabase, CNETsimulator  *pcNetSim, CFOMfunction  *pcFOMcounter, long *plCapacities, long  lPenalty);
 
-	double dCountFOM(FOMfunction* pcFOMcounter, long* plCapacities, long lPenalty);
+	double  dCountFOM(CFOMfunction  *pcFOMcounter, long *plCapacities, long  lPenalty);
 
-	bool setAndRateSolution(vector<int>* pvSolution, double* pdFitness, long* plCapacities, long lPenalty);
-	int getNumberOfValues(int iPairOffset);
+	bool  bSetAndRateSolution(vector<int>  *pvSolution, double  *pdFitness, long *plCapacities, long  lPenalty);
+	int  iGetNumberOfValues(int  iPairOffset);
 
 private:
-	bool b_set_all_conns(long* plCapacities);
+	bool  b_set_all_conns(long *plCapacities);
 
 
-	NETSimulator* pc_net_sim;
-	FOMfunction* fitnessCounter;
+	CNETsimulator  *pc_net_sim;
+	CFOMfunction  *pc_fitness_counter;
 
-	VirtualWayDatabase* virtualWays;
+	CVirtualWayDatabase  *pc_virtual_ways;
 
-	long* startFinishPairs;
-	int numberOfPairs;
+	long  *pl_start_finish_pairs;
+	int   i_number_of_pairs;
 
-	bool fomLvlActual;
-	double fomLevelPenalized;
-	double fomLevelPure;
-	double penaltyPure;
+	bool  b_fom_lvl_actual;
+	double  d_fom_level_penalized;
+	double  d_fom_level_pure;
+	double  d_penalty_pure;
 
 
-	long populationWhenCreated; //statistical information
-	bool capacityExtending;
+	long    l_population_when_created;//statistical information
+	bool    b_capacity_extending;
 
-	VirtualWay** trajectories;
-}; //class  CSingleTrajectorySet
+	CVirtualWay  **pc_trajectories;
+
+};//class  CSingleTrajectorySet
+
+
+
+

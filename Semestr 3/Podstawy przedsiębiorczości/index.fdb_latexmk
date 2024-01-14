@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex index"] 1703882275 "index.aux" "index.bbl" "index" 1703938478
+["bibtex index"] 1704029214 "index.aux" "index.bbl" "index" 1704029441
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "bibliography.bib" 1703881953 2863 2a507400903b69ad5f85494d82449614 ""
-  "index.aux" 1703938476 1266 a521abee0a51ba5ddef55aa19dffe530 "xelatex"
+  "bibliography.bib" 1704020478 3631 8bcbec12a9473fe298b71ae837e595a5 ""
+  "index.aux" 1704029440 1465 4a3ad745d7235ac1747d434588f50e5c "xelatex"
   (generated)
   "index.bbl"
   "index.blg"
-["xdvipdfmx"] 1703938477 "index.xdv" "index.pdf" "index" 1703938478
-  "index.xdv" 1703938476 161776 829b161dc60bc653c51aad29c9a0e9f8 "xelatex"
+["xdvipdfmx"] 1704029440 "index.xdv" "index.pdf" "index" 1704029441
+  "index.xdv" 1704029440 194244 5685d8bd5c45b39f0c6bac7d30114096 "xelatex"
   (generated)
   "index.pdf"
-["xelatex"] 1703938474 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" "index.xdv" "index" 1703938478
+["xelatex"] 1704029438 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" "index.xdv" "index" 1704029441
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/xetex/xelatex.fmt" 1703328117 24055910 11dddb2dd07c08a7505dc5aec573f222 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768654 1528 7e12f4c0fcf5a072cebdcfbfc610f54c ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmmi10.tfm" 1136765053 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -79,12 +79,12 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty" 1670403145 22490 8cac309b79a4c53a4ffce4b1b07aead0 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/titling/titling.sty" 1252044708 7358 95ac619994bd30d405a74f3eca431c84 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" 1703938473 15047 19ecfa33a24b8fceb5be340e51d53cc0 ""
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 3/Podstawy przedsiębiorczości/index.tex" 1704029437 17537 822ebd059c8bde295c6c62bd30f5e777 ""
   "img/udzialMSP.png" 1703615474 171992 221884c43c794b3cea380b437956cedf ""
-  "index.aux" 1703938476 1266 a521abee0a51ba5ddef55aa19dffe530 "xelatex"
-  "index.bbl" 1703882275 2783 68e4f19e59cf50017a06f2e86965730f "bibtex index"
+  "index.aux" 1704029440 1465 4a3ad745d7235ac1747d434588f50e5c "xelatex"
+  "index.bbl" 1704029215 3512 a9cc444acd57714f7c3e15b8f1800615 "bibtex index"
   "index.out" 0 -1 0 "xelatex"
-  "index.tex" 1703938473 15047 19ecfa33a24b8fceb5be340e51d53cc0 ""
+  "index.tex" 1704029437 17537 822ebd059c8bde295c6c62bd30f5e777 ""
   (generated)
   "index.aux"
   "index.log"

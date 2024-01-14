@@ -1,5 +1,17 @@
 \begin{thebibliography}{10}
 
+\bibitem{RankingGospodarek}
+International~Monetary Fund.
+\newblock World economic outlook database: October 2023.
+\newblock
+  \url{https://www.imf.org/en/Publications/WEO/weo-database/2023/October/weo-report?c=512,914,612,171,614,311,213,911,314,193,122,912,313,419,&s=NGDPD,&sy=2021&ey=2028&ssm=0&scsm=1&scc=0&ssd=1&ssc=0&sic=0&sort=country&ds=.&br=1}.
+
+\bibitem{RankingHDI}
+United Nations~Development Programme.
+\newblock Ranking hdi dla polski.
+\newblock
+  \url{https://hdr.undp.org/data-center/specific-country-data#/countries/POL}.
+
 \bibitem{Komisja}
 Komisja Europejska.
 \newblock Rozporządzenie komisji (ue) nr 651/2014 z dnia 17 czerwca 2014 r.,
@@ -44,6 +56,11 @@ Polska Agencja~Rozwoju Przedsiębiorczości.
 \newblock Efektywność energetyczna i oze.
 \newblock
   \url{https://www.bgk.pl/male-i-srednie-przedsiebiorstwa/efektywnosc-energetyczna-i-oze/}.
+
+\bibitem{TarczaAntykryzysowa}
+Rząd~Rzeczypospolitej Polskiej.
+\newblock Tarcza antykryzysowa - strona główna.
+\newblock \url{https://www.gov.pl/web/tarczaantykryzysowa}.
 
 \bibitem{FunduszeEuropejskieMŚP}
 Fundusze Europejskie.

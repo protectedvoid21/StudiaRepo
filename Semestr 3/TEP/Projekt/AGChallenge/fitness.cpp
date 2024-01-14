@@ -1,19 +1,19 @@
 #include "fitness.h"
 
 //------------------------------------------------------------------------------------------
-//------------------implementation of  FOMFunctionLFL-----------------------------------
+//------------------implementation of  CFOMfunctionLFL-----------------------------------
 
-FOMFunctionLFL::FOMFunctionLFL()
+CFOMfunctionLFL::CFOMfunctionLFL()
 {
-	ffe = 0;
-}//FOMFunctionLFL::FOMFunctionLFL(CTopologyTranslator)
+	d_ffe = 0;
+}//CFOMfunctionLFL::CFOMfunctionLFL(CTopologyTranslator)
 
 
 
-FOMFunctionLFL::~FOMFunctionLFL()
+CFOMfunctionLFL::~CFOMfunctionLFL()
 {
 
-}//FOMFunctionLFL::~FOMFunctionLFL()
+}//CFOMfunctionLFL::~CFOMfunctionLFL()
 
 
 
@@ -23,9 +23,9 @@ FOMFunctionLFL::~FOMFunctionLFL()
 
 
 
-double  FOMFunctionLFL::countFom(NETSimulator  *pcSimulator, long  lPenalty, bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)
+double  CFOMfunctionLFL::dCountFOM(CNETsimulator  *pcSimulator, long  lPenalty, bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)
 {
-	ffe++;
+	d_ffe++;
 
 	double  d_result;
 
@@ -38,9 +38,9 @@ double  FOMFunctionLFL::countFom(NETSimulator  *pcSimulator, long  lPenalty, boo
 	*pdPenaltyPure = 0;
 	*pdFitnessPure = 0;
 
-	for (long li = 0; li < pcSimulator->getNodesNum(); li++)
+	for (long li = 0; li < pcSimulator->lGetNodesNum(); li++)
 	{
-		d_result += pcSimulator->countNodeLfl(li, lPenalty, &b_capacity_ext, pdFitnessPure, pdPenaltyPure);
+		d_result += pcSimulator->dCountNodeLFL(li, lPenalty, &b_capacity_ext, pdFitnessPure, pdPenaltyPure);
 		if (b_capacity_ext)  *pbCapacityExtending = true;
 	}//for  (long  li = 0; li < l_number_of_nodes; li++)
 
@@ -50,7 +50,7 @@ double  FOMFunctionLFL::countFom(NETSimulator  *pcSimulator, long  lPenalty, boo
 
 
 
-	return d_result;
+	return(d_result);
 
 
-}//double  FOMFunctionLFL::countFom(CTopologyTranslator  *pcTranslator)
+}//double  CFOMfunctionLFL::dCountFOM(CTopologyTranslator  *pcTranslator)

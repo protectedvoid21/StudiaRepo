@@ -1,6 +1,6 @@
 #include  "NETsimulator.h"
 
-using namespace NetSimulator;
+using namespace NETsimulator;
 
 
 #pragma warning(disable:4996)
@@ -8,74 +8,74 @@ using namespace NetSimulator;
 
 
 
-//--------------implemenatation of class  NETSimulatorSimplified--------------------------------------------
+//--------------implemenatation of class  CNETsimulatorSimplyfied--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
 
 
 
 
-NETSimulatorSimplified::NETSimulatorSimplified()
+CNETsimulatorSimplyfied::CNETsimulatorSimplyfied()
 {
 
-	nodeIdTool  =  0;
-	actualNetworkState  =  NULL;
-	pathsPerLink = NULL;
-	linksTableForNodes =  NULL;
+	l_node_id_tool  =  0;
+	pl_actual_network_state  =  NULL;
+	pi_paths_per_link = NULL;
+	pl_links_table_for_nodes =  NULL;
 
-	numberOfLinks  =  0;
-	linksAddressTable  =  NULL;
+	l_number_of_links  =  0;
+	pl_links_addres_table  =  NULL;
 
-	allowCapacityOveloading  =  false;
+	b_allow_capacity_oveloading  =  false;
 
-	minimumAllowedDemandIncrease = -1;
-}//NETSimulatorSimplified::NETSimulatorSimplified()
-
-
+	i_minimum_allowed_demand_increase = -1;
+}//CNETsimulatorSimplyfied::CNETsimulatorSimplyfied()
 
 
 
 
-NETSimulatorSimplified::~NETSimulatorSimplified()
+
+
+CNETsimulatorSimplyfied::~CNETsimulatorSimplyfied()
 {
 
-	if  (actualNetworkState  !=  NULL)
+	if  (pl_actual_network_state  !=  NULL)
 	{
-		for  (long  li = 0; li < nodeIdTool; li++)
-			delete  []  actualNetworkState[li];
+		for  (long  li = 0; li < l_node_id_tool; li++)
+			delete  []  pl_actual_network_state[li];
 
-		delete  []  actualNetworkState;
+		delete  []  pl_actual_network_state;
 	
-	}//if  (actualNetworkState  !=  NULL)
+	}//if  (pl_actual_network_state  !=  NULL)
 
 
-	if  (pathsPerLink  !=  NULL)
+	if  (pi_paths_per_link  !=  NULL)
 	{
-		for  (long  li = 0; li < nodeIdTool; li++)
-			delete  []  pathsPerLink[li];
+		for  (long  li = 0; li < l_node_id_tool; li++)
+			delete  []  pi_paths_per_link[li];
 
-		delete  []  pathsPerLink;
+		delete  []  pi_paths_per_link;
 	
-	}//if  (actualNetworkState  !=  NULL)
+	}//if  (pl_actual_network_state  !=  NULL)
 
 
 
-	if  (linksTableForNodes !=  NULL)
+	if  (pl_links_table_for_nodes !=  NULL)
 	{
-		for  (long  li = 0; li < nodeIdTool; li++)
-			delete  []  linksTableForNodes[li];
+		for  (long  li = 0; li < l_node_id_tool; li++)
+			delete  []  pl_links_table_for_nodes[li];
 
-		delete  []  linksTableForNodes;
+		delete  []  pl_links_table_for_nodes;
 	
-	}//if  (linksTableForNodes !=  NULL)
+	}//if  (pl_links_table_for_nodes !=  NULL)
 
 
-	if  (linksAddressTable  !=  NULL)
-		delete  []  linksAddressTable;
+	if  (pl_links_addres_table  !=  NULL)
+		delete  []  pl_links_addres_table;
 	
 
 
-}//NETSimulatorSimplified::~NETSimulatorSimplified()
+}//CNETsimulatorSimplyfied::~CNETsimulatorSimplyfied()
 
 
 
@@ -87,10 +87,10 @@ WARNING: in this type of net simulator both inputted values are unimportant!
 WARNING2: this operation RESETS the network state for this model
 returns the node id (-1 if the operation is unsuccessfull)
 */
-long  NETSimulatorSimplified::addNewNode(long  capacity, CString name)
+long  CNETsimulatorSimplyfied::lAddNewNode(long  lCapacity, CString sName)
 {
 
-	if  ( linksTableForNodes  ==  NULL&&nodeIdTool  !=  0 )  return-1;
+	if  ( (pl_links_table_for_nodes  ==  NULL)&&(l_node_id_tool  !=  0) )  return(-1);
 		
 	
 	long  **pl_new_table, **pl_new_actual_table;
@@ -100,30 +100,30 @@ long  NETSimulatorSimplified::addNewNode(long  capacity, CString name)
 
 
 	//first - create the new network tables
-	pl_new_table  =  new  long* [nodeIdTool + 1];
-	if  (pl_new_table  ==  NULL)  return-1;
+	pl_new_table  =  new  long* [l_node_id_tool + 1];
+	if  (pl_new_table  ==  NULL)  return(-1);
 
-	pl_new_actual_table  =  new  long* [nodeIdTool + 1];
+	pl_new_actual_table  =  new  long* [l_node_id_tool + 1];
 	if  (pl_new_actual_table  ==  NULL)  
 	{
 		delete  []  pl_new_table;
-		return-1;
+		return(-1);
 	}//if  (pl_new_actual_table  ==  NULL)  
 
 
-	pi_new_paths_per_link = new int* [nodeIdTool + 1];
+	pi_new_paths_per_link = new int* [l_node_id_tool + 1];
 	if  (pi_new_paths_per_link  ==  NULL)  
 	{
 		delete  []  pl_new_table;
 		delete  pl_new_actual_table;
-		return-1;
+		return(-1);
 	}//if  (pl_new_actual_table  ==  NULL)  
 
 
-	for  (long  li = 0; li < nodeIdTool + 1; li++)
+	for  (long  li = 0; li < l_node_id_tool + 1; li++)
 	{
 
-		pl_new_table[li]  =  new  long[nodeIdTool + 1];
+		pl_new_table[li]  =  new  long[l_node_id_tool + 1];
 				
 		if  (pl_new_table[li]  ==  NULL)
 		{
@@ -133,87 +133,87 @@ long  NETSimulatorSimplified::addNewNode(long  capacity, CString name)
 
 			delete  []  pl_new_table;
 
-			return-1;
+			return(-1);
 			
 		}//if  (pl_new_table[li]  ==  NULL)
 
 
 
 
-		pl_new_actual_table[li]  =  new  long[nodeIdTool + 1];
+		pl_new_actual_table[li]  =  new  long[l_node_id_tool + 1];
 				
 		if  (pl_new_actual_table[li]  ==  NULL)
 		{
 
 			for  (lj = 0; lj < li; lj++)
 				delete  []  pl_new_actual_table[lj];
-			for  (lj = 0; lj < nodeIdTool; lj++)
+			for  (lj = 0; lj < l_node_id_tool; lj++)
 				delete  []  pl_new_table[lj];
 
 			delete  []  pl_new_table;
 			delete  []  pl_new_actual_table;
 
-			return-1;
+			return(-1);
 			
 		}//if  (pl_new_table[li]  ==  NULL)
 
 
-		pi_new_paths_per_link[li] =  new  int[nodeIdTool + 1];
+		pi_new_paths_per_link[li] =  new  int[l_node_id_tool + 1];
 
-	}//for  (long  li = 0; li < nodeIdTool + 1; li++)
+	}//for  (long  li = 0; li < l_node_id_tool + 1; li++)
 
 
 
 
 
 	//now if the old table exists we copy all of the old data into the new table
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{
-			pl_new_table[li][lj]  =  linksTableForNodes[li][lj];
-			pl_new_actual_table[li][lj]  =  linksTableForNodes[li][lj];
-			pi_new_paths_per_link[li][lj] = pathsPerLink[li][lj];
+			pl_new_table[li][lj]  =  pl_links_table_for_nodes[li][lj];
+			pl_new_actual_table[li][lj]  =  pl_links_table_for_nodes[li][lj];
+			pi_new_paths_per_link[li][lj] = pi_paths_per_link[li][lj];
 		
-		}//for  (lj = 0; lj < nodeIdTool; lj++)
+		}//for  (lj = 0; lj < l_node_id_tool; lj++)
 
 		//after copying data we can already delete the parts of table
-		delete  []  linksTableForNodes[li];
-		delete  []  actualNetworkState[li];
-		delete  []  pathsPerLink[li];
+		delete  []  pl_links_table_for_nodes[li];
+		delete  []  pl_actual_network_state[li];
+		delete  []  pi_paths_per_link[li];
 		
-	}//for  (li = 0; li < nodeIdTool; li++)
+	}//for  (li = 0; li < l_node_id_tool; li++)
 	
 	//after data copying we can delete the main table structure (the rets of it was already deleted during coping)
-	if  (linksTableForNodes  !=  NULL)  delete  []  linksTableForNodes;
-	if  (actualNetworkState  !=  NULL)  delete  []  actualNetworkState;
-	if  (pathsPerLink  !=  NULL)  delete  []  pathsPerLink;
+	if  (pl_links_table_for_nodes  !=  NULL)  delete  []  pl_links_table_for_nodes;
+	if  (pl_actual_network_state  !=  NULL)  delete  []  pl_actual_network_state;
+	if  (pi_paths_per_link  !=  NULL)  delete  []  pi_paths_per_link;
 	
 	
 	
 	//now just setting all the possible links between new node and the rest as 0
-	for  (lj = 0; lj < nodeIdTool + 1; lj++)
+	for  (lj = 0; lj < l_node_id_tool + 1; lj++)
 	{
-		pl_new_table[nodeIdTool][lj]  =  0;
-		pl_new_actual_table[nodeIdTool][lj]  =  0;
-		pi_new_paths_per_link[nodeIdTool][lj]  =  0;
-	}//for  (lj = 0; lj < nodeIdTool + 1; lj++)
+		pl_new_table[l_node_id_tool][lj]  =  0;
+		pl_new_actual_table[l_node_id_tool][lj]  =  0;
+		pi_new_paths_per_link[l_node_id_tool][lj]  =  0;
+	}//for  (lj = 0; lj < l_node_id_tool + 1; lj++)
 
-	for  (long  li = 0; li < nodeIdTool + 1; li++)
+	for  (long  li = 0; li < l_node_id_tool + 1; li++)
 	{
-		pl_new_table[li][nodeIdTool]  =  0;
-		pl_new_actual_table[li][nodeIdTool]  =  0;
-		pi_new_paths_per_link[li][nodeIdTool]  =  0;
-	}//for  (li = 0; li < nodeIdTool + 1; li++)
+		pl_new_table[li][l_node_id_tool]  =  0;
+		pl_new_actual_table[li][l_node_id_tool]  =  0;
+		pi_new_paths_per_link[li][l_node_id_tool]  =  0;
+	}//for  (li = 0; li < l_node_id_tool + 1; li++)
 
-	linksTableForNodes  =  pl_new_table;
-	actualNetworkState  =  pl_new_actual_table;
-	pathsPerLink  =  pi_new_paths_per_link;
+	pl_links_table_for_nodes  =  pl_new_table;
+	pl_actual_network_state  =  pl_new_actual_table;
+	pi_paths_per_link  =  pi_new_paths_per_link;
 
 	
-	return nodeIdTool++;
+	return(l_node_id_tool++);
 
-}//long  NETSimulatorSimplified::addNewNode(long  capacity, CString name)
+}//long  CNETsimulatorSimplyfied::lAddNewNode(long  lCapacity, CString sName)
 
 
 
@@ -230,42 +230,42 @@ returned values (if it's below 0 it's an error):
 -5 - bad capacity inputted
 ** - doesn't work for this model
 */ 
-long  NETSimulatorSimplified::createLink(long  startNodeId, long  finishNodeId, long capacity)
+long  CNETsimulatorSimplyfied::lCreateLink(long  lStartNodeId, long  lFinishNodeId, long lCapacity)
 {
 
-	if  ( startNodeId < 0||startNodeId >= nodeIdTool )  return-1;
-	if  ( finishNodeId < 0||finishNodeId >= nodeIdTool )  return-1;
+	if  ( (lStartNodeId < 0)||(lStartNodeId >= l_node_id_tool) )  return(-1);
+	if  ( (lFinishNodeId < 0)||(lFinishNodeId >= l_node_id_tool) )  return(-1);
 
-	if  (capacity  <=  0)  return-5;
+	if  (lCapacity  <=  0)  return(-5);
 
 	//try to allocate the new link addres table
 	long  *pl_buf;
-	pl_buf  =  new  long[(numberOfLinks + 1) * 2];
-	if  (pl_buf  ==  NULL)  return-3;
+	pl_buf  =  new  long[(l_number_of_links + 1) * 2];
+	if  (pl_buf  ==  NULL)  return(-3);
 	
 
-	linksTableForNodes[startNodeId][finishNodeId]  =  capacity;
-	actualNetworkState[startNodeId][finishNodeId]  =  capacity;
-	pathsPerLink[startNodeId][finishNodeId]  =  0;
+	pl_links_table_for_nodes[lStartNodeId][lFinishNodeId]  =  lCapacity;
+	pl_actual_network_state[lStartNodeId][lFinishNodeId]  =  lCapacity;
+	pi_paths_per_link[lStartNodeId][lFinishNodeId]  =  0;
 
 
 	//copy old link addres table into the new one
-	for  (long  li = 0; li < numberOfLinks * 2; li++)
-		pl_buf[li]  =  linksAddressTable[li];
+	for  (long  li = 0; li < l_number_of_links * 2; li++)
+		pl_buf[li]  =  pl_links_addres_table[li];
 	
-	pl_buf[numberOfLinks * 2]  =  startNodeId;
-	pl_buf[numberOfLinks * 2 + 1]  =  finishNodeId;
+	pl_buf[l_number_of_links * 2]  =  lStartNodeId;
+	pl_buf[l_number_of_links * 2 + 1]  =  lFinishNodeId;
 
 
-	if  (linksAddressTable  !=  NULL)  delete  []  linksAddressTable;
-	linksAddressTable  =  pl_buf;
+	if  (pl_links_addres_table  !=  NULL)  delete  []  pl_links_addres_table;
+	pl_links_addres_table  =  pl_buf;
 
 
 
-	return numberOfLinks++;
+	return(l_number_of_links++);
 
 
-}//long  NETSimulatorSimplified::createLink(long  startNodeId, long  finishNodeId, long capacity)
+}//long  CNETsimulatorSimplyfied::lCreateLink(long  lStartNodeId, long  lFinishNodeId, long lCapacity)
 
 
 
@@ -284,20 +284,20 @@ returned values:
 -4 -  one of links does not exist
 -5 -  one nodes does not exist or is not a begin/end of one of links
 */
-int   NETSimulatorSimplified::checkConnection
-		(long  *way, int wayLength, long  capacity, bool checkActualCapacity)
+int   CNETsimulatorSimplyfied::iCheckConnection
+		(long  *plWay, int iWayLength, long  lCapacity, bool bCheckActualCapacity)
 {
 
-	if  (linksTableForNodes  ==  NULL)  return-5;
+	if  (pl_links_table_for_nodes  ==  NULL)  return(-5);
 
-	//if  (capacity  <  0)  return(-3);
+	//if  (lCapacity  <  0)  return(-3);
 
-	if  (wayLength  <  3)  return-1;
+	if  (iWayLength  <  3)  return(-1);
 
 	//if the way length is a parit number then it is wrong
 	int  ii;
-	ii  =  wayLength / 2;
-	if  (ii * 2  ==  wayLength)  return-2;
+	ii  =  iWayLength / 2;
+	if  (ii * 2  ==  iWayLength)  return(-2);
 
 
 
@@ -309,101 +309,101 @@ int   NETSimulatorSimplified::checkConnection
 	
 
 	b_capacity_ok  =  true;//initial step for loop
-	l_finish_node_id  =  way[0];//initial step for loop
+	l_finish_node_id  =  plWay[0];//initial step for loop
 
-	for  (int ij = 0; ij < (wayLength - 1) / 2; ij++)
+	for  (int ij = 0; ij < (iWayLength - 1) / 2; ij++)
 	{
 
 		l_start_node_id  =  l_finish_node_id;
-		l_finish_node_id  =  way[ij * 2 + 2];
+		l_finish_node_id  =  plWay[ij * 2 + 2];
 
 
 		
 		//capacity checking only if this is still ok
 		if  (b_capacity_ok  ==  true)
 		{
-			if  (checkActualCapacity  ==  true)
+			if  (bCheckActualCapacity  ==  true)
 			{
 
-				if  ( l_start_node_id < 0||l_finish_node_id >= nodeIdTool )  return-5;
-				if  (linksTableForNodes[l_start_node_id][l_finish_node_id]  <=  0)  return-4;
+				if  ( (l_start_node_id < 0)||(l_finish_node_id >= l_node_id_tool) )  return(-5);
+				if  (pl_links_table_for_nodes[l_start_node_id][l_finish_node_id]  <=  0)  return(-4);
 
-				if  (actualNetworkState[l_start_node_id][l_finish_node_id]  <  capacity)
+				if  (pl_actual_network_state[l_start_node_id][l_finish_node_id]  <  lCapacity)
 					b_capacity_ok  =  false;
 
-			}//if  (checkActualCapacity  ==  true)
+			}//if  (bCheckActualCapacity  ==  true)
 			else
 			{
 
-				if  ( l_start_node_id < 0||l_finish_node_id >= nodeIdTool )  return-5;
-				if  (linksTableForNodes[l_start_node_id][l_finish_node_id]  <=  0)  return-4;
+				if  ( (l_start_node_id < 0)||(l_finish_node_id >= l_node_id_tool) )  return(-5);
+				if  (pl_links_table_for_nodes[l_start_node_id][l_finish_node_id]  <=  0)  return(-4);
 
-				if  (linksTableForNodes[l_start_node_id][l_finish_node_id]  <  capacity)
+				if  (pl_links_table_for_nodes[l_start_node_id][l_finish_node_id]  <  lCapacity)
 					b_capacity_ok  =  false;
 			
-			}//else if  (checkActualCapacity  ==  true)
+			}//else if  (bCheckActualCapacity  ==  true)
 
 		}//if  (b_capacity_ok  ==  true)
 
-	}//for  (int ij = 0; ij < (wayLength - 1) / 2; ij++)
+	}//for  (int ij = 0; ij < (iWayLength - 1) / 2; ij++)
 
 
 	//if we managed to get here it means that trajectory exists
 	//so the value returned depends only on capacity check...
 
 	if  (b_capacity_ok  ==  true)
-		return 1;
+		return(1);
 	else
-		return 0;
+		return(0);
 
 
-	return 0;
+	return(0);
 
-}//int   NETSimulatorSimplified::checkConnection
+}//int   CNETsimulatorSimplyfied::iCheckConnection
 
 
 
-long  NETSimulatorSimplified::findLinkIdForNodes(long  startNodeId,  long  finishNodeId)
+long  CNETsimulatorSimplyfied::lFindLinkIdForNodes(long  lStartNodeId,  long  lFinishNodeId)
 {
-	for  (int  ii = 0; ii < numberOfLinks; ii++)
+	for  (int  ii = 0; ii < l_number_of_links; ii++)
 		if  (
-			linksAddressTable[ii*2]  ==  startNodeId&&
-			linksAddressTable[ii*2 + 1]  ==  finishNodeId
+			(pl_links_addres_table[ii*2]  ==  lStartNodeId)&&
+			(pl_links_addres_table[ii*2 + 1]  ==  lFinishNodeId)
 			)
-			return ii;
+			return(ii);
 
-	return-1;
+	return(-1);
 
-}//long  NETSimulatorSimplified::findLinkIdForNodes(long  startNodeId,  long  finishNodeId)
-
-
+}//long  CNETsimulatorSimplyfied::lFindLinkIdForNodes(long  lStartNodeId,  long  lFinishNodeId)
 
 
-bool  NETSimulatorSimplified::isNodeVisited
+
+
+bool  CNETsimulatorSimplyfied::b_is_node_visited
 	(
-	vector  <int>  *visitedPathsTree, 
-	int  lastPathNodeIndex,
-	int  checkedNodeId
+	vector  <int>  *pvVisitedPathsTree, 
+	int  iLastPathNodeIndex,
+	int  iCheckedNodeId
 	)
 {
-	int  i_current_node_index  =  lastPathNodeIndex;
+	int  i_current_node_index  =  iLastPathNodeIndex;
 	
 
 	while  (true)
 	{
-		if  (visitedPathsTree->at(i_current_node_index) ==  checkedNodeId)  return true;
+		if  (pvVisitedPathsTree->at(i_current_node_index) ==  iCheckedNodeId)  return(true);
 
-		i_current_node_index  =  visitedPathsTree->at(i_current_node_index + 1);
-		if  (i_current_node_index  <  0)  return false;	
+		i_current_node_index  =  pvVisitedPathsTree->at(i_current_node_index + 1);
+		if  (i_current_node_index  <  0)  return(false);	
 	}//while  (b_root_found  ==  false)
 	
-	return false;
-}//bool  NETSimulatorSimplified::isNodeVisited(vector  <int>  vVisitedPath)
+	return(false);
+}//bool  CNETsimulatorSimplyfied::b_is_node_visited(vector  <int>  vVisitedPath)
 
 
 
 
-int  NETSimulatorSimplified::expandPathTree(vector  <int>  *visitedPathTree, int finishNodeId)
+int  CNETsimulatorSimplyfied::i_expand_path_tree(vector  <int>  *pvVisitedPathTree, int iFinishNodeId)
 {
 	int  i_start_size;
 
@@ -411,77 +411,77 @@ int  NETSimulatorSimplified::expandPathTree(vector  <int>  *visitedPathTree, int
 	//VERY IMPORTANT!!! 
 	//while the loop is running the tree expands, but we only check
 	//for expanding the nodes which existed in the tree at the start momment
-	i_start_size  =  (int) visitedPathTree->size();
+	i_start_size  =  (int) pvVisitedPathTree->size();
 
 	//expanding loop
 	for  (int ii =  0;  ii < i_start_size; ii += 3)
 	{
 		int  i_current_node_id;
-		i_current_node_id  =  visitedPathTree->at(ii);
+		i_current_node_id  =  pvVisitedPathTree->at(ii);
 
-		if  ( visitedPathTree->at(ii + 2)  ==  -1&&i_current_node_id  !=  finishNodeId )
+		if  ( (pvVisitedPathTree->at(ii + 2)  ==  -1)&&(i_current_node_id  !=  iFinishNodeId) )
 		{
-			if  ( i_current_node_id < 0||i_current_node_id >= nodeIdTool )  return-5;
+			if  ( (i_current_node_id < 0)||(i_current_node_id >= l_node_id_tool) )  return(-5);
 
 			int  i_child_number  =  0;
 			//now we find all nodes connected to current node
-			for  (int i_connected_node_id  =  0;  i_connected_node_id < nodeIdTool;  i_connected_node_id++)
+			for  (int i_connected_node_id  =  0;  i_connected_node_id < l_node_id_tool;  i_connected_node_id++)
 			{
 				if  (
-					linksTableForNodes[i_current_node_id][i_connected_node_id]  >  0
+					(pl_links_table_for_nodes[i_current_node_id][i_connected_node_id]  >  0)
 					&&
-					i_current_node_id  !=  i_connected_node_id
+					(i_current_node_id  !=  i_connected_node_id)
 					)
 				{
-					if  (isNodeVisited(visitedPathTree, ii,  i_connected_node_id)  ==  false)
+					if  (b_is_node_visited(pvVisitedPathTree, ii,  i_connected_node_id)  ==  false)
 					{
-						visitedPathTree->push_back(i_connected_node_id);
-						visitedPathTree->push_back(ii);
-						visitedPathTree->push_back(-1);
+						pvVisitedPathTree->push_back(i_connected_node_id);
+						pvVisitedPathTree->push_back(ii);
+						pvVisitedPathTree->push_back(-1);
 
 						i_child_number++;				
-					}//if  (isNodeVisited(&v_visited_path, i_connected_node)  ==  false)		
-				}//if  (linksTableForNodes[i_current_node_id][i_connected_node]  >  0)
+					}//if  (b_is_node_visited(&v_visited_path, i_connected_node)  ==  false)		
+				}//if  (pl_links_table_for_nodes[i_current_node_id][i_connected_node]  >  0)
 
-			}//for  (int i_connected_node  =  0;  i_connected_node < nodeIdTool;  i_connected_node++)
+			}//for  (int i_connected_node  =  0;  i_connected_node < l_node_id_tool;  i_connected_node++)
 			
 
-			visitedPathTree->at(ii + 2)  =  i_child_number;
-		}//if  ( (visitedPathTree->at(ii + 2)  ==  -1)&&(i_current_node_id  !=  finishNodeId) )
+			pvVisitedPathTree->at(ii + 2)  =  i_child_number;
+		}//if  ( (pvVisitedPathTree->at(ii + 2)  ==  -1)&&(i_current_node_id  !=  iFinishNodeId) )
 
-	}//for  (ii =  0;  ii < (int) visitedPathTree->size(); ii += 3)
+	}//for  (ii =  0;  ii < (int) pvVisitedPathTree->size(); ii += 3)
 
-	return 1;
-}//int  NETSimulatorSimplified::expandPathTree(vector  <int>  *visitedPathTree)
-
-
+	return(1);
+}//int  CNETsimulatorSimplyfied::i_expand_path_tree(vector  <int>  *pvVisitedPathTree)
 
 
-int  NETSimulatorSimplified::getShortestWaysForNodes
-	(int startNodeId, int finishNodeId, int  shortestWaysNumber, vector <long *> *ways, vector <long> *waysLenghts)
+
+
+int  CNETsimulatorSimplyfied::iGetShortestWaysForNodes
+	(int iStartNodeId, int iFinishNodeId, int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)
 {
 	//it is a tree but it is flat
 	//it contains 3s:
 	//node_id, parent_index, child_num (0..n,  -1 - not checked yet!)
 	vector  <int>  v_visited_path_tree;
 
-    v_visited_path_tree.push_back(startNodeId);
+    v_visited_path_tree.push_back(iStartNodeId);
 	v_visited_path_tree.push_back(-1);
 	v_visited_path_tree.push_back(-1);
 
 	int  i_found_ways_counter  =  0;
 
-	while  (i_found_ways_counter  <  shortestWaysNumber)
+	while  (i_found_ways_counter  <  iShortestWaysNumber)
 	{
-		if  (expandPathTree(&v_visited_path_tree,  finishNodeId)  !=  1)  return-1;
+		if  (i_expand_path_tree(&v_visited_path_tree,  iFinishNodeId)  !=  1)  return(-1);
 
 		//now we check if there is the propoer number of searched ways
 		i_found_ways_counter  =  0;
 		for  (int ii =  0;  ii < (int) v_visited_path_tree.size(); ii += 3)
 		{
-			if  (v_visited_path_tree.at(ii)  ==  finishNodeId)  i_found_ways_counter++;	
+			if  (v_visited_path_tree.at(ii)  ==  iFinishNodeId)  i_found_ways_counter++;	
 		}//for  (int ii =  0;  ii < (int) v_visited_path_tree.size(); ii += 3)
-	}//while  (i_found_ways_counter  <  shortestWaysNumber)
+	}//while  (i_found_ways_counter  <  iShortestWaysNumber)
 
 	
 	//now we retrieve the ways
@@ -491,7 +491,7 @@ int  NETSimulatorSimplified::getShortestWaysForNodes
 	{
 		v_path_buffer.clear();
 
-		if  (v_visited_path_tree.at(ii)  ==  finishNodeId)
+		if  (v_visited_path_tree.at(ii)  ==  iFinishNodeId)
 		{
 			int  i_current_node_index  =  ii;
 			v_path_buffer.push_back(v_visited_path_tree.at(i_current_node_index));
@@ -500,57 +500,57 @@ int  NETSimulatorSimplified::getShortestWaysForNodes
 			{
 				i_current_node_index  =  v_visited_path_tree.at(i_current_node_index + 1);
 				v_path_buffer.push_back(v_visited_path_tree.at(i_current_node_index));
-				if  (i_current_node_index  <  0)  return-1;	
+				if  (i_current_node_index  <  0)  return(-1);	
 			}//while  (b_root_found  ==  false)
 
 
 			//now creating virtual way...
-			pl_v_way  =  new  long[(int) v_path_buffer.size() * 2 - 1];
+			pl_v_way  =  new  long[((int) v_path_buffer.size()) * 2 - 1];
 			for  (int ij = 0; ij < (int) v_path_buffer.size(); ij++)
 				pl_v_way[ij * 2]  =  v_path_buffer.at(v_path_buffer.size() - 1 - ij);
 			
-			for  (int ij = 1; ij < (int) v_path_buffer.size() * 2 - 1; ij+=2)
-				pl_v_way[ij]  =  findLinkIdForNodes(pl_v_way[ij - 1], pl_v_way[ij + 1]);
+			for  (int ij = 1; ij < ((int) v_path_buffer.size()) * 2 - 1; ij+=2)
+				pl_v_way[ij]  =  lFindLinkIdForNodes(pl_v_way[ij - 1], pl_v_way[ij + 1]);
 
-			ways->push_back(pl_v_way);
-			waysLenghts->push_back((int) v_path_buffer.size() * 2 - 1);
+			pvWays->push_back(pl_v_way);
+			pvWaysLenghts->push_back(((int) v_path_buffer.size()) * 2 - 1);
 		
-		}//if  (v_visited_path_tree.at(ii)  ==  finishNodeId)
+		}//if  (v_visited_path_tree.at(ii)  ==  iFinishNodeId)
 	}//for  (int ii =  0;  ii < (int) v_visited_path_tree.size(); ii += 3)
 
 
-	return 1;    
-}//int  NETSimulatorSimplified::getShortestWaysForNodes
+	return(1);    
+}//int  CNETsimulatorSimplyfied::iGetShortestWaysForNodes
 
 
 
 
-int  NETSimulatorSimplified::getShortestWays(int  shortestWaysNumber, vector <long *> *ways, vector <long> *waysLenghts)
+int  CNETsimulatorSimplyfied::iGetShortestWays(int  iShortestWaysNumber, vector <long *> *pvWays, vector <long> *pvWaysLenghts)
 {
 	int  i_result;
 	CString  s_buf;
 
-	for  (int  ii = 0; ii < nodeIdTool; ii++)
+	for  (int  ii = 0; ii < l_node_id_tool; ii++)
 	{
-		for  (int  ik = 0; ik < nodeIdTool; ik++)
+		for  (int  ik = 0; ik < l_node_id_tool; ik++)
 		{
 			if  (ii  !=  ik)
 			{
 				i_result  =  
-					getShortestWaysForNodes(ii, ik, shortestWaysNumber, ways, waysLenghts);
+					iGetShortestWaysForNodes(ii, ik, iShortestWaysNumber, pvWays, pvWaysLenghts);
 				
 				if  (i_result  !=  1)
 				{
-					for  (int  ij = 0; ij < (int) ways->size(); ij++)
-						delete  []  ways->at(ij);
-					return i_result;
+					for  (int  ij = 0; ij < (int) pvWays->size(); ij++)
+						delete  []  pvWays->at(ij);
+					return(i_result);
 				}//if  (i_result  !=  1)
 			}//if  (ii  !=  ik)
-		}//for  (int  ii = 0; ii < nodeIdTool; ii++)	
-	}//for  (int  ii = 0; ii < nodeIdTool; ii++)
+		}//for  (int  ii = 0; ii < l_node_id_tool; ii++)	
+	}//for  (int  ii = 0; ii < l_node_id_tool; ii++)
 
-	return 1;
-}//int  NETSimulatorSimplified::getShortestWays
+	return(1);
+}//int  CNETsimulatorSimplyfied::iGetShortestWays
 
 
 
@@ -568,7 +568,7 @@ returned values:
 -7 -  connection setting for nodes and links unsuccesfull
 -8 -  way set in connection objerct unsuccessfull
 */
-long  NETSimulatorSimplified::setUpConnection(long  *way, int wayLength, long  capacity)
+long  CNETsimulatorSimplyfied::lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity)
 {
 
 	bool  b_connection_set_with_too_small_capacity  =  false;
@@ -579,100 +579,100 @@ long  NETSimulatorSimplified::setUpConnection(long  *way, int wayLength, long  c
 	
 	//if the trajectory is ok we set up a connection
 	i_minimum_allowed_demand_increase_on_the_way = -1;
-	for  (int  ii = 2; ii < wayLength;  ii+=2)
+	for  (int  ii = 2; ii < iWayLength;  ii+=2)
 	{
-		actualNetworkState[way[ii-2]][way[ii]]  =  
-			actualNetworkState[way[ii-2]][way[ii]]  -  capacity;
+		pl_actual_network_state[plWay[ii-2]][plWay[ii]]  =  
+			pl_actual_network_state[plWay[ii-2]][plWay[ii]]  -  lCapacity;
 
-		if  (constSatIncrDemands = true)
+		if  (b_const_sat_incr_demands = true)
 		{
-			if  (capacity > 0)
-				pathsPerLink[way[ii-2]][way[ii]]  =  pathsPerLink[way[ii-2]][way[ii]] + 1;
+			if  (lCapacity > 0)
+				pi_paths_per_link[plWay[ii-2]][plWay[ii]]  =  pi_paths_per_link[plWay[ii-2]][plWay[ii]] + 1;
 			else
-				pathsPerLink[way[ii-2]][way[ii]]  =  pathsPerLink[way[ii-2]][way[ii]] - 1;
+				pi_paths_per_link[plWay[ii-2]][plWay[ii]]  =  pi_paths_per_link[plWay[ii-2]][plWay[ii]] - 1;
 
 			//computing minimum allowed capacity increase on the way
-			i_buf = actualNetworkState[way[ii-2]][way[ii]];
+			i_buf = pl_actual_network_state[plWay[ii-2]][plWay[ii]];
 			if  (i_buf > 0)
 			{
-				if  (pathsPerLink[way[ii-2]][way[ii]] == 0)
+				if  (pi_paths_per_link[plWay[ii-2]][plWay[ii]] == 0)
 					i_buf = CONST_SAT_MAX_DEMAND_INCREASE;
 				else
-					i_buf = i_buf / pathsPerLink[way[ii-2]][way[ii]];
+					i_buf = i_buf / pi_paths_per_link[plWay[ii-2]][plWay[ii]];
 			}//if  (i_buf > 0)
 			else
 				i_buf = 0;
 
 			if  (i_minimum_allowed_demand_increase_on_the_way < 0)  i_minimum_allowed_demand_increase_on_the_way = i_buf;
 			if  (i_minimum_allowed_demand_increase_on_the_way > i_buf)  i_minimum_allowed_demand_increase_on_the_way = i_buf;
-		}//if  (constSatIncrDemands = true)
-	}//for  (ii = 0; ii < wayLength;  ii+=2)
+		}//if  (b_const_sat_incr_demands = true)
+	}//for  (ii = 0; ii < iWayLength;  ii+=2)
 		
 	
-	if  (constSatIncrDemands = true)
+	if  (b_const_sat_incr_demands = true)
 	{
-		if  (capacity > 0)
+		if  (lCapacity > 0)
 		{
 			//the minimum may only decrease
-			if  (minimumAllowedDemandIncrease < 0)  minimumAllowedDemandIncrease = i_minimum_allowed_demand_increase_on_the_way;
-			if  (minimumAllowedDemandIncrease > i_minimum_allowed_demand_increase_on_the_way)  minimumAllowedDemandIncrease = i_minimum_allowed_demand_increase_on_the_way;		
-		}//if  (capacity > 0)
+			if  (i_minimum_allowed_demand_increase < 0)  i_minimum_allowed_demand_increase = i_minimum_allowed_demand_increase_on_the_way;
+			if  (i_minimum_allowed_demand_increase > i_minimum_allowed_demand_increase_on_the_way)  i_minimum_allowed_demand_increase = i_minimum_allowed_demand_increase_on_the_way;		
+		}//if  (lCapacity > 0)
 
-		if  (capacity < 0)
+		if  (lCapacity < 0)
 		{
 			//the minimum may only increase
-			if  (minimumAllowedDemandIncrease < i_minimum_allowed_demand_increase_on_the_way)  
+			if  (i_minimum_allowed_demand_increase < i_minimum_allowed_demand_increase_on_the_way)  
 			{
-				recomputeMinimumAllowedDemandIncrease();
-			}//if  (minimumAllowedDemandIncrease < i_minimum_allowed_demand_increase_on_the_way)  
-		}//if  (capacity < 0)		
-	}//if  (constSatIncrDemands = true)
+				v_recompute_minimum_allowed_demand_increase();
+			}//if  (i_minimum_allowed_demand_increase < i_minimum_allowed_demand_increase_on_the_way)  
+		}//if  (lCapacity < 0)		
+	}//if  (b_const_sat_incr_demands = true)
 
 
 	if  (b_connection_set_with_too_small_capacity  ==  true)
-		return 2;
+		return(2);
 	else
-		return 1;
+		return(1);
 
 
-}//long  NETSimulatorSimplified::setUpConnection(long  *way, int wayLength, long  capacity)
+}//long  CNETsimulatorSimplyfied::lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity)
 
 
 
 
-void  NETSimulatorSimplified::recomputeMinimumAllowedDemandIncrease()
+void  CNETsimulatorSimplyfied::v_recompute_minimum_allowed_demand_increase()
 {
 
 	int i_buf;
-	minimumAllowedDemandIncrease = -1;
+	i_minimum_allowed_demand_increase = -1;
 
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{ 
-			if  (linksTableForNodes[li][lj]  >  0)
+			if  (pl_links_table_for_nodes[li][lj]  >  0)
 			{
-				i_buf = actualNetworkState[li][lj];
+				i_buf = pl_actual_network_state[li][lj];
 				if  (i_buf > 0)
 				{
-					if  (pathsPerLink[li][lj] == 0)
+					if  (pi_paths_per_link[li][lj] == 0)
 						i_buf = CONST_SAT_MAX_DEMAND_INCREASE;
 					else
-						i_buf = i_buf / pathsPerLink[li][lj];
+						i_buf = i_buf / pi_paths_per_link[li][lj];
 				}//if  (i_buf > 0)
 				else
 					i_buf = 0;
 
-				if  (minimumAllowedDemandIncrease < 0)  minimumAllowedDemandIncrease = i_buf;
-				if  (minimumAllowedDemandIncrease > i_buf)  minimumAllowedDemandIncrease = i_buf;
-			}//if  (linksTableForNodes[li][lj]  >  0)
-		}//for  (long  lj = 0; lj < nodeIdTool; lj++)
-	}//for  (long  li = 0; li < nodeIdTool; li++)
+				if  (i_minimum_allowed_demand_increase < 0)  i_minimum_allowed_demand_increase = i_buf;
+				if  (i_minimum_allowed_demand_increase > i_buf)  i_minimum_allowed_demand_increase = i_buf;
+			}//if  (pl_links_table_for_nodes[li][lj]  >  0)
+		}//for  (long  lj = 0; lj < l_node_id_tool; lj++)
+	}//for  (long  li = 0; li < l_node_id_tool; li++)
 
 	//CString  s_buf;
-	//s_buf.Format("recomputeMinimumAllowedDemandIncrease : %d", minimumAllowedDemandIncrease);
+	//s_buf.Format("v_recompute_minimum_allowed_demand_increase : %d", i_minimum_allowed_demand_increase);
 	//::MessageBox(NULL, s_buf, s_buf, MB_OK);
-}//void  NETSimulatorSimplified::v_recompute_minimum_allowed_demand()
+}//void  CNETsimulatorSimplyfied::v_recompute_minimum_allowed_demand()
 
 
 
@@ -684,27 +684,27 @@ returned  values:
 0  -  no connections to remove
 -1 -  problems occured when removing one or more connections
 */
-int  NETSimulatorSimplified::removeAllConnections()
+int  CNETsimulatorSimplyfied::iRemoveAllConnections()
 {
 
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
 
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{
 
-			actualNetworkState[li][lj]  =  linksTableForNodes[li][lj];
-			pathsPerLink[li][lj] = 0;
+			pl_actual_network_state[li][lj]  =  pl_links_table_for_nodes[li][lj];
+			pi_paths_per_link[li][lj] = 0;
 		
-		}//for  (long  lj = 0; lj < nodeIdTool; lj++)
+		}//for  (long  lj = 0; lj < l_node_id_tool; lj++)
 
-	}//for  (long  li = 0; li < nodeIdTool; li++)
+	}//for  (long  li = 0; li < l_node_id_tool; li++)
 
-	minimumAllowedDemandIncrease = -1;
+	i_minimum_allowed_demand_increase = -1;
 
-	return 1;
+	return(1);
 
-}//int  NETSimulatorSimplified::removeAllConnections()
+}//int  CNETsimulatorSimplyfied::iRemoveAllConnections()
 
 
 
@@ -718,29 +718,29 @@ any number  -  capacity
 WARNING: capactiy may be below 0 in this simulator case so no error cod is returned
 if any errors occur the returned value is 0
 */
-long  NETSimulatorSimplified::getActLinkCapacity(long  linkId)
+long  CNETsimulatorSimplyfied::lGetActLinkCapacity(long  lLinkId)
 {
 
 	long  l_start_node_id,  l_finish_node_id;
 
 
-	if  (linkId  <  0)  return 0;
-	if  (linkId  >=  numberOfLinks)  return 0;
+	if  (lLinkId  <  0)  return(0);
+	if  (lLinkId  >=  l_number_of_links)  return(0);
 
-	l_start_node_id  =  linksAddressTable[linkId * 2];
-	l_finish_node_id  =  linksAddressTable[linkId * 2 + 1];
+	l_start_node_id  =  pl_links_addres_table[lLinkId * 2];
+	l_finish_node_id  =  pl_links_addres_table[lLinkId * 2 + 1];
 	
 
-	if  (constSatIncrDemands == false)	return actualNetworkState[l_start_node_id][l_finish_node_id];
+	if  (b_const_sat_incr_demands == false)	return(pl_actual_network_state[l_start_node_id][l_finish_node_id]);
 
 	long l_capa;
-	l_capa = actualNetworkState[l_start_node_id][l_finish_node_id];
+	l_capa = pl_actual_network_state[l_start_node_id][l_finish_node_id];
 
-	if  (minimumAllowedDemandIncrease < 0)  return l_capa;
+	if  (i_minimum_allowed_demand_increase < 0)  return(l_capa);
 
-	l_capa = l_capa - pathsPerLink[l_start_node_id][l_finish_node_id] * (minimumAllowedDemandIncrease + 1);
-	return l_capa;
-}//long  NETSimulatorSimplified::getActLinkCapacity(long  linkId)
+	l_capa = l_capa - pi_paths_per_link[l_start_node_id][l_finish_node_id] * (i_minimum_allowed_demand_increase + 1);
+	return(l_capa);
+}//long  CNETsimulatorSimplyfied::lGetActLinkCapacity(long  lLinkId)
 
 
 
@@ -753,22 +753,22 @@ any number  -  capacity
 WARNING: capactiy may be below 0 in this simulator case so no error cod is returned
 if any errors occur the returned value is 0
 */
-long  NETSimulatorSimplified::getMaxLinkCapacity(long  linkId)
+long  CNETsimulatorSimplyfied::lGetMaxLinkCapacity(long  lLinkId)
 {
 
 	long  l_start_node_id,  l_finish_node_id;
 
 
-	if  (linkId  <  0)  return 0;
-	if  (linkId  >=  numberOfLinks)  return 0;
+	if  (lLinkId  <  0)  return(0);
+	if  (lLinkId  >=  l_number_of_links)  return(0);
 
-	l_start_node_id  =  linksAddressTable[linkId * 2];
-	l_finish_node_id  =  linksAddressTable[linkId * 2 + 1];
+	l_start_node_id  =  pl_links_addres_table[lLinkId * 2];
+	l_finish_node_id  =  pl_links_addres_table[lLinkId * 2 + 1];
 	
 
-	return linksTableForNodes[l_start_node_id][l_finish_node_id];
+	return(pl_links_table_for_nodes[l_start_node_id][l_finish_node_id]);
 
-}//long  NETSimulatorSimplified::getMaxLinkCapacity(long  linkId)
+}//long  CNETsimulatorSimplyfied::lGetMaxLinkCapacity(long  lLinkId)
 
 
 
@@ -783,11 +783,11 @@ returned values:
 -2  -  number below 0
 -3  -  unexpected error or node/link does not exist
 */
-double  NETSimulatorSimplified::countNodeLfn(long  nodeId,  long  penalty,  bool  *capacityExtending, double *fitnessPure, double *penaltyPure)
+double  CNETsimulatorSimplyfied::dCountNodeLFN(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)
 {
 
-	if  (nodeId  <  0)  return-2;
-	if  (nodeId  >=  nodeIdTool)  return-1;
+	if  (lNodeId  <  0)  return(-2);
+	if  (lNodeId  >=  l_node_id_tool)  return(-1);
 	
 
 
@@ -801,20 +801,20 @@ double  NETSimulatorSimplified::countNodeLfn(long  nodeId,  long  penalty,  bool
 	d_max_out_capa  =  0;
 	d_out_data_flow  =  0;
 	d_capacity_extending  =  0;
-	for  (long li = 0; li < nodeIdTool; li++)
+	for  (long li = 0; li < l_node_id_tool; li++)
 	{
 
-		d_max_out_capa  +=  linksTableForNodes[nodeId][li];
-		d_out_data_flow  +=  linksTableForNodes[nodeId][li] - actualNetworkState[nodeId][li];
+		d_max_out_capa  +=  pl_links_table_for_nodes[lNodeId][li];
+		d_out_data_flow  +=  (pl_links_table_for_nodes[lNodeId][li] - pl_actual_network_state[lNodeId][li]);
 
 
-		if  (actualNetworkState[nodeId][li]  <  0)
+		if  (pl_actual_network_state[lNodeId][li]  <  0)
 		{
-			d_capacity_extending  +=  actualNetworkState[nodeId][li]*-1;
-		}//if  (actualNetworkState[nodeId][li]  <  0)
+			d_capacity_extending  +=  (pl_actual_network_state[lNodeId][li])*(-1);
+		}//if  (pl_actual_network_state[lNodeId][li]  <  0)
 
 		
-	}//for  (long li = 0; li < nodeIdTool; li++)
+	}//for  (long li = 0; li < l_node_id_tool; li++)
 
 
 
@@ -825,41 +825,41 @@ double  NETSimulatorSimplified::countNodeLfn(long  nodeId,  long  penalty,  bool
 
 
 	d_lfn  =  0;
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
 
 		//we care only of those links that really exists (their max capacity is above 0)
-		if  (linksTableForNodes[nodeId][li]  >  0)
+		if  (pl_links_table_for_nodes[lNodeId][li]  >  0)
 		{
-			d_buf  =  d_out_data_flow  -  (d_max_out_capa - linksTableForNodes[nodeId][li]);
+			d_buf  =  d_out_data_flow  -  (d_max_out_capa - pl_links_table_for_nodes[lNodeId][li]);
 
 			if  (d_buf  <  0)  d_buf  =  0;
 
 			d_lfn  +=  d_buf;
-		}//if  (linksTableForNodes[nodeId][li]  >  0)
+		}//if  (pl_links_table_for_nodes[lNodeId][li]  >  0)
 	
-	}//for  (li = 0; li < nodeIdTool; li++)
+	}//for  (li = 0; li < l_node_id_tool; li++)
 
 
 
 	//now we have to add the capacity extending penalty
-	*capacityExtending  =  false;
+	*pbCapacityExtending  =  false;
 
 	double  d_lfn_penalized;
 	d_lfn_penalized = d_lfn;
 
-	if  (penalty  >  0)
+	if  (lPenalty  >  0)
 	{
 		if  (d_capacity_extending  >  0)
 		{
 			
-			d_lfn_penalized  +=  d_capacity_extending * penalty;
+			d_lfn_penalized  +=  d_capacity_extending * lPenalty;
 			d_lfn_penalized  =  d_lfn_penalized * d_lfn_penalized;
 
-			*penaltyPure += d_lfn_penalized - d_lfn;
-			*fitnessPure += d_lfn;
+			*pdPenaltyPure += d_lfn_penalized - d_lfn;
+			*pdFitnessPure += d_lfn;
 
-			*capacityExtending  =  true;
+			*pbCapacityExtending  =  true;
 		}//if  (l_capacity_extending  >  0)
 	}//if  (bPenalty  ==  true)
 
@@ -868,17 +868,17 @@ double  NETSimulatorSimplified::countNodeLfn(long  nodeId,  long  penalty,  bool
 
 
 
-	return d_lfn_penalized;
-}//long  NETSimulatorSimplified::lCountNodeLFN(long  nodeId)
+	return(d_lfn_penalized);
+}//long  CNETsimulatorSimplyfied::lCountNodeLFN(long  lNodeId)
 
 
 
 
-double  NETSimulatorSimplified::countNodeLfl(long  nodeId,  long  penalty,  bool  *capacityExtending, double *fitnessPure, double *penaltyPure)
+double  CNETsimulatorSimplyfied::dCountNodeLFL(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure)
 {
 
-	if  (nodeId  <  0)  return-2;
-	if  (nodeId  >=  nodeIdTool)  return-1;
+	if  (lNodeId  <  0)  return(-2);
+	if  (lNodeId  >=  l_node_id_tool)  return(-1);
 	
 
 
@@ -894,29 +894,29 @@ double  NETSimulatorSimplified::countNodeLfl(long  nodeId,  long  penalty,  bool
 	d_max_in_capa  =  0;
 	d_in_data_flow  =  0;
 	d_capacity_extending  =  0;
-	for  (long li = 0; li < nodeIdTool; li++)
+	for  (long li = 0; li < l_node_id_tool; li++)
 	{
 
-		d_max_in_capa  +=  linksTableForNodes[li][nodeId];
-		d_in_data_flow  +=  linksTableForNodes[li][nodeId] - actualNetworkState[li][nodeId];
+		d_max_in_capa  +=  pl_links_table_for_nodes[li][lNodeId];
+		d_in_data_flow  +=  (pl_links_table_for_nodes[li][lNodeId] - pl_actual_network_state[li][lNodeId]);
 
-		d_max_out_capa  +=  linksTableForNodes[nodeId][li];
-		d_out_data_flow  +=  linksTableForNodes[nodeId][li] - actualNetworkState[nodeId][li];
+		d_max_out_capa  +=  pl_links_table_for_nodes[lNodeId][li];
+		d_out_data_flow  +=  (pl_links_table_for_nodes[lNodeId][li] - pl_actual_network_state[lNodeId][li]);
 
 
-		if  (actualNetworkState[nodeId][li]  <  0)
+		if  (pl_actual_network_state[lNodeId][li]  <  0)
 		{
-			d_capacity_extending  +=  actualNetworkState[nodeId][li]*-1;
-		}//if  (actualNetworkState[nodeId][li]  <  0)
+			d_capacity_extending  +=  (pl_actual_network_state[lNodeId][li])*(-1);
+		}//if  (pl_actual_network_state[lNodeId][li]  <  0)
 
 
-		if  (actualNetworkState[li][nodeId]  <  0)
+		if  (pl_actual_network_state[li][lNodeId]  <  0)
 		{
-			d_capacity_extending  +=  actualNetworkState[li][nodeId]*-1;
-		}//if  (actualNetworkState[nodeId][li]  <  0)
+			d_capacity_extending  +=  (pl_actual_network_state[li][lNodeId])*(-1);
+		}//if  (pl_actual_network_state[lNodeId][li]  <  0)
 
 		
-	}//for  (long li = 0; li < nodeIdTool; li++)
+	}//for  (long li = 0; li < l_node_id_tool; li++)
 
 
 
@@ -927,57 +927,57 @@ double  NETSimulatorSimplified::countNodeLfl(long  nodeId,  long  penalty,  bool
 
 
 	d_lfl  =  0;
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
 
 		//we care only of those links that really exists (their max capacity is above 0)
-		if  (linksTableForNodes[nodeId][li]  >  0)
+		if  (pl_links_table_for_nodes[lNodeId][li]  >  0)
 		{
-			d_buf  =  d_out_data_flow  -  (d_max_out_capa - linksTableForNodes[nodeId][li]);
+			d_buf  =  d_out_data_flow  -  (d_max_out_capa - pl_links_table_for_nodes[lNodeId][li]);
 
 			if  (d_buf  <  0)  d_buf  =  0;
 
 			d_lfl  +=  d_buf;
-		}//if  (linksTableForNodes[nodeId][li]  >  0)
+		}//if  (pl_links_table_for_nodes[lNodeId][li]  >  0)
 
 
 		//we care only of those links that really exists (their max capacity is above 0)
-		if  (linksTableForNodes[li][nodeId]  >  0)
+		if  (pl_links_table_for_nodes[li][lNodeId]  >  0)
 		{
-			d_buf  =  d_in_data_flow  -  (d_max_in_capa - linksTableForNodes[li][nodeId]);
+			d_buf  =  d_in_data_flow  -  (d_max_in_capa - pl_links_table_for_nodes[li][lNodeId]);
 
 			if  (d_buf  <  0)  d_buf  =  0;
 
 			d_lfl  +=  d_buf;
-		}//if  (linksTableForNodes[nodeId][li]  >  0)
+		}//if  (pl_links_table_for_nodes[lNodeId][li]  >  0)
 	
-	}//for  (li = 0; li < nodeIdTool; li++)
+	}//for  (li = 0; li < l_node_id_tool; li++)
 
 	d_lfl  =  d_lfl  /  2.0;
 
 	//now we have to add the capacity extending penalty
-	*capacityExtending  =  false;
+	*pbCapacityExtending  =  false;
 
 	double  d_lfl_penalized;
 	d_lfl_penalized = d_lfl;
 
-	if  (penalty  >  0)
+	if  (lPenalty  >  0)
 	{
 		if  (d_capacity_extending  >  0)
 		{
 			
-			d_lfl_penalized  +=  d_capacity_extending * penalty;
+			d_lfl_penalized  +=  d_capacity_extending * lPenalty;
 			d_lfl_penalized  =  d_lfl_penalized * d_lfl_penalized;
-			*penaltyPure += d_lfl_penalized - d_lfl;
-			*fitnessPure += d_lfl;
+			*pdPenaltyPure += d_lfl_penalized - d_lfl;
+			*pdFitnessPure += d_lfl;
 
-			*capacityExtending  =  true;
+			*pbCapacityExtending  =  true;
 		}//if  (l_capacity_extending  >  0)
 	}//if  (bPenalty  ==  true)
 
 
-	return d_lfl_penalized;
-}//long  NETSimulatorSimplified::lCountNodeLFL(long  nodeId,  long  penalty)
+	return(d_lfl_penalized);
+}//long  CNETsimulatorSimplyfied::lCountNodeLFL(long  lNodeId,  long  lPenalty)
 
 
 
@@ -993,109 +993,109 @@ retruned values:
 1  -  ok
 0  -  file creation impossible
 */
-int   NETSimulatorSimplified::presentNetwork(CString  fileName)
+int   CNETsimulatorSimplyfied::iPresentNetwork(CString  sFileName)
 {
 
 	FILE  *pf_report;
 
 	
-	pf_report  =  fopen( (LPCSTR) fileName.GetString(), "w+");
-	if  (pf_report  ==  NULL)  return 0;
+	pf_report  =  fopen( (LPCSTR) sFileName, "w+");
+	if  (pf_report  ==  NULL)  return(0);
 
-	presentNetwork(pf_report,false);
+	vPresentNetwork(pf_report,false);
 
 	fclose(pf_report);
-	return 1;
+	return(1);
 
-}//int   NETSimulatorSimplified::presentNetwork(CString  fileName)
-
-
+}//int   CNETsimulatorSimplyfied::iPresentNetwork(CString  sFileName)
 
 
 
 
 
-void   NETSimulatorSimplified::presentNetwork(FILE  *destFile,  bool  actualState)
+
+
+void   CNETsimulatorSimplyfied::vPresentNetwork(FILE  *pfDestFile,  bool  bActualState)
 {
 
 	
-	fprintf(destFile,"Number of nodes:%ld\n", nodeIdTool);
-	fprintf(destFile,"Number of links:%ld\n\n\n", numberOfLinks);
+	fprintf(pfDestFile,"Number of nodes:%ld\n", l_node_id_tool);
+	fprintf(pfDestFile,"Number of links:%ld\n\n\n", l_number_of_links);
 
-	fprintf(destFile,"  \t");
-	for  (long  li = 0; li < nodeIdTool; li++)
-		fprintf(destFile,"%ld  \t", li);
-	fprintf(destFile,"\n");
+	fprintf(pfDestFile,"  \t");
+	for  (long  li = 0; li < l_node_id_tool; li++)
+		fprintf(pfDestFile,"%ld  \t", li);
+	fprintf(pfDestFile,"\n");
 
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
-		fprintf(destFile,"%ld  \t", li);
+		fprintf(pfDestFile,"%ld  \t", li);
 
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{
-			if  (linksTableForNodes[li][lj]  ==  0)
-				fprintf(destFile,"*  \t");
+			if  (pl_links_table_for_nodes[li][lj]  ==  0)
+				fprintf(pfDestFile,"*  \t");
 			else
-				if  (actualState  ==  true)
-					fprintf(destFile,"%ld  \t",  actualNetworkState[li][lj]);
+				if  (bActualState  ==  true)
+					fprintf(pfDestFile,"%ld  \t",  pl_actual_network_state[li][lj]);
 				else
-					fprintf(destFile,"%ld  \t",  linksTableForNodes[li][lj]);
-		}//for  (long  lj = 0; lj < nodeIdTool; lj++)
+					fprintf(pfDestFile,"%ld  \t",  pl_links_table_for_nodes[li][lj]);
+		}//for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		
-		fprintf(destFile,"\n");
-	}//for  (long  li = 0; li < nodeIdTool; li++)
+		fprintf(pfDestFile,"\n");
+	}//for  (long  li = 0; li < l_node_id_tool; li++)
 
 
 
-	fprintf(destFile,"\n\n\n\nCapacity incr:\n\n");
+	fprintf(pfDestFile,"\n\n\n\nCapacity incr:\n\n");
 
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
-		fprintf(destFile,"%ld  \t", li);
+		fprintf(pfDestFile,"%ld  \t", li);
 
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{
-			if  (linksTableForNodes[li][lj]  ==  0)
-				fprintf(destFile,"*  \t");
+			if  (pl_links_table_for_nodes[li][lj]  ==  0)
+				fprintf(pfDestFile,"*  \t");
 			else
 			{
-				if  (pathsPerLink[li][lj] == 0)
-					fprintf(destFile,"(%ld)  \t",  actualNetworkState[li][lj]);
+				if  (pi_paths_per_link[li][lj] == 0)
+					fprintf(pfDestFile,"(%ld)  \t",  pl_actual_network_state[li][lj]);
 				else
-					fprintf(destFile,"%ld  \t",  actualNetworkState[li][lj]/pathsPerLink[li][lj]);
+					fprintf(pfDestFile,"%ld  \t",  pl_actual_network_state[li][lj]/pi_paths_per_link[li][lj]);
 			}//else
-		}//for  (long  lj = 0; lj < nodeIdTool; lj++)
+		}//for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		
-		fprintf(destFile,"\n");
-	}//for  (long  li = 0; li < nodeIdTool; li++)
+		fprintf(pfDestFile,"\n");
+	}//for  (long  li = 0; li < l_node_id_tool; li++)
 	
 
-	fprintf(destFile,"\n\n\n\nWays per link:\n\n");
+	fprintf(pfDestFile,"\n\n\n\nWays per link:\n\n");
 
-	for  (long  li = 0; li < nodeIdTool; li++)
+	for  (long  li = 0; li < l_node_id_tool; li++)
 	{
-		fprintf(destFile,"%ld  \t", li);
+		fprintf(pfDestFile,"%ld  \t", li);
 
-		for  (long  lj = 0; lj < nodeIdTool; lj++)
+		for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		{
-			if  (linksTableForNodes[li][lj]  ==  0)
-				fprintf(destFile,"*  \t");
+			if  (pl_links_table_for_nodes[li][lj]  ==  0)
+				fprintf(pfDestFile,"*  \t");
 			else
-				fprintf(destFile,"%d  \t",  pathsPerLink[li][lj]);
-		}//for  (long  lj = 0; lj < nodeIdTool; lj++)
+				fprintf(pfDestFile,"%d  \t",  pi_paths_per_link[li][lj]);
+		}//for  (long  lj = 0; lj < l_node_id_tool; lj++)
 		
-		fprintf(destFile,"\n");
-	}//for  (long  li = 0; li < nodeIdTool; li++)
+		fprintf(pfDestFile,"\n");
+	}//for  (long  li = 0; li < l_node_id_tool; li++)
 
 
-	if  (constSatIncrDemands == true)  fprintf(destFile,"\n\n minimumAllowedDemandIncrease: %d\n\n\n\n\n\n", minimumAllowedDemandIncrease); 
+	if  (b_const_sat_incr_demands == true)  fprintf(pfDestFile,"\n\n i_minimum_allowed_demand_increase: %d\n\n\n\n\n\n", i_minimum_allowed_demand_increase); 
 
-	recomputeMinimumAllowedDemandIncrease();
+	v_recompute_minimum_allowed_demand_increase();
 
-	if  (constSatIncrDemands == true)  fprintf(destFile,"\n\n minimumAllowedDemandIncrease: %d\n\n\n\n\n\n", minimumAllowedDemandIncrease); 
+	if  (b_const_sat_incr_demands == true)  fprintf(pfDestFile,"\n\n i_minimum_allowed_demand_increase: %d\n\n\n\n\n\n", i_minimum_allowed_demand_increase); 
 	
 
-}//int   NETSimulatorSimplified::presentNetwork(CString  sFileName)
+}//int   CNETsimulatorSimplyfied::iPresentNetwork(CString  sFileName)
 
 
 
@@ -1111,38 +1111,38 @@ retruned values:
 1  -  ok
 0  -  file creation impossible
 */
-int   NETSimulatorSimplified::createBasicVirtualDatabaseFile(CString  fileName)
+int   CNETsimulatorSimplyfied::iCreateBasicVirtualDatabaseFile(CString  sFileName)
 {
 
 
 	FILE  *pf_report;
 
 	
-	pf_report  =  fopen( (LPCSTR) fileName.GetString(), "w+");
-	if  (pf_report  ==  NULL)  return 0;
+	pf_report  =  fopen( (LPCSTR) sFileName, "w+");
+	if  (pf_report  ==  NULL)  return(0);
 
 
-	fprintf(pf_report,"%ld\n\n",  numberOfLinks);
+	fprintf(pf_report,"%ld\n\n",  l_number_of_links);
 
 
-	for  (long  li = 0; li < numberOfLinks; li++)
+	for  (long  li = 0; li < l_number_of_links; li++)
 	{
 
-		fprintf(pf_report,"%ld\n", linksAddressTable[li * 2] );
-		fprintf(pf_report,"%ld\n", linksAddressTable[li * 2 + 1]);
+		fprintf(pf_report,"%ld\n", pl_links_addres_table[li * 2] );
+		fprintf(pf_report,"%ld\n", pl_links_addres_table[li * 2 + 1]);
 		fprintf(pf_report,"1\n");
-		fprintf(pf_report,"3 %ld %ld %ld\n", linksAddressTable[li * 2], li, linksAddressTable[li * 2 + 1]);
+		fprintf(pf_report,"3 %ld %ld %ld\n", pl_links_addres_table[li * 2], li, pl_links_addres_table[li * 2 + 1]);
 		fprintf(pf_report,"\n");
 
-	}//for  (long  li = 0; li < listOfLinks.getCapacity(); li++)
+	}//for  (long  li = 0; li < c_list_of_links.lGetCapacity(); li++)
 
 	
 	fclose(pf_report);
 
-	return 1;
+	return(1);
 
 
-}//int   NETSimulatorSimplified::createBasicVirtualDatabaseFile(CString  fileName)
+}//int   CNETsimulatorSimplyfied::iCreateBasicVirtualDatabaseFile(CString  sFileName)
 
 
 /*
@@ -1150,128 +1150,126 @@ int   NETSimulatorSimplified::createBasicVirtualDatabaseFile(CString  fileName)
 0 - failed due to unknwon problem
 -1 - simulator types different
 */
-int  NETSimulatorSimplified::copySimulator(NETSimulator  *otherSimulator)
+int  CNETsimulatorSimplyfied::iCopySimulator(CNETsimulator  *pcOtherSimulator)
 {
-	if  (getSimulatorType()  !=  otherSimulator->getSimulatorType())
-		return-1;
+	if  (iGetSimulatorType()  !=  pcOtherSimulator->iGetSimulatorType())
+		return(-1);
 
-	constSatIncrDemands = ((NETSimulatorSimplified *)  otherSimulator)->constSatIncrDemands;
-	minimumAllowedDemandIncrease = ((NETSimulatorSimplified *)  otherSimulator)->minimumAllowedDemandIncrease;
+	b_const_sat_incr_demands = ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->b_const_sat_incr_demands;
+	i_minimum_allowed_demand_increase = ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->i_minimum_allowed_demand_increase;
 
-	if  (nodeIdTool  !=  ((NETSimulatorSimplified *)  otherSimulator)->nodeIdTool)
+	if  (l_node_id_tool  !=  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->l_node_id_tool)
 	{
-		if  (actualNetworkState  !=  NULL)
+		if  (pl_actual_network_state  !=  NULL)
 		{
-			for  (long  li = 0; li < nodeIdTool; li++)
-				delete  []  actualNetworkState[li];
+			for  (long  li = 0; li < l_node_id_tool; li++)
+				delete  []  pl_actual_network_state[li];
 
-			delete  []  actualNetworkState;		
-		}//if  (actualNetworkState  !=  NULL)
-		actualNetworkState  =  NULL;
+			delete  []  pl_actual_network_state;		
+		}//if  (pl_actual_network_state  !=  NULL)
+		pl_actual_network_state  =  NULL;
 
 
-		if  (pathsPerLink  !=  NULL)
+		if  (pi_paths_per_link  !=  NULL)
 		{
-			for  (long  li = 0; li < nodeIdTool; li++)
-				delete  []  pathsPerLink[li];
+			for  (long  li = 0; li < l_node_id_tool; li++)
+				delete  []  pi_paths_per_link[li];
 
-			delete  []  pathsPerLink;		
-		}//if  (actualNetworkState  !=  NULL)
-		pathsPerLink  =  NULL;
+			delete  []  pi_paths_per_link;		
+		}//if  (pl_actual_network_state  !=  NULL)
+		pi_paths_per_link  =  NULL;
 
 
 
-		if  (linksTableForNodes !=  NULL)
+		if  (pl_links_table_for_nodes !=  NULL)
 		{
-			for  (long  li = 0; li < nodeIdTool; li++)
-				delete  []  linksTableForNodes[li];
+			for  (long  li = 0; li < l_node_id_tool; li++)
+				delete  []  pl_links_table_for_nodes[li];
 
-			delete  []  linksTableForNodes;		
-		}//if  (linksTableForNodes !=  NULL)
-		linksTableForNodes  =  NULL;
-
-
-		if  (linksAddressTable  !=  NULL)
-			delete  []  linksAddressTable;
-		linksAddressTable  =  NULL;
+			delete  []  pl_links_table_for_nodes;		
+		}//if  (pl_links_table_for_nodes !=  NULL)
+		pl_links_table_for_nodes  =  NULL;
 
 
-		nodeIdTool  =  ((NETSimulatorSimplified *)  otherSimulator)->nodeIdTool;
+		if  (pl_links_addres_table  !=  NULL)
+			delete  []  pl_links_addres_table;
+		pl_links_addres_table  =  NULL;
 
-		linksTableForNodes  =  new  long*[nodeIdTool];
-		actualNetworkState  =  new  long*[nodeIdTool];
-		pathsPerLink  =  new  int*[nodeIdTool];
-		for  (int  ii = 0; ii < nodeIdTool; ii++)
+
+		l_node_id_tool  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->l_node_id_tool;
+
+		pl_links_table_for_nodes  =  new  long*[l_node_id_tool];
+		pl_actual_network_state  =  new  long*[l_node_id_tool];
+		pi_paths_per_link  =  new  int*[l_node_id_tool];
+		for  (int  ii = 0; ii < l_node_id_tool; ii++)
 		{
-			linksTableForNodes[ii]  =  new  long[nodeIdTool];
-			actualNetworkState[ii]  =  new  long[nodeIdTool];		
-			pathsPerLink[ii]  =  new  int[nodeIdTool];
-		}//for  (int  ii = 0; ii < nodeIdTool; ii++)
+			pl_links_table_for_nodes[ii]  =  new  long[l_node_id_tool];
+			pl_actual_network_state[ii]  =  new  long[l_node_id_tool];		
+			pi_paths_per_link[ii]  =  new  int[l_node_id_tool];
+		}//for  (int  ii = 0; ii < l_node_id_tool; ii++)
 
 
-		numberOfLinks  =  ((NETSimulatorSimplified *)  otherSimulator)->numberOfLinks;
-		linksAddressTable  =  new  long[numberOfLinks  *  2];
-	}//if  (nodeIdTool  !=  pcOtherNetowrk->nodeIdTool)
+		l_number_of_links  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->l_number_of_links;
+		pl_links_addres_table  =  new  long[l_number_of_links  *  2];
+	}//if  (l_node_id_tool  !=  pcOtherNetowrk->l_node_id_tool)
 
 
 
-	if  (numberOfLinks  !=  ((NETSimulatorSimplified *)  otherSimulator)->numberOfLinks)
+	if  (l_number_of_links  !=  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->l_number_of_links)
 	{
-		numberOfLinks  =  ((NETSimulatorSimplified *)  otherSimulator)->numberOfLinks;
-		linksAddressTable  =  new  long[numberOfLinks * 2];
-	}//if  (numberOfLinks  !=  pcOtherNetowrk->numberOfLinks)
+		l_number_of_links  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->l_number_of_links;
+		pl_links_addres_table  =  new  long[l_number_of_links * 2];
+	}//if  (l_number_of_links  !=  pcOtherNetowrk->l_number_of_links)
 
 
 
-	for  (int  ii = 0; ii < nodeIdTool;  ii++)
+	for  (int  ii = 0; ii < l_node_id_tool;  ii++)
 	{
-		for  (int  ij = 0; ij < nodeIdTool;  ij++)
+		for  (int  ij = 0; ij < l_node_id_tool;  ij++)
 		{
-			linksTableForNodes[ii][ij]  =  ((NETSimulatorSimplified *)  otherSimulator)->linksTableForNodes[ii][ij];
-			actualNetworkState[ii][ij]  =  ((NETSimulatorSimplified *)  otherSimulator)->actualNetworkState[ii][ij];
-			pathsPerLink[ii][ij]  =  ((NETSimulatorSimplified *)  otherSimulator)->pathsPerLink[ii][ij];
-		}//for  (int  ij = 0; ij < nodeIdTool;  ij++)
-	}//for  (int  ii = 0; ii < nodeIdTool;  ii++)
+			pl_links_table_for_nodes[ii][ij]  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->pl_links_table_for_nodes[ii][ij];
+			pl_actual_network_state[ii][ij]  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->pl_actual_network_state[ii][ij];
+			pi_paths_per_link[ii][ij]  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->pi_paths_per_link[ii][ij];
+		}//for  (int  ij = 0; ij < l_node_id_tool;  ij++)
+	}//for  (int  ii = 0; ii < l_node_id_tool;  ii++)
 
 
-	for  (int  ii = 0; ii < numberOfLinks;  ii++)
+	for  (int  ii = 0; ii < l_number_of_links;  ii++)
 	{
-		linksAddressTable[ii * 2]  =  ((NETSimulatorSimplified *)  otherSimulator)->linksAddressTable[ii * 2];
-		linksAddressTable[ii * 2 + 1]  =  ((NETSimulatorSimplified *)  otherSimulator)->linksAddressTable[ii * 2 + 1];	
-	}//for  (int  ii = 0; ii < numberOfLinks;  ii++)
+		pl_links_addres_table[ii * 2]  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->pl_links_addres_table[ii * 2];
+		pl_links_addres_table[ii * 2 + 1]  =  ((CNETsimulatorSimplyfied *)  pcOtherSimulator)->pl_links_addres_table[ii * 2 + 1];	
+	}//for  (int  ii = 0; ii < l_number_of_links;  ii++)
 			
 
-	return 1;
-}//int  NETSimulatorSimplified::copySimulator()
+	return(1);
+}//int  CNETsimulatorSimplyfied::iCopySimulator()
 
 
-bool  NETSimulatorSimplified::bIsTheSame(NETSimulatorSimplified  *otherNetwork)
+bool  CNETsimulatorSimplyfied::bIsTheSame(CNETsimulatorSimplyfied  *pcOtherNetowrk)
 {
-	if  (nodeIdTool  !=  otherNetwork->nodeIdTool)  return false;
-	if  (numberOfLinks  !=  otherNetwork->numberOfLinks)  return false;
+	if  (l_node_id_tool  !=  pcOtherNetowrk->l_node_id_tool)  return(false);
+	if  (l_number_of_links  !=  pcOtherNetowrk->l_number_of_links)  return(false);
 
-	for  (int  ii = 0; ii < nodeIdTool;  ii++)
-		for  (int  ij = 0; ij < nodeIdTool;  ij++)
+	for  (int  ii = 0; ii < l_node_id_tool;  ii++)
+		for  (int  ij = 0; ij < l_node_id_tool;  ij++)
 			if  (
-					linksTableForNodes[ii][ij]
+					pl_links_table_for_nodes[ii][ij]
 					!=
-					otherNetwork->linksTableForNodes[ii][ij]
+					pcOtherNetowrk->pl_links_table_for_nodes[ii][ij]
 				)
-				return false;
+				return(false);
 
-	return true;
+	return(true);
 
-}//bool  NETSimulatorSimplified::bIsTheSame(NETSimulatorSimplified  *otherNetwork)
-
-
+}//bool  CNETsimulatorSimplyfied::bIsTheSame(CNETsimulatorSimplyfied  *pcOtherNetowrk)
 
 
 
 
 
-//----------------------end of implementation of NETSimulatorSimplified--------------------------------------------
 
 
+//----------------------end of implementation of CNETsimulatorSimplyfied--------------------------------------------
 
 
 
@@ -1287,64 +1285,66 @@ bool  NETSimulatorSimplified::bIsTheSame(NETSimulatorSimplified  *otherNetwork)
 
 
 
-//--------------implemenatation of class  NETsimulatorComplex--------------------------------------------
+
+
+//--------------implemenatation of class  CNETsimulatorComplex--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
-NETsimulatorComplex::NETsimulatorComplex()
+CNETsimulatorComplex::CNETsimulatorComplex()
 {
 
-	nodeIdTool  =  0;//used as counter of ids of nodes
-	linkIdTool  =  0;//used as counter of ids of nodes
-	connectionIdTool  =  1;//used as counter of ids of nodes
+	l_node_id_tool  =  0;//used as counter of ids of nodes
+	l_link_id_tool  =  0;//used as counter of ids of nodes
+	l_connection_id_tool  =  1;//used as counter of ids of nodes
 
 
 	//acces optimalization tools
-	nodesTable  =  NULL;
-	linksTable  =  NULL;
+	pc_nodes_table  =  NULL;
+	pc_links_table  =  NULL;
 //	pc_connections_table  =  NULL;
 
 
-}//NETsimulatorComplex::NETsimulatorComplex()
+}//CNETsimulatorComplex::CNETsimulatorComplex()
 
 
 
 
-NETsimulatorComplex::~NETsimulatorComplex()
+CNETsimulatorComplex::~CNETsimulatorComplex()
 {
 
 	long  l_max;
 	long  li;
 
 
-	listOfNodes.first();
-	l_max  =  listOfNodes.getCapacity();
+	c_list_of_nodes.bFirst();
+	l_max  =  c_list_of_nodes.lGetCapacity();
 
 	for  (li = 0; li < l_max; li++)
 	{
-		delete (NETNode *) listOfNodes.getNode()->getObject();
-		listOfNodes.next();
+		delete (CNETnode *) c_list_of_nodes.pcGetNode()->pvGetObject();
+		c_list_of_nodes.bNext();
 	}//for  (li = 0; li < l_max; li++)
 
 
 
-	listOfLinks.first();
-	l_max  =  listOfLinks.getCapacity();
+	c_list_of_links.bFirst();
+	l_max  =  c_list_of_links.lGetCapacity();
 
 	for  (li = 0; li < l_max; li++)
 	{
-		delete (NETLink *) listOfLinks.getNode()->getObject();
-		listOfLinks.next();
+		delete (CNETlink *) c_list_of_links.pcGetNode()->pvGetObject();
+		c_list_of_links.bNext();
 	}//for  (li = 0; li < l_max; li++)
 
 
 
-	listOfConnections.first();
-	l_max  =  listOfConnections.getCapacity();
+	c_list_of_connections.bFirst();
+	l_max  =  c_list_of_connections.lGetCapacity();
 
 	for  (li = 0; li < l_max; li++)
 	{
-		delete (NETConnection *) listOfConnections.getNode()->getObject();
-		listOfConnections.next();
+		delete (CNETconnection *) c_list_of_connections.pcGetNode()->pvGetObject();
+		c_list_of_connections.bNext();
 	}//for  (li = 0; li < l_max; li++)
 	
 
@@ -1352,16 +1352,16 @@ NETsimulatorComplex::~NETsimulatorComplex()
 	
 	
 
-	listOfNodes.bye(false);
-	listOfLinks.bye(false);
-	listOfConnections.bye(false);
+	c_list_of_nodes.vBYE(false);
+	c_list_of_links.vBYE(false);
+	c_list_of_connections.vBYE(false);
 
 
-	if  (nodesTable  !=  NULL)  delete  nodesTable;
-	if  (linksTable  !=  NULL)  delete  linksTable;
+	if  (pc_nodes_table  !=  NULL)  delete  pc_nodes_table;
+	if  (pc_links_table  !=  NULL)  delete  pc_links_table;
 //	if  (pc_connections_table  !=  NULL)  delete  pc_connections_table;
 
-}//NETsimulatorComplex::~NETsimulatorComplex()
+}//CNETsimulatorComplex::~CNETsimulatorComplex()
 
 
 
@@ -1373,47 +1373,47 @@ NETsimulatorComplex::~NETsimulatorComplex()
 
 
 //returns the node id (-1 if the operation is unsuccessfull)
-long  NETsimulatorComplex::addNewNode(long  capacity,  CString  name)
+long  CNETsimulatorComplex::lAddNewNode(long  lCapacity,  CString  sName)
 {
 
-	NETNode  *pc_new_node;
+	CNETnode  *pc_new_node;
 	long      l_new_node_id;
-	NETNode  **pc_new_nodes_table;
+	CNETnode  **pc_new_nodes_table;
 
 
-	pc_new_node  =  new  NETNode;
-
-	
-	
-	if  (pc_new_node  ==  NULL)  return-1;// we return error if the operation is unsuccessfull
-
-	
-	if  (pc_new_node->setCapacity(capacity)  ==  false)  return-2;
+	pc_new_node  =  new  CNETnode;
 
 	
 	
-	if  (listOfNodes.add(pc_new_node)  ==  false)
+	if  (pc_new_node  ==  NULL)  return(-1);// we return error if the operation is unsuccessfull
+
+	
+	if  (pc_new_node->bSetCapacity(lCapacity)  ==  false)  return(-2);
+
+	
+	
+	if  (c_list_of_nodes.bAdd(pc_new_node)  ==  false)
 	{
 		delete  pc_new_node;
-		return-1;
-	}//if  (listOfNodes.add()  ==  false)
+		return(-1);
+	}//if  (c_list_of_nodes.bAdd()  ==  false)
 
 
 
 
 	//first we check wheather there's no free places in current table
 	l_new_node_id  =  -1;
-	if  (nodesTable  !=  NULL)
+	if  (pc_nodes_table  !=  NULL)
 	{
 
-		for  (long  li = 0;li < nodeIdTool&&l_new_node_id == -1; li++)
+		for  (long  li = 0;(li < l_node_id_tool)&&(l_new_node_id == -1); li++)
 		{
 
-			if  (nodesTable[li]  ==  NULL)  l_new_node_id  =  li;
+			if  (pc_nodes_table[li]  ==  NULL)  l_new_node_id  =  li;
 		
-		}//for  (long  li = 0;li < nodeIdTool; li++)
+		}//for  (long  li = 0;li < l_node_id_tool; li++)
 	
-	}//if  (nodesTable  !=  NULL)
+	}//if  (pc_nodes_table  !=  NULL)
 
 
 
@@ -1423,10 +1423,10 @@ long  NETsimulatorComplex::addNewNode(long  capacity,  CString  name)
 	if  (l_new_node_id  !=  -1)
 	{
 
-		pc_new_node->changeId(l_new_node_id);
-		nodesTable[l_new_node_id]  =  pc_new_node;
+		pc_new_node->b_change_id(l_new_node_id);
+		pc_nodes_table[l_new_node_id]  =  pc_new_node;
 
-		return l_new_node_id;
+		return(l_new_node_id);
 			
 	}//if  (l_new_node_id  !=  -1)
 
@@ -1434,17 +1434,17 @@ long  NETsimulatorComplex::addNewNode(long  capacity,  CString  name)
 
 
 	//if there's no free id in the table we have to create a new one and rewrite the values from previous
-	nodeIdTool++;
-	pc_new_nodes_table  =  new   NETNode*  [nodeIdTool];
+	l_node_id_tool++;
+	pc_new_nodes_table  =  new   CNETnode*  [l_node_id_tool];
 
 	//if the error occurs
 	if  (pc_new_nodes_table  ==  NULL)
 	{
 
-		nodeIdTool--;
-		delete  (NETNode*)  listOfNodes.getNode()->getObject();
-		listOfNodes.deleteActual(false);
-		return-1;
+		l_node_id_tool--;
+		delete  (CNETnode*)  (c_list_of_nodes.pcGetNode()->pvGetObject());
+		c_list_of_nodes.bDeleteActual(false);
+		return(-1);
 	
 	}//if  (pc_new_nodes_table  ==  NULL)
 
@@ -1453,24 +1453,24 @@ long  NETsimulatorComplex::addNewNode(long  capacity,  CString  name)
 
 	//if everything is ok we copy the data and destroy the previous table 
 	//and put the new one instead
-	for  (long lj = 0; lj < nodeIdTool - 1;lj++)
-		pc_new_nodes_table[lj]  =  nodesTable[lj];
+	for  (long lj = 0; lj < l_node_id_tool - 1;lj++)
+		pc_new_nodes_table[lj]  =  pc_nodes_table[lj];
 
 
-	pc_new_node->changeId(nodeIdTool - 1);
-	pc_new_nodes_table[nodeIdTool - 1]  =  pc_new_node;
+	pc_new_node->b_change_id(l_node_id_tool - 1);
+	pc_new_nodes_table[l_node_id_tool - 1]  =  pc_new_node;
 
 
-	delete  []  nodesTable;
-	nodesTable  =  pc_new_nodes_table;
-
-
-
-	return nodeIdTool - 1;
+	delete  []  pc_nodes_table;
+	pc_nodes_table  =  pc_new_nodes_table;
 
 
 
-}//long  NETsimulatorComplex::addNewNode(long  capacity,  CString  name)
+	return(l_node_id_tool - 1);
+
+
+
+}//long  CNETsimulatorComplex::lAddNewNode(long  lCapacity,  CString  sName)
 
 
 
@@ -1486,55 +1486,55 @@ returned values:
 -4 - node undeletable!
 -5 - fatal error!!! node id was not found in the main list!!!
 */  
-int  NETsimulatorComplex::deleteNode(long  nodeId)
+int  CNETsimulatorComplex::iDeleteNode(long  lNodeId)
 {
 
 	//first error communication
-	if  (nodeId  <  0)  return-1;
-	if  (nodeId  >= nodeIdTool)  return-2;
+	if  (lNodeId  <  0)  return(-1);
+	if  (lNodeId  >= l_node_id_tool)  return(-2);
 
-	if  (nodesTable[nodeId]  ==  NULL)  return-3;
+	if  (pc_nodes_table[lNodeId]  ==  NULL)  return(-3);
 
-	if  (nodesTable[nodeId]->isDeletable()  ==  false)  return-4;
+	if  (pc_nodes_table[lNodeId]->bIsDeletable()  ==  false)  return(-4);
 
 
 	//first we must search for the node in the main list
-	listOfNodes.first();
+	c_list_of_nodes.bFirst();
 
-	long  l_max  =  listOfNodes.getCapacity();
+	long  l_max  =  c_list_of_nodes.lGetCapacity();
 	bool  b_finished  =  false;
 
-	for  (long  li = 0; li < l_max&&b_finished == false ; li++)
+	for  (long  li = 0; (li < l_max)&&(b_finished == false) ; li++)
 	{
 
 		if  (
-			((NETNode*)  listOfNodes.getNode()->getObject())->getId()
+			((CNETnode*)  c_list_of_nodes.pcGetNode()->pvGetObject())->lGetId()
 			==
-			nodeId
+			lNodeId
 			)
 		{
 
 			b_finished  =  true;
-			delete  (NETNode*)  listOfNodes.getNode()->getObject();
-			listOfNodes.deleteActual(false);
+			delete  (CNETnode*)  (c_list_of_nodes.pcGetNode()->pvGetObject());
+			c_list_of_nodes.bDeleteActual(false);
 		
 		}//if
 
-		listOfNodes.next();
+		c_list_of_nodes.bNext();
 	
 	}//for  (long  li = 0; (li < l_max)&&(b_finished == false) ; li++)
 
 	
-	if  (b_finished  ==  false)  return-5;
+	if  (b_finished  ==  false)  return(-5);
 
-	nodesTable[nodeId]  =  NULL;
-
-
-	return 0;//all ok!
+	pc_nodes_table[lNodeId]  =  NULL;
 
 
+	return(0);//all ok!
 
-}//bool  NETsimulatorComplex::bDeleteNode(long  nodeId)
+
+
+}//bool  CNETsimulatorComplex::bDeleteNode(long  lNodeId)
 
 
 
@@ -1552,19 +1552,19 @@ returned values:
 -1 -  operation unsuccessfull
 
 */
-int   NETsimulatorComplex::setNodeCapacity(long  nodeId, long  newCapacity)
+int   CNETsimulatorComplex::iSetNodeCapacity(long  lNodeId, long  lNewCapacity)
 {
 
-	if  (nodesTable  ==  NULL)  return 0;
-	if  (nodeIdTool  <=  nodeId)  return 0;
-	if  (nodesTable[nodeId]  ==  NULL)  return 0;
+	if  (pc_nodes_table  ==  NULL)  return(0);
+	if  (l_node_id_tool  <=  lNodeId)  return(0);
+	if  (pc_nodes_table[lNodeId]  ==  NULL)  return(0);
 
-	if  (nodesTable[nodeId]->setCapacity(newCapacity)  ==  true)
-		return 1;
+	if  (pc_nodes_table[lNodeId]->bSetCapacity(lNewCapacity)  ==  true)
+		return(1);
 	else
-		return-1;
+		return(-1);
 
-}//int   NETsimulatorComplex::setNodeCapacity(long  nodeId, newCapacity)
+}//int   CNETsimulatorComplex::iSetNodeCapacity(long  lNodeId, lNewCapacity)
 
 
 
@@ -1584,43 +1584,43 @@ returned values (if it's below 0 it's an error):
 -4 - plug operation unsuccesfull
 -5 - bad capacity inputted
 */ 
-long  NETsimulatorComplex::createLink(long  startNodeId, long  finishNodeId,  long capacity)
+long  CNETsimulatorComplex::lCreateLink(long  lStartNodeId, long  lFinishNodeId,  long lCapacity)
 {
 
-	if  (nodesTable  ==  NULL)  return-1;
-	if  (nodesTable[startNodeId]  ==  NULL)  return-1;
+	if  (pc_nodes_table  ==  NULL)  return(-1);
+	if  (pc_nodes_table[lStartNodeId]  ==  NULL)  return(-1);
 
-	if  (nodesTable[finishNodeId]  ==  NULL)  return-2;
+	if  (pc_nodes_table[lFinishNodeId]  ==  NULL)  return(-2);
 
 	
-	NETLink  *pc_new_link;
+	CNETlink  *pc_new_link;
 	long      l_new_link_id;
-	NETLink  **pc_new_links_table;
+	CNETlink  **pc_new_links_table;
 
 
-	pc_new_link  =  new  NETLink;
-	if  (pc_new_link->setCapacity(capacity)  ==  false)  return-5;
+	pc_new_link  =  new  CNETlink;
+	if  (pc_new_link->bSetCapacity(lCapacity)  ==  false)  return(-5);
 
 	if  (
-		pc_new_link->plugFinishStart(false,startNodeId,nodesTable[startNodeId])
+		pc_new_link->bPlugFinishStart(false,lStartNodeId,pc_nodes_table[lStartNodeId])
 		==
 		false
 		)
 	{
 		delete  pc_new_link;
-		return-4;
+		return(-4);
 	}//if
 
 
 
 	if  (
-		pc_new_link->plugFinishStart(true,finishNodeId,nodesTable[finishNodeId])
+		pc_new_link->bPlugFinishStart(true,lFinishNodeId,pc_nodes_table[lFinishNodeId])
 		==
 		false
 		)
 	{
 		delete  pc_new_link;
-		return-4;
+		return(-4);
 	}//if
 
 
@@ -1628,32 +1628,32 @@ long  NETsimulatorComplex::createLink(long  startNodeId, long  finishNodeId,  lo
 	
 
 	
-	if  (pc_new_link  ==  NULL)  return-3;// we return error if the operation is unsuccessfull
+	if  (pc_new_link  ==  NULL)  return(-3);// we return error if the operation is unsuccessfull
 
 	
 	
-	if  (listOfLinks.add(pc_new_link)  ==  false)
+	if  (c_list_of_links.bAdd(pc_new_link)  ==  false)
 	{
 		delete  pc_new_link;
-		return-3;
-	}//if  (listOfNodes.add()  ==  false)
+		return(-3);
+	}//if  (c_list_of_nodes.bAdd()  ==  false)
 
 
 
 
 	//first we check wheather there's no free places in current table
 	l_new_link_id  =  -1;
-	if  (linksTable  !=  NULL)
+	if  (pc_links_table  !=  NULL)
 	{
 
-		for  (long  li = 0;li < linkIdTool&&l_new_link_id == -1; li++)
+		for  (long  li = 0;(li < l_link_id_tool)&&(l_new_link_id == -1); li++)
 		{
 
-			if  (linksTable[li]  ==  NULL)  l_new_link_id  =  li;
+			if  (pc_links_table[li]  ==  NULL)  l_new_link_id  =  li;
 		
-		}//for  (long  li = 0;li < nodeIdTool; li++)
+		}//for  (long  li = 0;li < l_node_id_tool; li++)
 	
-	}//if  (nodesTable  !=  NULL)
+	}//if  (pc_nodes_table  !=  NULL)
 
 
 
@@ -1663,10 +1663,10 @@ long  NETsimulatorComplex::createLink(long  startNodeId, long  finishNodeId,  lo
 	if  (l_new_link_id  !=  -1)
 	{
 
-		pc_new_link->changeId(l_new_link_id);
-		linksTable[l_new_link_id]  =  pc_new_link;
+		pc_new_link->b_change_id(l_new_link_id);
+		pc_links_table[l_new_link_id]  =  pc_new_link;
 
-		return l_new_link_id;
+		return(l_new_link_id);
 			
 	}//if  (l_new_node_id  !=  -1)
 
@@ -1674,17 +1674,17 @@ long  NETsimulatorComplex::createLink(long  startNodeId, long  finishNodeId,  lo
 
 
 	//if there's no free id in the table we have to create a new one and rewrite the values from previous
-	linkIdTool++;
-	pc_new_links_table  =  new   NETLink*  [linkIdTool];
+	l_link_id_tool++;
+	pc_new_links_table  =  new   CNETlink*  [l_link_id_tool];
 
 	//if the error occurs
 	if  (pc_new_links_table  ==  NULL)
 	{
 
-		linkIdTool--;
-		delete  (NETLink *) listOfLinks.getNode()->getObject();
-		listOfLinks.deleteActual(false);
-		return-1;
+		l_link_id_tool--;
+		delete  (CNETlink *) (c_list_of_links.pcGetNode()->pvGetObject());
+		c_list_of_links.bDeleteActual(false);
+		return(-1);
 	
 	}//if  (pc_new_nodes_table  ==  NULL)
 
@@ -1693,24 +1693,24 @@ long  NETsimulatorComplex::createLink(long  startNodeId, long  finishNodeId,  lo
 
 	//if everything is ok we copy the data and destroy the previous table 
 	//and put the new one instead
-	for  (long lj = 0; lj < linkIdTool - 1;lj++)
-		pc_new_links_table[lj]  =  linksTable[lj];
+	for  (long lj = 0; lj < l_link_id_tool - 1;lj++)
+		pc_new_links_table[lj]  =  pc_links_table[lj];
 
 
-	pc_new_link->changeId(linkIdTool - 1);
-	pc_new_links_table[linkIdTool - 1]  =  pc_new_link;
+	pc_new_link->b_change_id(l_link_id_tool - 1);
+	pc_new_links_table[l_link_id_tool - 1]  =  pc_new_link;
 
 
-	delete  []  linksTable;
-	linksTable  =  pc_new_links_table;
-
-
-
-	return linkIdTool - 1;
+	delete  []  pc_links_table;
+	pc_links_table  =  pc_new_links_table;
 
 
 
-}//long  NETsimulatorComplex::lCreteLink(long  startNodeId, long  finishNodeId)
+	return(l_link_id_tool - 1);
+
+
+
+}//long  CNETsimulatorComplex::lCreteLink(long  lStartNodeId, long  lFinishNodeId)
 
 
 
@@ -1729,54 +1729,54 @@ returned values:
 -4 - link undeletable!
 -5 - fatal error!!! link id was not found in the main list!!!
 */  
-int   NETsimulatorComplex::deleteLink(long  linkId)
+int   CNETsimulatorComplex::iDeleteLink(long  lLinkId)
 {
 
 	//first error communication
-	if  (linkId  <  0)  return-1;
-	if  (linkId  >= linkIdTool)  return-2;
+	if  (lLinkId  <  0)  return(-1);
+	if  (lLinkId  >= l_link_id_tool)  return(-2);
 
-	if  (linksTable[linkId]  ==  NULL)  return-3;
+	if  (pc_links_table[lLinkId]  ==  NULL)  return(-3);
 
-	if  (linksTable[linkId]->isDeletable()  ==  false)  return-4;
+	if  (pc_links_table[lLinkId]->bIsDeletable()  ==  false)  return(-4);
 
 
 	//first we must search for the node in the main list
-	listOfLinks.first();
+	c_list_of_links.bFirst();
 
-	long  l_max  =  listOfLinks.getCapacity();
+	long  l_max  =  c_list_of_links.lGetCapacity();
 	bool  b_finished  =  false;
 
-	for  (long  li = 0; li < l_max&&b_finished == false ; li++)
+	for  (long  li = 0; (li < l_max)&&(b_finished == false) ; li++)
 	{
 
 		if  (
-			((NETLink*)  listOfLinks.getNode()->getObject())->getId()
+			((CNETlink*)  c_list_of_links.pcGetNode()->pvGetObject())->lGetId()
 			==
-			linkId
+			lLinkId
 			)
 		{
 
 			b_finished  =  true;
-			delete  (NETLink *) listOfLinks.getNode()->getObject();
-			listOfLinks.deleteActual(false);
+			delete  (CNETlink *) (c_list_of_links.pcGetNode()->pvGetObject());
+			c_list_of_links.bDeleteActual(false);
 		
 		}//if
 
-		listOfLinks.next();
+		c_list_of_links.bNext();
 	
 	}//for  (long  li = 0; (li < l_max)&&(b_finished == false) ; li++)
 
 	
-	if  (b_finished  ==  false)  return-5;
+	if  (b_finished  ==  false)  return(-5);
 
-	linksTable[linkId]  =  NULL;
-
-
-	return 0;//all ok!
+	pc_links_table[lLinkId]  =  NULL;
 
 
-}//int   NETsimulatorComplex::deleteLink(long  linkId)
+	return(0);//all ok!
+
+
+}//int   CNETsimulatorComplex::iDeleteLink(long  lLinkId)
 
 
 
@@ -1793,20 +1793,20 @@ returned values:
 -4 -  one of links does not exist
 -5 -  one nodes does not exist or is not a begin/end of one of links
 */
-int   NETsimulatorComplex::checkConnection
-	(long  *way, int wayLength, long  capacity, bool checkActualCapacity)
+int   CNETsimulatorComplex::iCheckConnection
+	(long  *plWay, int iWayLength, long  lCapacity, bool bCheckActualCapacity)
 {
 
-	if  (nodesTable  ==  NULL)  return-5;
+	if  (pc_nodes_table  ==  NULL)  return(-5);
 
-	if  (capacity  <  0)  return-3;
+	if  (lCapacity  <  0)  return(-3);
 
-	if  (wayLength  <  3)  return-1;
+	if  (iWayLength  <  3)  return(-1);
 
 	//if the way length is a parit number then it is wrong
 	int  ii;
-	ii  =  wayLength / 2;
-	if  (ii * 2  ==  wayLength)  return-2;
+	ii  =  iWayLength / 2;
+	if  (ii * 2  ==  iWayLength)  return(-2);
 
 
 
@@ -1817,69 +1817,69 @@ int   NETsimulatorComplex::checkConnection
 
 
 	b_capacity_ok  =  true;//initial step for loop
-	l_finish_node_id  =  way[0];//initial step for loop
+	l_finish_node_id  =  plWay[0];//initial step for loop
 
-	for  (int ij = 0; ij < (wayLength - 1) / 2; ij++)
+	for  (int ij = 0; ij < (iWayLength - 1) / 2; ij++)
 	{
 
 		l_start_node_id  =  l_finish_node_id;
-		l_link_id  =  way[ij * 2 + 1];
-		l_finish_node_id  =  way[ij * 2 + 2];
+		l_link_id  =  plWay[ij * 2 + 1];
+		l_finish_node_id  =  plWay[ij * 2 + 2];
 
 
-		if  (linksTable  ==  NULL)  return-4;
-		if  (linksTable[l_link_id]  ==  NULL)  return-4;
-		if  (linksTable[l_link_id]->getStartNodeId()  !=  l_start_node_id)  return-5;
-		if  (linksTable[l_link_id]->getFinishNodeId()  !=  l_finish_node_id)  return-5;
+		if  (pc_links_table  ==  NULL)  return(-4);
+		if  (pc_links_table[l_link_id]  ==  NULL)  return(-4);
+		if  (pc_links_table[l_link_id]->lGetStartNodeId()  !=  l_start_node_id)  return(-5);
+		if  (pc_links_table[l_link_id]->lGetFinishNodeId()  !=  l_finish_node_id)  return(-5);
 
 
 		//capacity checking only if this is still ok
 		if  (b_capacity_ok  ==  true)
 		{
-			if  (checkActualCapacity  ==  true)
+			if  (bCheckActualCapacity  ==  true)
 			{
 
-				if  (nodesTable[l_start_node_id]->getActualCapacity()  <  capacity)
+				if  (pc_nodes_table[l_start_node_id]->lGetActualCapacity()  <  lCapacity)
 					b_capacity_ok  =  false;
 
-				if  (linksTable[l_link_id]->getActualCapacity()  <  capacity)
+				if  (pc_links_table[l_link_id]->lGetActualCapacity()  <  lCapacity)
 					b_capacity_ok  =  false;
 
-			}//if  (checkActualCapacity  ==  true)
+			}//if  (bCheckActualCapacity  ==  true)
 			else
 			{
 
-				if  (nodesTable[l_start_node_id]->getMaxCapacity()  <  capacity)
+				if  (pc_nodes_table[l_start_node_id]->lGetMaxCapacity()  <  lCapacity)
 					b_capacity_ok  =  false;
 
-				if  (linksTable[l_link_id]->getMaxCapacity()  <  capacity)
+				if  (pc_links_table[l_link_id]->lGetMaxCapacity()  <  lCapacity)
 					b_capacity_ok  =  false;
 			
-			}//else if  (checkActualCapacity  ==  true)
+			}//else if  (bCheckActualCapacity  ==  true)
 
 		}//if  (b_capacity_ok  ==  true)
 
-	}//for  (int ij = 0; ij < (wayLength - 1) / 2; ij++)
+	}//for  (int ij = 0; ij < (iWayLength - 1) / 2; ij++)
 
 
 	//the post step of trajectory checking algorithm
 	//capacity checking only if this is still ok
 	if  (b_capacity_ok  ==  true)
 	{
-		if  (checkActualCapacity  ==  true)
+		if  (bCheckActualCapacity  ==  true)
 		{
 
-			if  (nodesTable[l_finish_node_id]->getActualCapacity()  <  capacity)
+			if  (pc_nodes_table[l_finish_node_id]->lGetActualCapacity()  <  lCapacity)
 				b_capacity_ok  =  false;
 
-		}//if  (checkActualCapacity  ==  true)
+		}//if  (bCheckActualCapacity  ==  true)
 		else
 		{
 
-			if  (nodesTable[l_finish_node_id]->getMaxCapacity()  <  capacity)
+			if  (pc_nodes_table[l_finish_node_id]->lGetMaxCapacity()  <  lCapacity)
 				b_capacity_ok  =  false;
 
-		}//else if  (checkActualCapacity  ==  true)
+		}//else if  (bCheckActualCapacity  ==  true)
 
 	}//if  (b_capacity_ok  ==  true)
 
@@ -1889,14 +1889,14 @@ int   NETsimulatorComplex::checkConnection
 	//so the value returned depends only on capacity check...
 
 	if  (b_capacity_ok  ==  true)
-		return 1;
+		return(1);
 	else
-		return 0;
+		return(0);
 
 
-	return 0;
+	return(0);
 
-}//int   NETsimulatorComplex::checkConnection(long  *way, int wayLength)
+}//int   CNETsimulatorComplex::iCheckConnection(long  *plWay, int iWayLength)
 
 
 
@@ -1910,33 +1910,33 @@ returned values:
 -1  -  link not found
 -2  -  link table empty
 */
-long  NETsimulatorComplex::findLinkIdForNodes(long  lStartNode,  long  lFinishNode)
+long  CNETsimulatorComplex::lFindLinkIdForNodes(long  lStartNode,  long  lFinishNode)
 {
 
 	//if the links table does not exist we return an error message
-	if  ( linksTable  ==  NULL&&linkIdTool  <  0 )  return-2;
+	if  ( (pc_links_table  ==  NULL)&&(l_link_id_tool  <  0) )  return(-2);
 
-	for  (long  li = 0; li < linkIdTool; li++)
+	for  (long  li = 0; li < l_link_id_tool; li++)
 	{
 
-		if  (linksTable[li]  !=  NULL)
+		if  (pc_links_table[li]  !=  NULL)
 		{
 			if  (
-				linksTable[li]->getStartNodeId()  ==  lStartNode
+				(pc_links_table[li]->lGetStartNodeId()  ==  lStartNode)
 				&&
-				linksTable[li]->getFinishNodeId()  ==  lFinishNode
+				(pc_links_table[li]->lGetFinishNodeId()  ==  lFinishNode)
 				)
-				return li;//when we find the proper link we just return it and finish whole procedure
+				return(li);//when we find the proper link we just return it and finish whole procedure
 							
 		
-		}//if  (linksTable[li]  !=  NULL)
+		}//if  (pc_links_table[li]  !=  NULL)
 	
-	}//for  (long  li = 0; (b_found == false)&&(li < linkIdTool) ; li++)
+	}//for  (long  li = 0; (b_found == false)&&(li < l_link_id_tool) ; li++)
 
 
-	return-1;
+	return(-1);
 
-}//long  NETsimulatorComplex::findLinkIdForNodes(long  lStartNode,  long  lFinishNode)
+}//long  CNETsimulatorComplex::lFindLinkIdForNodes(long  lStartNode,  long  lFinishNode)
 
 
 
@@ -1959,166 +1959,166 @@ returned values:
 -7 -  connection setting for nodes and links unsuccesfull
 -8 -  way set in connection objerct unsuccessfull
 */
-long  NETsimulatorComplex::setUpConnection(long  *way, int wayLength, long  capacity)
+long  CNETsimulatorComplex::lSetUpConnection(long  *plWay, int iWayLength, long  lCapacity)
 {
 
 	int  i_check_trajectory_result;
 
 
 
-	if  (checkConnectionOn  ==  false)
+	if  (b_check_connection_on  ==  false)
 		i_check_trajectory_result  =  1;
 	else
-		i_check_trajectory_result  =  checkConnection(way, wayLength, capacity);
+		i_check_trajectory_result  =  iCheckConnection(plWay, iWayLength, lCapacity);
 
 
-	if  (i_check_trajectory_result  !=  1)  return i_check_trajectory_result;
+	if  (i_check_trajectory_result  !=  1)  return(i_check_trajectory_result);
 
 	
 	//if the trajectory is ok we set up a connection
 
 
-	NETConnection  *pc_new_connection;
+	CNETconnection  *pc_new_connection;
 
-	pc_new_connection  =  new  NETConnection;
-	pc_new_connection->setCapacity(capacity);
-	if  (pc_new_connection  ==  NULL)  return-6;
+	pc_new_connection  =  new  CNETconnection;
+	pc_new_connection->bSetCapacity(lCapacity);
+	if  (pc_new_connection  ==  NULL)  return(-6);
 
 
 	
 	
-	if  (listOfConnections.add(pc_new_connection)  ==  false)
+	if  (c_list_of_connections.bAdd(pc_new_connection)  ==  false)
 	{
 		delete  pc_new_connection;
-		return-6;
-	}//if  (listOfNodes.add()  ==  false)
+		return(-6);
+	}//if  (c_list_of_nodes.bAdd()  ==  false)
 
 
 
 	//we give the connection an id...
-	pc_new_connection->changeId(connectionIdTool++);
+	pc_new_connection->b_change_id(l_connection_id_tool++);
 
 
 
 	//now we have to set up connection for all the nodes and links on the connection way
 	if  (
-		setConnectionForNodesAndLinks(way, wayLength, pc_new_connection, capacity)  
+		b_set_connection_for_nodes_and_links(plWay, iWayLength, pc_new_connection, lCapacity)  
 		==
 		false
 		)
 	{
 
-		delete  (NETConnection *) listOfConnections.getNode()->getObject();
-		listOfConnections.deleteActual(false);
+		delete  ((CNETconnection *) c_list_of_connections.pcGetNode()->pvGetObject());
+		c_list_of_connections.bDeleteActual(false);
 
-		return-7;
+		return(-7);
 			
 	}//if
 
 
 
 	//now we put the connection way into the connection object
-	if  (pc_new_connection->setConnectionWay(way, wayLength)  ==  false )
+	if  (pc_new_connection->bSetConnectionWay(plWay, iWayLength)  ==  false )
 	{
 
-		removeConnectionOnTheWay(way, wayLength, connectionIdTool);
-		return-8;
-	}//if  (pc_new_connection->setConnectionWay(way, wayLength)  ==  false )
+		b_remove_connection_on_the_way(plWay, iWayLength, l_connection_id_tool);
+		return(-8);
+	}//if  (pc_new_connection->bSetConnectionWay(plWay, iWayLength)  ==  false )
 	
 
 
 
 
-	return connectionIdTool - 1;
+	return(l_connection_id_tool - 1);
 
 
-}//int   NETsimulatorComplex::iSetUpConnection(long  *way, int wayLength, long  capacity)
-
-
-
+}//int   CNETsimulatorComplex::iSetUpConnection(long  *plWay, int iWayLength, long  lCapacity)
 
 
 
 
 
-bool  NETsimulatorComplex::setConnectionForNodesAndLinks
-	(long  *way, int wayLength,  
-	 NETConnection *newConnection, long  connectionCapacity)
+
+
+
+bool  CNETsimulatorComplex::b_set_connection_for_nodes_and_links
+	(long  *plWay, int iWayLength,  
+	 CNETconnection *pcNewConnection, long  lConnectionCapacity)
 {
 
 
 	if  (
-		nodesTable[way[0]]->setUpConnection (newConnection, connectionCapacity)
+		pc_nodes_table[plWay[0]]->bSetUpConnection (pcNewConnection, lConnectionCapacity)
 		==
 		false
 		)
-		return false;
+		return(false);
 
 
-	for  (int  ii = 1;  ii <  wayLength;  ii += 2)
+	for  (int  ii = 1;  ii <  iWayLength;  ii += 2)
 	{
 
 		if  (
-			linksTable[way[ii]]->setUpConnection (newConnection, connectionCapacity)
+			pc_links_table[plWay[ii]]->bSetUpConnection (pcNewConnection, lConnectionCapacity)
 			==
 			false
 			)
 		{
 
 			long  l_conn_id;
-			l_conn_id  =  newConnection->getId();
+			l_conn_id  =  pcNewConnection->lGetId();
 
 			for  (int  ij = ii;  ij > 0; ij = ij - 2)
 			{
 
-				linksTable[ij]->removeConnection(l_conn_id);
-				nodesTable[ij - 1]->removeConnection(l_conn_id);
+				pc_links_table[ij]->iRemoveConnection(l_conn_id);
+				pc_nodes_table[ij - 1]->iRemoveConnection(l_conn_id);
 			
 			}//for  (int  ij = ii;  ij > 0; ij = ij - 2)
 
 
-			return false;
+			return(false);
 		
 		}//if
 
 
 
 		if  (
-			nodesTable[way[ii+1]]->setUpConnection (newConnection, connectionCapacity)
+			pc_nodes_table[plWay[ii+1]]->bSetUpConnection (pcNewConnection, lConnectionCapacity)
 			==
 			false
 			)
 		{
 
 			long  l_conn_id;
-			l_conn_id  =  newConnection->getId();
+			l_conn_id  =  pcNewConnection->lGetId();
 
 			for  (int  ij = ii;  ij > 0; ij = ij - 2)
 			{
 
-				nodesTable[ij]->removeConnection(l_conn_id);
+				pc_nodes_table[ij]->iRemoveConnection(l_conn_id);
 
 				if  (ij - 1 >= 0)
-					linksTable[ij - 1]->removeConnection(l_conn_id);
+					pc_links_table[ij - 1]->iRemoveConnection(l_conn_id);
 			
 			}//for  (int  ij = ii;  ij > 0; ij = ij - 2)
 
 
-			return false;
+			return(false);
 
 		}//if
 	
-	}//for  (int  ii = 1;  ii <  wayLength;  ii += 2)
+	}//for  (int  ii = 1;  ii <  iWayLength;  ii += 2)
 
 
 
 
-	return true;
+	return(true);
 	
 
 	
 
-}//bool  NETsimulatorComplex::setConnectionForNodesAndLinks
+}//bool  CNETsimulatorComplex::b_set_connection_for_nodes_and_links
 
 
 
@@ -2132,45 +2132,45 @@ returned values:
 0  -  operarion done, but some of nodes/links returned unsuccessfull result after removal
 -1 -  connection not found
 */
-int   NETsimulatorComplex::removeConnection(long  connectionId)
+int   CNETsimulatorComplex::iRemoveConnection(long  lConnectionId)
 {
 
-	NETConnection  *pc_searched_conn;
+	CNETconnection  *pc_searched_conn;
 
 	//first we find connection and connection way
-	if  (listOfConnections.last()  ==  false)  return-1;
+	if  (c_list_of_connections.bLast()  ==  false)  return(-1);
 
 
 	long  l_max;
 	bool  b_finished  =  false;
-	l_max  =  listOfConnections.getCapacity();
+	l_max  =  c_list_of_connections.lGetCapacity();
 
-	for  (long  li = 0; li < l_max&&b_finished == false; li++)
+	for  (long  li = 0; (li < l_max)&&(b_finished == false); li++)
 	{
 
 		if  (
-			((NETConnection *)  listOfConnections.getNode()->getObject())->getId()
+			((CNETconnection *)  c_list_of_connections.pcGetNode()->pvGetObject())->lGetId()
 			==
-			connectionId
+			lConnectionId
 			)
 		{
 
 			b_finished  =  true;
-			pc_searched_conn  =  (NETConnection *) listOfConnections.getNode()->getObject();
+			pc_searched_conn  =  (CNETconnection *) c_list_of_connections.pcGetNode()->pvGetObject();
 			
-			listOfConnections.deleteActual(false);
+			c_list_of_connections.bDeleteActual(false);
 		
 		}//if
 
 
-		listOfConnections.prev();
+		c_list_of_connections.bPrev();
 	
 	}//for  (long  li = 0; li < l_max; li++)
 
 
 
 	//if we didn't find a proper id in the list
-	if  (b_finished  ==  false)  return-2;
+	if  (b_finished  ==  false)  return(-2);
 
 
 
@@ -2183,23 +2183,23 @@ int   NETsimulatorComplex::removeConnection(long  connectionId)
 	int  i_way_length;
 	
 
-	i_way_length  =  pc_searched_conn->getConnectionWay(&pl_way);
+	i_way_length  =  pc_searched_conn->iGetConnectionWay(&pl_way);
 
 
 	
-	if  (removeConnectionOnTheWay(pl_way, i_way_length, connectionId)  ==  true)
+	if  (b_remove_connection_on_the_way(pl_way, i_way_length, lConnectionId)  ==  true)
 	{
 		delete  pc_searched_conn;
-		return 1;
-	}//if  (removeConnectionOnTheWay(pl_way, i_way_length, connectionId)  ==  true)
+		return(1);
+	}//if  (b_remove_connection_on_the_way(pl_way, i_way_length, lConnectionId)  ==  true)
 	else
 	{
 		delete  pc_searched_conn;
-		return 0;
-	}//else  if  (removeConnectionOnTheWay(pl_way, i_way_length, connectionId)  ==  true)
+		return(0);
+	}//else  if  (b_remove_connection_on_the_way(pl_way, i_way_length, lConnectionId)  ==  true)
 
 
-}//int   NETsimulatorComplex::removeConnection(long  connectionId)
+}//int   CNETsimulatorComplex::iRemoveConnection(long  lConnectionId)
 
 
 
@@ -2214,14 +2214,14 @@ returned  values:
 0  -  no connections to remove
 -1 -  problems occured when removing one or more connections
 */
-int  NETsimulatorComplex::removeAllConnections()
+int  CNETsimulatorComplex::iRemoveAllConnections()
 {
 
 
-	if  (listOfConnections.first()  ==  false)  return 0;
+	if  (c_list_of_connections.bFirst()  ==  false)  return(0);
 
 
-	NETConnection  *pc_conn_buff;
+	CNETconnection  *pc_conn_buff;
 	long  *pl_way;
 	int   i_way_length;
 	bool  b_all_removed_correct  =  true;
@@ -2229,34 +2229,32 @@ int  NETsimulatorComplex::removeAllConnections()
 
 
 
-	for  (long  li = 0; listOfConnections.first()  ==  true; li++)
+	for  (long  li = 0; c_list_of_connections.bFirst()  ==  true; li++)
 	{
 
-		pc_conn_buff  =  (NETConnection *) listOfConnections.getNode()->getObject();
-		listOfConnections.deleteActual(false);
+		pc_conn_buff  =  (CNETconnection *) c_list_of_connections.pcGetNode()->pvGetObject();
+		c_list_of_connections.bDeleteActual(false);
 
-		i_way_length  =  pc_conn_buff->getConnectionWay(&pl_way);
+		i_way_length  =  pc_conn_buff->iGetConnectionWay(&pl_way);
 
 
-		if  (removeConnectionOnTheWay(pl_way, i_way_length, pc_conn_buff->getId())  ==  true)
+		if  (b_remove_connection_on_the_way(pl_way, i_way_length, pc_conn_buff->lGetId())  ==  true)
 			delete  pc_conn_buff;
 		else
 		{
 			delete  pc_conn_buff;
 			b_all_removed_correct  =  false;
-		}//else  if  (removeConnectionOnTheWay(pl_way, i_way_length, pc_conn_buff->getId())  ==  true)
+		}//else  if  (b_remove_connection_on_the_way(pl_way, i_way_length, pc_conn_buff->lGetId())  ==  true)
 		
-	}//for  (long  li = 0; li <  listOfConnections.getCapacity(); li++)
+	}//for  (long  li = 0; li <  c_list_of_connections.lGetCapacity(); li++)
 
 
 	if  (b_all_removed_correct  ==  true)
-		return 1;
+		return(1);
 	else
-		return-1;
+		return(-1);
 
-}//int  NETsimulatorComplex::removeAllConnections()
-
-
+}//int  CNETsimulatorComplex::iRemoveAllConnections()
 
 
 
@@ -2264,28 +2262,30 @@ int  NETsimulatorComplex::removeAllConnections()
 
 
 
-bool  NETsimulatorComplex::removeConnectionOnTheWay(long  *way, int wayLength, long  connectionId)
+
+
+bool  CNETsimulatorComplex::b_remove_connection_on_the_way(long  *plWay, int iWayLength, long  lConnectionId)
 {
 
 	bool  b_all_op_ok = true;// needed to remember that something was wrong during removal
 
 
 
-	if  (wayLength  >  0)
+	if  (iWayLength  >  0)
 	{
 
-		if  (nodesTable[way[0]]->removeConnection(connectionId)  !=  1)
+		if  (pc_nodes_table[plWay[0]]->iRemoveConnection(lConnectionId)  !=  1)
 			b_all_op_ok  =  false;
 
 
-		for  (int  ii = 1; ii < wayLength;  ii+=2)
+		for  (int  ii = 1; ii < iWayLength;  ii+=2)
 		{
 
-			if  (linksTable[way[ii]]->removeConnection(connectionId)  !=  1)
+			if  (pc_links_table[plWay[ii]]->iRemoveConnection(lConnectionId)  !=  1)
 				b_all_op_ok  =  false;
 
 
-			if  (nodesTable[way[ii + 1]]->removeConnection(connectionId)  !=  1)
+			if  (pc_nodes_table[plWay[ii + 1]]->iRemoveConnection(lConnectionId)  !=  1)
 				b_all_op_ok  =  false;
 		
 		}//for  (int  ii = 1; ii < i_way_length;  ii+=2)
@@ -2296,84 +2296,18 @@ bool  NETsimulatorComplex::removeConnectionOnTheWay(long  *way, int wayLength, l
 
 
 	if  (b_all_op_ok  ==  true)
-		return 1;
+		return(1);
 	else
-		return 0;
+		return(0);
 
 
 
 
-}//bool  NETsimulatorComplex::removeConnectionOnTheWay(long  *way, int wayLength)
+}//bool  CNETsimulatorComplex::b_remove_connection_on_the_way(long  *plWay, int iWayLength)
 
 
 
 
-
-
-
-
-
-
-/*
-returned values:
-0 or more - capacity
--1  -  number too high
--2  -  number below 0
--3  -  unexpected error or node/link does not exist
-*/
-long  NETsimulatorComplex::getActNodeCapacity(long  nodeId)
-{
-
-	if  (nodeId  <  0)  return-2;
-	if  (nodeId  >=  nodeIdTool)  return-1;
-	if  (nodesTable[nodeId]  ==  NULL)  return-3;
-
-	return nodesTable[nodeId]->getActualCapacity();
-
-}//long  NETsimulatorComplex::getActNodeCapacity(long  lNodeNum)
-
-
-
-
-/*
-returned values:
-0 or more - capacity
--1  -  number too high
--2  -  number below 0
--3  -  unexpected error or node/link does not exist
-*/
-long  NETsimulatorComplex::getActLinkCapacity(long  linkId)
-{
-
-	if  (linkId  <  0)  return-2;
-	if  (linkId  >=  linkIdTool)  return-1;
-	if  (linksTable[linkId]  ==  NULL)  return-3;
-
-	return linksTable[linkId]->getActualCapacity();
-
-}//long  NETsimulatorComplex::getActLinkCapacity(long  linkId)
-
-
-
-
-
-/*
-returned values:
-0 or more - capacity
--1  -  number too high
--2  -  number below 0
--3  -  unexpected error or node/link does not exist
-*/
-long  NETsimulatorComplex::getMaxNodeCapacity(long  nodeId)
-{
-
-	if  (nodeId  <  0)  return-2;
-	if  (nodeId  >=  nodeIdTool)  return-1;
-	if  (nodesTable[nodeId]  ==  NULL)  return-3;
-
-	return nodesTable[nodeId]->getMaxCapacity();
-
-}//long  NETsimulatorComplex::getMaxNodeCapacity(long  nodeId)
 
 
 
@@ -2387,17 +2321,59 @@ returned values:
 -2  -  number below 0
 -3  -  unexpected error or node/link does not exist
 */
-long  NETsimulatorComplex::getMaxLinkCapacity(long  linkId)
+long  CNETsimulatorComplex::lGetActNodeCapacity(long  lNodeId)
 {
 
-	if  (linkId  <  0)  return-2;
-	if  (linkId  >=  linkIdTool)  return-1;
-	if  (linksTable[linkId]  ==  NULL)  return-3;
+	if  (lNodeId  <  0)  return(-2);
+	if  (lNodeId  >=  l_node_id_tool)  return(-1);
+	if  (pc_nodes_table[lNodeId]  ==  NULL)  return(-3);
 
-	return linksTable[linkId]->getActualCapacity();
+	return(pc_nodes_table[lNodeId]->lGetActualCapacity());
+
+}//long  CNETsimulatorComplex::lGetActNodeCapacity(long  lNodeNum)
 
 
-}//long  NETsimulatorComplex::getMaxLinkCapacity(long  linkId);
+
+
+/*
+returned values:
+0 or more - capacity
+-1  -  number too high
+-2  -  number below 0
+-3  -  unexpected error or node/link does not exist
+*/
+long  CNETsimulatorComplex::lGetActLinkCapacity(long  lLinkId)
+{
+
+	if  (lLinkId  <  0)  return(-2);
+	if  (lLinkId  >=  l_link_id_tool)  return(-1);
+	if  (pc_links_table[lLinkId]  ==  NULL)  return(-3);
+
+	return(pc_links_table[lLinkId]->lGetActualCapacity());
+
+}//long  CNETsimulatorComplex::lGetActLinkCapacity(long  lLinkId)
+
+
+
+
+
+/*
+returned values:
+0 or more - capacity
+-1  -  number too high
+-2  -  number below 0
+-3  -  unexpected error or node/link does not exist
+*/
+long  CNETsimulatorComplex::lGetMaxNodeCapacity(long  lNodeId)
+{
+
+	if  (lNodeId  <  0)  return(-2);
+	if  (lNodeId  >=  l_node_id_tool)  return(-1);
+	if  (pc_nodes_table[lNodeId]  ==  NULL)  return(-3);
+
+	return(pc_nodes_table[lNodeId]->lGetMaxCapacity());
+
+}//long  CNETsimulatorComplex::lGetMaxNodeCapacity(long  lNodeId)
 
 
 
@@ -2411,18 +2387,42 @@ returned values:
 -2  -  number below 0
 -3  -  unexpected error or node/link does not exist
 */
-double    NETsimulatorComplex::countNodeLfn(long  nodeId,  long  penalty,  bool  *capacityExtending, double *penaltyPure)
+long  CNETsimulatorComplex::lGetMaxLinkCapacity(long  lLinkId)
 {
 
-	if  (nodeId  <  0)  return-2;
-	if  (nodeId  >=  nodeIdTool)  return-1;
-	if  (nodesTable[nodeId]  ==  NULL)  return-3;
+	if  (lLinkId  <  0)  return(-2);
+	if  (lLinkId  >=  l_link_id_tool)  return(-1);
+	if  (pc_links_table[lLinkId]  ==  NULL)  return(-3);
+
+	return(pc_links_table[lLinkId]->lGetActualCapacity());
 
 
-	return nodesTable[nodeId]->countLfn();
+}//long  CNETsimulatorComplex::lGetMaxLinkCapacity(long  lLinkId);
 
 
-}//double  NETsimulatorComplex::countNodeLfn(long  nodeId)
+
+
+
+
+/*
+returned values:
+0 or more - capacity
+-1  -  number too high
+-2  -  number below 0
+-3  -  unexpected error or node/link does not exist
+*/
+double    CNETsimulatorComplex::dCountNodeLFN(long  lNodeId,  long  lPenalty,  bool  *pbCapacityExtending, double *pdPenaltyPure)
+{
+
+	if  (lNodeId  <  0)  return(-2);
+	if  (lNodeId  >=  l_node_id_tool)  return(-1);
+	if  (pc_nodes_table[lNodeId]  ==  NULL)  return(-3);
+
+
+	return(pc_nodes_table[lNodeId]->lCountLFN());
+
+
+}//double  CNETsimulatorComplex::dCountNodeLFN(long  lNodeId)
 
 
 
@@ -2439,36 +2439,36 @@ retruned values:
 1  -  ok
 0  -  file creation impossible
 */
-int   NETsimulatorComplex::presentNetwork(CString  fileName)
+int   CNETsimulatorComplex::iPresentNetwork(CString  sFileName)
 {
 
 	FILE  *pf_report;
 
 	
-	pf_report  =  fopen( (LPCSTR) fileName.GetString(), "w+");
-	if  (pf_report  ==  NULL)  return 0;
+	pf_report  =  fopen( (LPCSTR) sFileName, "w+");
+	if  (pf_report  ==  NULL)  return(0);
 
 
 
-	listOfNodes.first();
-	for  (long  li = 0; li < listOfNodes.getCapacity(); li++)
+	c_list_of_nodes.bFirst();
+	for  (long  li = 0; li < c_list_of_nodes.lGetCapacity(); li++)
 	{
 
-		((NETNode *)  listOfNodes.getNode()->getObject())->present(pf_report);
+		((CNETnode *)  c_list_of_nodes.pcGetNode()->pvGetObject())->vPresent(pf_report);
 
-		listOfNodes.next();
+		c_list_of_nodes.bNext();
 
-	}//for  (long  li = 0; li < listOfNodes.getCapacity; li++)
+	}//for  (long  li = 0; li < c_list_of_nodes.lGetCapacity; li++)
 
 
 
 
 	fclose(pf_report);
 
-	return 1;
+	return(1);
 
 
-}//void  NETsimulatorComplex::presentNetwork(CString  fileName)
+}//void  CNETsimulatorComplex::vPresentNetwork(CString  sFileName)
 
 
 
@@ -2482,95 +2482,93 @@ retruned values:
 1  -  ok
 0  -  file creation impossible
 */
-int   NETsimulatorComplex::createBasicVirtualDatabaseFile(CString  fileName)
+int   CNETsimulatorComplex::iCreateBasicVirtualDatabaseFile(CString  sFileName)
 {
 
 
 	FILE  *pf_report;
 
 	
-	pf_report  =  fopen( (LPCSTR) fileName.GetString(), "w+");
-	if  (pf_report  ==  NULL)  return 0;
+	pf_report  =  fopen( (LPCSTR) sFileName, "w+");
+	if  (pf_report  ==  NULL)  return(0);
 
 
-	fprintf(pf_report,"%ld\n\n",  listOfLinks.getCapacity());
+	fprintf(pf_report,"%ld\n\n",  c_list_of_links.lGetCapacity());
 
 
-	listOfLinks.first();
-	for  (long  li = 0; li < listOfLinks.getCapacity(); li++)
+	c_list_of_links.bFirst();
+	for  (long  li = 0; li < c_list_of_links.lGetCapacity(); li++)
 	{
 
-		((NETLink *)  listOfLinks.getNode()->getObject())->createBasicVirtualWay(pf_report);
+		((CNETlink *)  c_list_of_links.pcGetNode()->pvGetObject())->vCreateBasiCVirtualWay(pf_report);
 
-		listOfLinks.next();
+		c_list_of_links.bNext();
 
-	}//for  (long  li = 0; li < listOfLinks.getCapacity(); li++)
+	}//for  (long  li = 0; li < c_list_of_links.lGetCapacity(); li++)
 
 
 
 	fclose(pf_report);
 
-	return 1;
+	return(1);
 
 
-}//int   NETsimulatorComplex::createBasicVirtualDatabaseFile(CStringsFileName)
-
-
-
-//----------------------end of implementation of NETsimulatorComplex--------------------------------------------
+}//int   CNETsimulatorComplex::iCreateBasicVirtualDatabaseFile(CStringsFileName)
 
 
 
+//----------------------end of implementation of CNETsimulatorComplex--------------------------------------------
 
 
 
 
 
-//--------------implemenatation of class  NETNode--------------------------------------------
+
+
+
+//--------------implemenatation of class  CNETnode--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
-NETNode::NETNode()
+CNETnode::CNETnode()
 {
 
-	id  = -1;//"unset" value assigned
+	l_id  = -1;//"unset" value assigned
 
-	name  =  "no name";
+	s_name  =  "no name";
 
 		
-	maxCapacity  =  0;//no capacity
-	actualCapacity  =  0;
+	l_max_capacity  =  0;//no capacity
+	l_actual_capacity  =  0;
 
-}//NETNode::NETNode()
-
-
+}//CNETnode::CNETnode()
 
 
 
-NETNode::~NETNode()
+
+
+CNETnode::~CNETnode()
 {
 
-	listNetLinksOut.bye(false);//just delete list components without deleting carried objects
-	listNetLinksIn.bye(false);//just delete list components without deleting carried objects
-	listOfNetConnections.bye(false);
+	c_list_net_links_out.vBYE(false);//just delete list components without deleting carried objects
+	c_list_net_links_in.vBYE(false);//just delete list components without deleting carried objects
+	c_list_of_net_connections.vBYE(false);
 
-}//NETNode::~NETNode()
-
-
+}//CNETnode::~CNETnode()
 
 
 
-bool  NETNode::changeId(long  newId)
+
+
+bool  CNETnode::b_change_id(long  lNewId)
 {
 
-	if  (newId  <  0)  return false;
+	if  (lNewId  <  0)  return(false);
 
-	id  =  newId;
+	l_id  =  lNewId;
 
-	return true;
+	return(true);
 
-}//bool  NETNode::changeId(long  newId)
-
-
+}//bool  CNETnode::b_change_id(long  lNewId)
 
 
 
@@ -2578,22 +2576,24 @@ bool  NETNode::changeId(long  newId)
 
 
 
-bool  NETNode::setCapacity(long  newCapacity)
+
+
+bool  CNETnode::bSetCapacity(long  lNewCapacity)
 {
 
-	if  (maxCapacity  -  actualCapacity  >  newCapacity)
-		return false;
+	if  (l_max_capacity  -  l_actual_capacity  >  lNewCapacity)
+		return(false);
 
 
-	actualCapacity  =  newCapacity  -  (maxCapacity  -  actualCapacity);
-	maxCapacity  =  newCapacity;
+	l_actual_capacity  =  lNewCapacity  -  (l_max_capacity  -  l_actual_capacity);
+	l_max_capacity  =  lNewCapacity;
 
 
 
-	return true;
+	return(true);
 	
 
-}//bool  NETNode::setCapacity(long  newCapacity)
+}//bool  CNETnode::bSetCapacity(long  lNewCapacity)
 
 
 
@@ -2601,92 +2601,92 @@ bool  NETNode::setCapacity(long  newCapacity)
 
 
 //if the node is attracted to any connection or link then it is undeletable
-bool  NETNode::isDeletable()
+bool  CNETnode::bIsDeletable()
 {
 
 	//if the lists are not empty we can not delete the node
-	if  (listNetLinksIn.first()  ==  true)  return false;
-	if  (listNetLinksOut.first()  ==  true)  return false;
-	if  (listOfNetConnections.first()  ==  true)  return false;
+	if  (c_list_net_links_in.bFirst()  ==  true)  return(false);
+	if  (c_list_net_links_out.bFirst()  ==  true)  return(false);
+	if  (c_list_of_net_connections.bFirst()  ==  true)  return(false);
 
-	return true;
+	return(true);
 
-}//bool  NETNode::isDeletable()
-
-
+}//bool  CNETnode::bIsDeletable()
 
 
 
 
 
-bool  NETNode::addNewLink(bool  inOut, NETLink  *newLink)
+
+
+bool  CNETnode::bAddNewLink(bool  bInOut, CNETlink  *pcNewLink)
 {
 
-	MyList  *pc_list_for_adding;
+	CMyList  *pc_list_for_adding;
 
 
-	if  (inOut  ==  true)
-		pc_list_for_adding  =  &listNetLinksIn;
+	if  (bInOut  ==  true)
+		pc_list_for_adding  =  &c_list_net_links_in;
 	else
-		pc_list_for_adding  =  &listNetLinksOut;
+		pc_list_for_adding  =  &c_list_net_links_out;
 
 
-	if  (pc_list_for_adding->add(newLink)  ==  true)
-		return true;
+	if  (pc_list_for_adding->bAdd(pcNewLink)  ==  true)
+		return(true);
 	else
-		return false;
+		return(false);
 
 
-}//bool  NETNode::addNewLink(bool  inOut, NETLink  *newLink)
-
-
-
+}//bool  CNETnode::bAddNewLink(bool  bInOut, CNETlink  *pcNewLink)
 
 
 
 
 
-bool  NETNode::removeLink(bool  inOut, NETLink  *removedLink)
+
+
+
+bool  CNETnode::bRemoveLink(bool  bInOut, CNETlink  *pcRemovedLink)
 {
 
-	MyList  *pc_list_for_removal;
+	CMyList  *pc_list_for_removal;
 
 
-	if  (inOut  ==  true)
-		pc_list_for_removal  =  &listNetLinksIn;
+	if  (bInOut  ==  true)
+		pc_list_for_removal  =  &c_list_net_links_in;
 	else
-		pc_list_for_removal  =  &listNetLinksOut;
+		pc_list_for_removal  =  &c_list_net_links_out;
 
 
 	//now we are looking for the specified link
-	if  (pc_list_for_removal->first()  ==  false)  return false;
+	if  (pc_list_for_removal->bFirst()  ==  false)  return(false);
 
 
 	long  l_max;
-	l_max  =  pc_list_for_removal->getCapacity();
+	l_max  =  pc_list_for_removal->lGetCapacity();
 	bool  b_finish;
 	b_finish  =  false;
 
 
-	for  (long  li = 0; li < l_max&&b_finish == false; li++)
+	for  (long  li = 0; (li < l_max)&&(b_finish == false); li++)
 	{
 		if  (
-			(NETLink*) pc_list_for_removal->getNode()->getObject()
+			(CNETlink*) (pc_list_for_removal->pcGetNode()->pvGetObject())
 			==
-			removedLink
+			pcRemovedLink
 			)
 		{
 			b_finish  =  true;
-			pc_list_for_removal->deleteActual(false);
+			pc_list_for_removal->bDeleteActual(false);
 		}//if
 	}//for  (long  li = 0; (li < l_max)&&(b_finish == false); li++)
 
 
-	return b_finish;
+	return(b_finish);
 
 	
 
-}//bool  NETNode::removeLink(bool  inOut, NETLink  *removedLink)
+}//bool  CNETnode::bRemoveLink(bool  bInOut, CNETlink  *pcRemovedLink)
 
 
 
@@ -2695,23 +2695,23 @@ bool  NETNode::removeLink(bool  inOut, NETLink  *removedLink)
 
 
 
-bool  NETNode::setUpConnection(NETConnection  *newConnection, long  connectionCapacity)
+bool  CNETnode::bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity)
 {
 
 	//if it's impossible to set the connection
-	if  (actualCapacity  <  connectionCapacity)  return false;
+	if  (l_actual_capacity  <  lConnectionCapacity)  return(false);
 
 	//if the capacity is ok we set up the connection
-	if  (listOfNetConnections.add(newConnection)  ==  false)  return false;
+	if  (c_list_of_net_connections.bAdd(pcNewConnection)  ==  false)  return(false);
 
 	//now we decrease the actual capacity information
-	actualCapacity  =  actualCapacity  -  connectionCapacity;
+	l_actual_capacity  =  l_actual_capacity  -  lConnectionCapacity;
 
 
-	return true;
+	return(true);
 	
 
-}//bool  NETNode::setUpConnection(NETConnection  *newConnection, long  connectionCapacity)
+}//bool  CNETnode::bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity)
 
 
 
@@ -2725,93 +2725,93 @@ returned values:
 0  -  connection was not found
 -1 -  removal of found connection unsuccessfull
 */
-int   NETNode::removeConnection(long  connectionId)
+int   CNETnode::iRemoveConnection(long  lConnectionId)
 {
 
 	//if the list is emopty...
-	if  (listOfNetConnections.last()  ==  false)  return 0;
+	if  (c_list_of_net_connections.bLast()  ==  false)  return(0);
 
 
 	long  l_list_capacity;
 	
-	l_list_capacity  =  listOfNetConnections.getCapacity();
+	l_list_capacity  =  c_list_of_net_connections.lGetCapacity();
 
 	
 	
-	for  (long  li = 0; li < l_list_capacity; li++)
+	for  (long  li = 0; (li < l_list_capacity); li++)
 	{
 
 		if  (
-			((NETConnection *) listOfNetConnections.getNode()->getObject())->getId()
+			((CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject())->lGetId()
 			==
-			connectionId
+			lConnectionId
 			)
 		{
 
-			actualCapacity  +=
+			l_actual_capacity  +=
 			(
-			(NETConnection *) listOfNetConnections.getNode()->getObject()
-			)->getCapacity();
+			(CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject()
+			)->lGetCapacity();
 			
 				
 			//not likely to happen but you never know...
-			if  (listOfNetConnections.deleteActual(false)  ==  false) 
+			if  (c_list_of_net_connections.bDeleteActual(false)  ==  false) 
 			{
-				actualCapacity  =  actualCapacity  -
+				l_actual_capacity  =  l_actual_capacity  -
 				(
-				(NETConnection *) listOfNetConnections.getNode()->getObject()
-				)->getCapacity();
+				(CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject()
+				)->lGetCapacity();
 				
-				return-1;
-			}//if  (listOfNetConnections.deleteActual(false)  ==  false) 
+				return(-1);
+			}//if  (c_list_of_net_connections.bDeleteActual(false)  ==  false) 
 
-			return 1;
+			return(1);
 		}//if
 
 
-		listOfNetConnections.prev();
+		c_list_of_net_connections.bPrev();
 	
 	}//for  (long  li = 0; li < l_list_capacity; li++)
 
 
-	return 0;
+	return(0);
 
-}//int   NETNode::removeConnection(long  connectionId)
-
-
+}//int   CNETnode::iRemoveConnection(long  lConnectionId)
 
 
 
 
 
 
-long  NETNode::countLfn()
+
+
+long  CNETnode::lCountLFN()
 {
 
 	//first we compute all max capacity of links outgoing from current node
 	//and all dataflow going out of the node
 	long  l_max_out_capa;
 	long  l_out_data_flow;
-	NETLink  *pc_buf_link;
+	CNETlink  *pc_buf_link;
 
 
-	if  (listNetLinksOut.first()  !=  true)  return 0;
+	if  (c_list_net_links_out.bFirst()  !=  true)  return(0);
 
 
 	l_max_out_capa  =  0;
 	l_out_data_flow  =  0;
-	for  (long li = 0; li < listNetLinksOut.getCapacity(); li++)
+	for  (long li = 0; li < c_list_net_links_out.lGetCapacity(); li++)
 	{
 
-		pc_buf_link  =  (NETLink *)  listNetLinksOut.getNode()->getObject();
+		pc_buf_link  =  (CNETlink *)  c_list_net_links_out.pcGetNode()->pvGetObject();
 
 
-		l_max_out_capa  +=  pc_buf_link->getMaxCapacity();	
-		l_out_data_flow  +=  pc_buf_link->getMaxCapacity() - pc_buf_link->getActualCapacity();
+		l_max_out_capa  +=  pc_buf_link->lGetMaxCapacity();	
+		l_out_data_flow  +=  (pc_buf_link->lGetMaxCapacity() - pc_buf_link->lGetActualCapacity());
 
-		listNetLinksOut.next();
+		c_list_net_links_out.bNext();
 
-	}//for  (long li = 0; li < listNetLinksOut.getCapacity; li++)
+	}//for  (long li = 0; li < c_list_net_links_out.lGetCapacity; li++)
 
 
 
@@ -2821,59 +2821,57 @@ long  NETNode::countLfn()
 	long  l_buf;
 
 
-	listNetLinksOut.first();
+	c_list_net_links_out.bFirst();
 	l_lfn  =  0;
-	for  (long  li = 0; li < listNetLinksOut.getCapacity(); li++)
+	for  (long  li = 0; li < c_list_net_links_out.lGetCapacity(); li++)
 	{
 
-		pc_buf_link  =  (NETLink *)  listNetLinksOut.getNode()->getObject();
+		pc_buf_link  =  (CNETlink *)  c_list_net_links_out.pcGetNode()->pvGetObject();
 
-		l_buf  =  l_out_data_flow  -  (l_max_out_capa - pc_buf_link->getMaxCapacity());
+		l_buf  =  l_out_data_flow  -  (l_max_out_capa - pc_buf_link->lGetMaxCapacity());
 
 		if  (l_buf  <  0)  l_buf  =  0;
 
 		l_lfn  +=  l_buf;
 
-		listNetLinksOut.next();
+		c_list_net_links_out.bNext();
 	
-	}//for  (li = 0; li < listNetLinksOut.getCapacity; li++)
+	}//for  (li = 0; li < c_list_net_links_out.lGetCapacity; li++)
 
 
 
-	return l_lfn;
+	return(l_lfn);
 
 
-}//double  NETNode::dCountLFN()
-
-
-
-
+}//double  CNETnode::dCountLFN()
 
 
 
 
-void  NETNode::present(FILE  *reportFile)
+
+
+
+
+void  CNETnode::vPresent(FILE  *pfReportFile)
 {
 
-	fprintf(reportFile,"\n\n");
+	fprintf(pfReportFile,"\n\n");
 
-	fprintf(reportFile,"node number:%ld\n", id);
-	fprintf(reportFile,"node capacity:%ld\n", maxCapacity);
-	fprintf(reportFile,"node actual capacity:%ld\n", actualCapacity);
+	fprintf(pfReportFile,"node number:%ld\n", l_id);
+	fprintf(pfReportFile,"node capacity:%ld\n", l_max_capacity);
+	fprintf(pfReportFile,"node actual capacity:%ld\n", l_actual_capacity);
 
-	fprintf(reportFile,"Number of outgoing links:%ld\n", listNetLinksOut.getCapacity());
-	fprintf(reportFile,"Number of incoming links:%ld\n", listNetLinksIn.getCapacity());
-
-
-
-}//void  NETNode::present(FILE  reportFile)
+	fprintf(pfReportFile,"Number of outgoing links:%ld\n", c_list_net_links_out.lGetCapacity());
+	fprintf(pfReportFile,"Number of incoming links:%ld\n", c_list_net_links_in.lGetCapacity());
 
 
 
+}//void  CNETnode::vPresent(FILE  pfReportFile)
 
-//----------------------end of implementation of NETNode--------------------------------------------
 
 
+
+//----------------------end of implementation of CNETnode--------------------------------------------
 
 
 
@@ -2888,80 +2886,80 @@ void  NETNode::present(FILE  *reportFile)
 
 
 
-//--------------implemenatation of class  NETLink--------------------------------------------
+
+
+//--------------implemenatation of class  CNETlink--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
-NETLink::NETLink()
+CNETlink::CNETlink()
 {
 
-	id  = -1;//"unset" value assigned
+	l_id  = -1;//"unset" value assigned
 
-	name  =  "no name";
+	s_name  =  "no name";
 
 		
-	maxCapacity  =  0;//no capacity
-	actualCapacity  =  0;
+	l_max_capacity  =  0;//no capacity
+	l_actual_capacity  =  0;
 
 
-	startNodeId  =  -1;//impossible id;
-	finishNodeId  =  -1;//impossible id;
+	l_start_node_id  =  -1;//impossible id;
+	l_finish_node_id  =  -1;//impossible id;
 
-	startNode  =  NULL;
-	finishNode  =  NULL;
+	pc_start_node  =  NULL;
+	pc_finish_node  =  NULL;
 
 
 	
 
-}//NETLink::NETLink()
+}//CNETlink::CNETlink()
 
 
 
 
 
-NETLink::~NETLink()
+CNETlink::~CNETlink()
 {
 
-	if  (startNodeId >= 0)
+	if  (l_start_node_id >= 0)
 	{
 
-		if  (startNode  !=  NULL)
-			startNode->removeLink(false,this);
+		if  (pc_start_node  !=  NULL)
+			pc_start_node->bRemoveLink(false,this);
 	
-	}//if  (startNodeId >= 0)
+	}//if  (l_start_node_id >= 0)
 
 
-	if  (finishNodeId >= 0)
+	if  (l_finish_node_id >= 0)
 	{
 
-		if  (finishNode  !=  NULL)
-			finishNode->removeLink(true,this);
+		if  (pc_finish_node  !=  NULL)
+			pc_finish_node->bRemoveLink(true,this);
 	
-	}//if  (startNodeId >= 0)
+	}//if  (l_start_node_id >= 0)
 
 
 
-	listOfNetConnections.bye(false);
+	c_list_of_net_connections.vBYE(false);
 
-}//NETLink::~NETLink()
-
-
+}//CNETlink::~CNETlink()
 
 
 
 
 
-bool  NETLink::changeId(long  newId)
+
+
+bool  CNETlink::b_change_id(long  lNewId)
 {
 
-	if  (newId  <  0)  return false;
+	if  (lNewId  <  0)  return(false);
 
-	id  =  newId;
+	l_id  =  lNewId;
 
-	return true;
+	return(true);
 
-}//bool  NETLink::changeId(long  newId)
-
-
+}//bool  CNETlink::b_change_id(long  lNewId)
 
 
 
@@ -2970,23 +2968,25 @@ bool  NETLink::changeId(long  newId)
 
 
 
-bool  NETLink::setCapacity(long  newCapacity)
+
+
+bool  CNETlink::bSetCapacity(long  lNewCapacity)
 {
 
 
-	if  (maxCapacity  -  actualCapacity  >  newCapacity)
-		return false;
+	if  (l_max_capacity  -  l_actual_capacity  >  lNewCapacity)
+		return(false);
 
 
-	actualCapacity  =  newCapacity  -  (maxCapacity  -  actualCapacity);
-	maxCapacity  =  newCapacity;
+	l_actual_capacity  =  lNewCapacity  -  (l_max_capacity  -  l_actual_capacity);
+	l_max_capacity  =  lNewCapacity;
 
 
 
-	return true;
+	return(true);
 	
 
-}//bool  NETLink::setCapacity(long  newCapacity)
+}//bool  CNETlink::bSetCapacity(long  lNewCapacity)
 
 
 
@@ -3000,17 +3000,15 @@ bool  NETLink::setCapacity(long  newCapacity)
 
 
 //if the link is attracted to any connection then it is undeletable
-bool  NETLink::isDeletable()
+bool  CNETlink::bIsDeletable()
 {
 
 	//if the lists are not empty we can not delete the node
-	if  (listOfNetConnections.first()  ==  true)  return false;
+	if  (c_list_of_net_connections.bFirst()  ==  true)  return(false);
 
-	return true;
+	return(true);
 
-}//bool  NETNode::isDeletable()
-
-
+}//bool  CNETnode::bIsDeletable()
 
 
 
@@ -3018,55 +3016,57 @@ bool  NETLink::isDeletable()
 
 
 
-bool  NETLink::plugFinishStart(bool  finishStart, long nodeId, NETNode *node)
+
+
+bool  CNETlink::bPlugFinishStart(bool  bFinishStart, long lNodeId, CNETnode *pcNode)
 {
 
 
-	if  (finishStart  ==  TRUE)
+	if  (bFinishStart  ==  TRUE)
 	{
 
-		finishNodeId  =  nodeId;
-		finishNode  =  node;
+		l_finish_node_id  =  lNodeId;
+		pc_finish_node  =  pcNode;
 	
-	}//if  (finishStart  ==  TRUE)
+	}//if  (bFinishStart  ==  TRUE)
 	else
 	{
 
-		startNodeId  =  nodeId;
-		startNode  =  node;
+		l_start_node_id  =  lNodeId;
+		pc_start_node  =  pcNode;
 	
-	}//else  if  (finishStart  ==  TRUE)
+	}//else  if  (bFinishStart  ==  TRUE)
 
 
 
-	return node->addNewLink(finishStart,this);
+	return(pcNode->bAddNewLink(bFinishStart,this));
 
 
 
-}//bool  NETLink::bPlugInOut(bool  bInOut, long LNodeId, NETNode *node)
+}//bool  CNETlink::bPlugInOut(bool  bInOut, long LNodeId, CNETnode *pcNode)
 
 
 
 
 
 
-bool  NETLink::setUpConnection(NETConnection  *newConnection, long  connectionCapacity)
+bool  CNETlink::bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity)
 {
 
 	//if it's impossible to set the connection
-	if  (actualCapacity  <  connectionCapacity)  return false;
+	if  (l_actual_capacity  <  lConnectionCapacity)  return(false);
 
 	//if the capacity is ok we set up the connection
-	if  (listOfNetConnections.add(newConnection)  ==  false)  return false;
+	if  (c_list_of_net_connections.bAdd(pcNewConnection)  ==  false)  return(false);
 
 	//now we decrease the actual capacity information
-	actualCapacity  =  actualCapacity  -  connectionCapacity;
+	l_actual_capacity  =  l_actual_capacity  -  lConnectionCapacity;
 
 
-	return true;
+	return(true);
 	
 
-}//bool  NETLink::setUpConnection(NETConnection  *newConnection, long  connectionCapacity)
+}//bool  CNETlink::bSetUpConnection(CNETconnection  *pcNewConnection, long  lConnectionCapacity)
 
 
 
@@ -3079,82 +3079,80 @@ returned values:
 0  -  connection was not found
 -1 -  removal of found connection unsuccessfull
 */
-int  NETLink::removeConnection(long  connectionId)
+int  CNETlink::iRemoveConnection(long  lConnectionId)
 {
 
 	//if the list is emopty...
-	if  (listOfNetConnections.last()  ==  false)  return 0;
+	if  (c_list_of_net_connections.bLast()  ==  false)  return(0);
 
 
 	long  l_list_capacity;
 	
-	l_list_capacity  =  listOfNetConnections.getCapacity();
+	l_list_capacity  =  c_list_of_net_connections.lGetCapacity();
 
 	
 	
-	for  (long  li = 0; li < l_list_capacity; li++)
+	for  (long  li = 0; (li < l_list_capacity); li++)
 	{
 
 		if  (
-			((NETConnection *) listOfNetConnections.getNode()->getObject())->getId()
+			((CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject())->lGetId()
 			==
-			connectionId
+			lConnectionId
 			)
 		{
 
-			actualCapacity  +=
+			l_actual_capacity  +=
 			(
-			(NETConnection *) listOfNetConnections.getNode()->getObject()
-			)->getCapacity();
+			(CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject()
+			)->lGetCapacity();
 			
 				
 			//not likely to happen but you never know...
-			if  (listOfNetConnections.deleteActual(false)  ==  false) 
+			if  (c_list_of_net_connections.bDeleteActual(false)  ==  false) 
 			{
-				actualCapacity  =  actualCapacity  -
+				l_actual_capacity  =  l_actual_capacity  -
 				(
-				(NETConnection *) listOfNetConnections.getNode()->getObject()
-				)->getCapacity();
+				(CNETconnection *) c_list_of_net_connections.pcGetNode()->pvGetObject()
+				)->lGetCapacity();
 				
-				return-1;
-			}//if  (listOfNetConnections.deleteActual(false)  ==  false) 
+				return(-1);
+			}//if  (c_list_of_net_connections.bDeleteActual(false)  ==  false) 
 
-			return 1;
+			return(1);
 		}//if
 
 
 
-		listOfNetConnections.prev();
+		c_list_of_net_connections.bPrev();
 	
 	}//for  (long  li = 0; li < l_list_capacity; li++)
 
 
-	return 0;
+	return(0);
 
-}//bool  NETLink::bRemoveConnection(long  connectionId)
-
-
+}//bool  CNETlink::bRemoveConnection(long  lConnectionId)
 
 
 
 
 
-void  NETLink::createBasicVirtualWay(FILE  *reportFile)
+
+
+void  CNETlink::vCreateBasiCVirtualWay(FILE  *pfReportFile)
 {
 
-	fprintf(reportFile,"%ld\n",getStartNodeId());
-	fprintf(reportFile,"%ld\n",getFinishNodeId());
-	fprintf(reportFile,"1\n");
-	fprintf(reportFile,"3 %ld %ld %ld\n", getStartNodeId(), id, getFinishNodeId());
-	fprintf(reportFile,"\n");
+	fprintf(pfReportFile,"%ld\n",lGetStartNodeId());
+	fprintf(pfReportFile,"%ld\n",lGetFinishNodeId());
+	fprintf(pfReportFile,"1\n");
+	fprintf(pfReportFile,"3 %ld %ld %ld\n", lGetStartNodeId(), l_id, lGetFinishNodeId());
+	fprintf(pfReportFile,"\n");
 
-}//void  NETLink::createBasicVirtualWay(FILE  *reportFile)
-
-
-
-//----------------------end of implementation of NETLink--------------------------------------------
+}//void  CNETlink::vCreateBasiCVirtualWay(FILE  *pfReportFile)
 
 
+
+//----------------------end of implementation of CNETlink--------------------------------------------
 
 
 
@@ -3174,77 +3172,79 @@ void  NETLink::createBasicVirtualWay(FILE  *reportFile)
 
 
 
-//--------------implemenatation of class  NETConnection--------------------------------------------
+
+
+//--------------implemenatation of class  CNETconnection--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
 
-NETConnection::NETConnection()
+CNETconnection::CNETconnection()
 {
 
-	id  = -1;//"unset" value assigned
+	l_id  = -1;//"unset" value assigned
 
-	name  =  "no name";
+	s_name  =  "no name";
 
 
-	capacity  =  0;//no weight
+	l_capacity  =  0;//no weight
 
 	pl_way  =  NULL;
 	i_way_length = 0;
 
 
-}//NETConnection::NETConnection()
+}//CNETconnection::CNETconnection()
 
 
 
 
-NETConnection::~NETConnection()
+CNETconnection::~CNETconnection()
 {
 
 	if  (pl_way  !=  NULL)  delete [] pl_way;
 	
 
-}//NETConnection::~NETConnection
+}//CNETconnection::~CNETconnection
 
 
 
 
 
 
-bool  NETConnection::changeId(long  newId)
+bool  CNETconnection::b_change_id(long  lNewId)
 {
 
-	if  (newId  <  0)  return false;
+	if  (lNewId  <  0)  return(false);
 
-	id  =  newId;
+	l_id  =  lNewId;
 
-	return true;
+	return(true);
 
-}//bool  NETConnection::changeId(long  newId)
-
-
+}//bool  CNETconnection::b_change_id(long  lNewId)
 
 
 
 
-bool  NETConnection::setCapacity(long  newCapacity)
+
+
+bool  CNETconnection::bSetCapacity(long  lNewCapacity)
 {
 
-	if  (newCapacity  <  0)  return false;
+	if  (lNewCapacity  <  0)  return(false);
 
 
-	capacity  =  newCapacity;
+	l_capacity  =  lNewCapacity;
 	
-	return true;
+	return(true);
 
-}//bool  NETConnection::setCapacity(long  newCapacity)
-
-
+}//bool  CNETconnection::bSetCapacity(long  lNewCapacity)
 
 
 
 
 
-bool  NETConnection::setConnectionWay(long  *newWay,  int  wayLength)
+
+
+bool  CNETconnection::bSetConnectionWay(long  *plNewWay,  int  iWayLength)
 {
 
 
@@ -3254,23 +3254,21 @@ bool  NETConnection::setConnectionWay(long  *newWay,  int  wayLength)
 
 	
 	pl_way  =  NULL;
-	pl_way  =  new  long[wayLength];
+	pl_way  =  new  long[iWayLength];
 
-	if  (pl_way  ==  NULL)  return false;
-
-
-	for  (int  ii = 0; ii < wayLength; ii++)
-		pl_way[ii]  =  newWay[ii];
+	if  (pl_way  ==  NULL)  return(false);
 
 
-	i_way_length  =  wayLength;
-
-	return true;
-
-
-}//bool  NETConnection::setConnectionWay(long  newWay,  int  wayLength)
+	for  (int  ii = 0; ii < iWayLength; ii++)
+		pl_way[ii]  =  plNewWay[ii];
 
 
+	i_way_length  =  iWayLength;
+
+	return(true);
+
+
+}//bool  CNETconnection::bSetConnectionWay(long  plNewWay,  int  iWayLength)
 
 
 
@@ -3280,16 +3278,16 @@ bool  NETConnection::setConnectionWay(long  *newWay,  int  wayLength)
 
 
 
-int  NETConnection::getConnectionWay(long  **way)
+
+
+int  CNETconnection::iGetConnectionWay(long  **plWay)
 {
 
-	*way  =  pl_way;
+	*plWay  =  pl_way;
 
-	return i_way_length;
+	return(i_way_length);
 
-}//int  NETConnection::getConnectionWay(long  *way)
-
-
+}//int  CNETconnection::iGetConnectionWay(long  *plWay)
 
 
 
@@ -3297,4 +3295,6 @@ int  NETConnection::getConnectionWay(long  **way)
 
 
 
-//----------------------end of implementation of NETConnection--------------------------------------------
+
+
+//----------------------end of implementation of CNETconnection--------------------------------------------

@@ -5,60 +5,83 @@
 #include <exception>
 #include <iostream>
 #include <random>
+#include "GeneticAlgorithm.h"
 
 using namespace TimeCounters;
 
 using namespace std;
 
-#define MAX_TIME 20 * 60
+#define dMAX_TIME 20 * 60
 
 
-void runExperiment(LFLNetEvaluator &configuredElevator)
+void vRunExperiment(CLFLnetEvaluator &cConfiguredEvaluator)
 {
 	try
 	{
-		TimeCounter timeCounter;
+		CTimeCounter c_time_counter;
 
-		double timePassed;
+		double d_time_passed;
 
-		Optimizer opitmizer(configuredElevator);
+		COptimizer c_optimizer(cConfiguredEvaluator);
 
-		timeCounter.setStartNow();
+		c_time_counter.vSetStartNow();
 
-		opitmizer.initialize();
+		c_optimizer.vInitialize();
 
-		timeCounter.getTimePassed(&timePassed);
+		c_time_counter.bGetTimePassed(&d_time_passed);
 
-		while (timePassed <= MAX_TIME)
+		while (d_time_passed <= dMAX_TIME)
 		{
-			opitmizer.runIteration();
-			opitmizer.getCurrentBest();
+			c_optimizer.vRunIteration();
+			c_optimizer.pvGetCurrentBest();
 
-			timeCounter.getTimePassed(&timePassed);
-		}
-	}
-	catch (exception &exception)
+			c_time_counter.bGetTimePassed(&d_time_passed);
+		}//while (d_time_passed <= MAX_TIME)
+	}//try
+	catch (exception &c_exception)
 	{
-		cout << exception.what() << endl;
+		cout << c_exception.what() << endl;
+	}//catch (exception &c_exception)
+}//void vRunExperiment(const CEvaluator &cConfiguredEvaluator)
+
+
+
+void  vRunLFLExperiment(CString  sNetName)
+{
+	CLFLnetEvaluator c_lfl_eval;
+	c_lfl_eval.bConfigure(sNetName);
+	vRunExperiment(c_lfl_eval);
+	
+}//void vRunRastriginExperiment(int iNumberOfBits, int iBitsPerFloat, int iMaskSeed)
+
+void runGeneticAlgorithm(CString netName)
+{
+	try
+	{
+		CLFLnetEvaluator evaluator;
+		evaluator.bConfigure(netName);
+
+		GeneticAlgorithm geneticAlgorithm(20, 0.4, 0.03, &evaluator);
+		geneticAlgorithm.runAlgorithm(1000);
+
+		cout << "Best fitness: " << geneticAlgorithm.getBestIndividual().getFitness() << endl;
+	}
+	catch (exception &c_exception)
+	{
+		cout << c_exception.what() << endl;
 	}
 }
 
-void  runLFLExperiment(CString  netName)
+
+void main(int iArgCount, char **ppcArgValues)
 {
-	LFLNetEvaluator lflEvalutaion;
-	lflEvalutaion.configure(netName);
-	runExperiment(lflEvalutaion);
+	random_device c_mask_seed_generator;
+	int i_mask_seed = (int)c_mask_seed_generator();
 
-}
+	runGeneticAlgorithm("104b00");
 
-void main(int argCount, char **argValues)
-{
-	random_device maskSeedGenerator;
-	int maskSeed = (int)maskSeedGenerator();
-
-
-	CString test;
-	runLFLExperiment("104b00");
+	/*CString  s_test;
+	vRunLFLExperiment("104b00");*/
 
 	/*vRunIsingSpinGlassExperiment(81, 0, i_mask_seed);
 	vRunIsingSpinGlassExperiment(81, 0, iSEED_NO_MASK);

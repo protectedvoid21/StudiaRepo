@@ -14,7 +14,7 @@ void  Tools::vShow(CString  sText)
 void  Tools::vShow(int  iVal)
 {
 	CString  s_buf;
-	s_buf.Format(L"%d", iVal);
+	s_buf.Format("%d", iVal);
 	vShow(s_buf);
 }//void  Tools::vShow(int  iVal)
 
@@ -23,7 +23,7 @@ void  Tools::vShow(int  iVal)
 void  Tools::vShow(double  dVal)
 {
 	CString  s_buf;
-	s_buf.Format(L"%.16lf", dVal);
+	s_buf.Format("%.16lf", dVal);
 	vShow(s_buf);
 }//void  Tools::vShow(int  iVal)
 

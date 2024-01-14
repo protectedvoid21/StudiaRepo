@@ -9,26 +9,25 @@
 
 namespace  TimeCounters
 {
-	class  TimeCounter
+	class  CTimeCounter
 	{
 	public:
 
-		TimeCounter();
-		~TimeCounter()
-		{ };
+		CTimeCounter();
+		~CTimeCounter()  {};
 
-		void  setStartNow();
-		bool  getTimePassed(double *timePassedSec);//if returned value is false it means the timer was not set on start
-		bool  setFinishOn(double  timeToFinishSec);
-		bool  isFinished();
+		void  vSetStartNow();
+		bool  bGetTimePassed(double  *pdTimePassedSec);//if returned value is false it means the timer was not set on start
+		bool  bSetFinishOn(double  dTimeToFinishSec);
+		bool  bIsFinished();
 
 	private:
-		bool  startInited;
-		LARGE_INTEGER  startPosition;
-		LARGE_INTEGER  freq;
-
-		bool  finishInited;
-		LARGE_INTEGER  finishPosition;
+		bool  b_start_inited;
+		LARGE_INTEGER  li_start_position;
+		LARGE_INTEGER  li_freq;
+		
+		bool  b_finish_inited;
+		LARGE_INTEGER  li_finish_position;
 
 	};//class  CTimeCounter
 };//namespace  TimeCounters

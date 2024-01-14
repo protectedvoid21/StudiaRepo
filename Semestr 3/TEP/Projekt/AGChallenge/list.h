@@ -1,80 +1,79 @@
 #pragma once
 
 
-class MyNode
+class  CMyNode
 {
 public:
-	bool insertObject(void *object); //inserts a specified object(actually it's addres) to the node 
-	bool deleteObject(); //deallocates the memory of held object(deletes the object)
+	bool	bInsertObject(void *ptOBJECT);  //inserts a specified object(actually it's addres) to the node 
+	bool	bDeleteObject();  //deallocates the memory of held object(deletes the object)
 
-	void *getObject() { return object; }
+	void	*pvGetObject() {return(pc_object);};   //returns an addres of a held object
 
-	MyNode *getNext() { return nextNode; }
-	MyNode *getPrev() { return prevNode; }
+	CMyNode *pcGetNext() {return(pc_next);};  //returns addres of the next node
+	CMyNode *pcGetPrev() {return(pc_prev);};  //returns addres of the prev node
 
-	bool setNext(MyNode *next)
-	{
-		nextNode = next;
-		return true;
-	}
+	bool	bSetNext(CMyNode  *pcNext) {pc_next  =  pcNext; return(true);};//sets new next node addres
+	bool	bSetPrev(CMyNode  *pcPrev) {pc_prev  =  pcPrev; return(true);};//sets new previous node addres
 
-	bool bSetPrev(MyNode *pcPrev)
-	{
-		prevNode = pcPrev;
-		return true;
-	}
-
+	
 	//I don't know if the way you allocate the memory uses constructors and destructors
 	//so i created it this way in case you just allocate and free the memory without using constructor and destructor tools
-	void init();
-	void bye(bool deleteObject);
-
+	void    vINIT();       
+	void    vBYE(bool  bDeleteObject);
+		
 protected:
-	MyNode *nextNode;
-	MyNode *prevNode;
+	CMyNode *pc_next;
+	CMyNode *pc_prev;
 
-	void *object;
+	void    *pc_object;
+
 };
 
 
-class MyList
+
+
+class  CMyList
 {
 public:
-	bool add(); //Adds 1 node at the en of the list
-	bool add(void *); //Adds 1 object at the end of the list
+	bool	bAdd();			//Adds 1 node at the en of the list
+	bool    bAdd(void *);	//Adds 1 object at the end of the list
 
-	bool deleteActual(bool deleteObject); // delete's an actual node and the object it holds
+	bool    bDeleteActual(bool  bDeleteObject);  // delete's an actual node and the object it holds
 
-	MyNode *getNode() { return actualNode; } //returns an addres to an actual node
-	void *getObject() { return actualNode->getObject(); }
-	long getPos() { return position; } //returns a position number of a current node
+	CMyNode  *pcGetNode()  {return(pc_actual_node);};   //returns an addres to an actual node
+	void    *pvGetObject()  {return(pc_actual_node->pvGetObject());};
+	long    lGetPos()  {return(l_position);};  //returns a position number of a current node
 
-	long getCapacity() { return capacity; } //returns the current capacity
+	long    lGetCapacity()  {return(l_capacity);}; //returns the current capacity
 
 
-	bool first(); // moves the actual pointer to the first node
-	bool last(); // moves the actual pointer to the last node
+	bool    bFirst();  // moves the actual pointer to the first node
+	bool    bLast();   // moves the actual pointer to the last node
 
-	bool next(); // moves the actual pointer to the next node
-	bool prev(); // moves the actual pointer to the previous node
-	bool setPos(long wantedPosition);
-	//moves the actual pointer to the node of a specified numer and returns true if the operation was succesful
+	bool	bNext();   // moves the actual pointer to the next node
+	bool    bPrev();   // moves the actual pointer to the previous node
+	bool    bSetPos(long  lWantedPosition);	//moves the actual pointer to the node of a specified numer and returns true if the operation was succesful
 
-	bool sendObjAddress(MyList *target); // this method sends all addresses in the list to the targetted list
+	bool    bSendObjAddr(CMyList *Target);// this method sends all addresses in the list to the targetted list
 
 
 	//I don't know if the way you allocate the memory uses constructors and destructors
 	//so i created it this way in case you just allocate and free the memory without using constructor and destructor tools
-	MyList();
-	~MyList();
+	CMyList();       
+	~CMyList();
 
-	void bye(bool deleteObject);
+	void  vBYE(bool  bDeleteObject);
+	
 
 protected:
-	MyNode *firstNode;
-	MyNode *lastNode;
-	MyNode *actualNode;
+	CMyNode  *pc_first_node;
+   	CMyNode  *pc_last_node;
+	CMyNode  *pc_actual_node;
 
-	long capacity;
-	long position;
+	long     l_capacity;
+	long	 l_position;
 };
+
+
+
+

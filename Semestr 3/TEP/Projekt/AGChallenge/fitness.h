@@ -15,45 +15,56 @@
 
 
 using namespace std;
-using namespace NetSimulator;
-using namespace MyMath;
+using  namespace  NETsimulator;
+using namespace  MyMath;
 
 
-class FOMfunction
+
+class  CFOMfunction
 {
+
 public:
-	FOMfunction()
-	{ }
 
-	virtual ~FOMfunction()
-	{ }
+	CFOMfunction() {};
+	virtual  ~CFOMfunction() {};
 
 
-	virtual CString getName() { return "no function"; }
+	virtual  CString  sGetName() { return("no function"); };
 
-	virtual double countFom(NETSimulator *simulator, long penalty, bool *capacityExtending, double *fitnessPure, double *penaltyPure) { return 0; }
+	virtual  double  dCountFOM(CNETsimulator  *pcSimulator, long  lPenalty, bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure) { return(0); };//penalty is used when we allow for the capacity extending
 
-	//penalty is used when we allow for the capacity extending
-
-	double evalNumber() { return ffe; }
+	double  dEvalNumber() { return(d_ffe); };
 
 	//	virtual  int     iLoadWeights(CString  sFileName) {return(0);};
 
 
 protected:
-	double ffe;
-};
+	double  d_ffe;
 
 
-class FOMFunctionLFL : public FOMfunction
+
+};//class  CFOMfunction
+
+
+
+
+
+class  CFOMfunctionLFL : public  CFOMfunction
 {
+
 public:
-	FOMFunctionLFL();
-	~FOMFunctionLFL();
 
-	CString getName() { return "lfl function"; }
+	CFOMfunctionLFL();
+	~CFOMfunctionLFL();
 
-	double countFom(NETSimulator *pcSimulator, long lPenalty, bool *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure);
+
+
+	CString  sGetName() { return("lfl function"); };
+
+	double  dCountFOM(CNETsimulator  *pcSimulator, long  lPenalty, bool  *pbCapacityExtending, double *pdFitnessPure, double *pdPenaltyPure);
+
 
 private:
-};
+
+
+};//class  CFOMfunctionWeight

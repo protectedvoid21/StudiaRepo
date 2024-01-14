@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Optimizer::Optimizer(LFLNetEvaluator &cEvaluator)
+COptimizer::COptimizer(CLFLnetEvaluator &cEvaluator)
 	: c_evaluator(cEvaluator)
 {
 	random_device c_seed_generator;
@@ -15,18 +15,18 @@ Optimizer::Optimizer(LFLNetEvaluator &cEvaluator)
 	d_current_best_fitness = 0;
 }//COptimizer::COptimizer(CEvaluator &cEvaluator)
 
-void Optimizer::initialize()
+void COptimizer::vInitialize()
 {
 	d_current_best_fitness = -DBL_MAX;
 	v_current_best.clear();
 }//void COptimizer::vInitialize()
 
-void Optimizer::runIteration()
+void COptimizer::vRunIteration()
 {
 	vector<int> v_candidate;
 	v_fill_randomly(v_candidate);
 
-	double d_candidate_fitness = c_evaluator.evaluate(&v_candidate);
+	double d_candidate_fitness = c_evaluator.dEvaluate(&v_candidate);
 
 	if (d_candidate_fitness > d_current_best_fitness)
 	{
@@ -39,12 +39,12 @@ void Optimizer::runIteration()
 
 
 
-void Optimizer::v_fill_randomly(vector<int> &vSolution)
+void COptimizer::v_fill_randomly(vector<int> &vSolution)
 {
-	vSolution.resize((size_t)c_evaluator.getNumberOfBits());
+	vSolution.resize((size_t)c_evaluator.iGetNumberOfBits());
 
 	for (int ii = 0; ii < vSolution.size(); ii++)
 	{
-		vSolution.at(ii) = lRand(c_evaluator.getNumberOfValues(ii));
+		vSolution.at(ii) = lRand(c_evaluator.iGetNumberOfValues(ii));
 	}//for (size_t i = 0; i < vSolution.size(); i++)
 }//void COptimizer::v_fill_randomly(const vector<int> &vSolution)

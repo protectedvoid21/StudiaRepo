@@ -7,20 +7,20 @@
 
 using namespace std;
 
-class Optimizer
+class COptimizer
 {
 public:
-	Optimizer(LFLNetEvaluator &cEvaluator);
+	COptimizer(CLFLnetEvaluator &cEvaluator);
 
-	void initialize();
-	void runIteration();
+	void vInitialize();
+	void vRunIteration();
 
-	vector<int> *getCurrentBest() { return &v_current_best; }
+	vector<int> *pvGetCurrentBest() { return &v_current_best; }
 
 private:
 	void v_fill_randomly(vector<int> &vSolution);
 
-	LFLNetEvaluator &c_evaluator;
+	CLFLnetEvaluator &c_evaluator;
 
 	double d_current_best_fitness;
 	vector<int> v_current_best;
