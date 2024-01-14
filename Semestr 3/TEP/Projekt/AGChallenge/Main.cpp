@@ -56,20 +56,13 @@ void  vRunLFLExperiment(CString  sNetName)
 
 void runGeneticAlgorithm(CString netName)
 {
-	try
-	{
-		CLFLnetEvaluator evaluator;
-		evaluator.bConfigure(netName);
+	CLFLnetEvaluator evaluator;
+	evaluator.bConfigure(netName);
 
-		GeneticAlgorithm geneticAlgorithm(20, 0.4, 0.03, &evaluator);
-		geneticAlgorithm.runAlgorithm(1000);
+	GeneticAlgorithm geneticAlgorithm(500, 0.3, 0.03, &evaluator);
+	geneticAlgorithm.runAlgorithm(100);
 
-		cout << "Best fitness: " << geneticAlgorithm.getBestIndividual().getFitness() << endl;
-	}
-	catch (exception &c_exception)
-	{
-		cout << c_exception.what() << endl;
-	}
+	cout << "Best fitness: " << geneticAlgorithm.getBestIndividual().getFitness() << endl;
 }
 
 
