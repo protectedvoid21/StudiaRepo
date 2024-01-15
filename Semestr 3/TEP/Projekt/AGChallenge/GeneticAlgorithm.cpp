@@ -67,7 +67,7 @@ void GeneticAlgorithm::runIteration()
 		{
 			vector<Individual *> crossChildren = firstParent->crossover(*secondParent);
 
-			for (auto &child : crossChildren)
+			for (auto child : crossChildren)
 			{
 				newPopulation.push_back(child);
 			}
@@ -94,7 +94,7 @@ Individual *GeneticAlgorithm::getBestIndividual()
 {
 	Individual *bestIndividual = _population[0];
 
-	for (auto &individual : _population)
+	for (auto individual : _population)
 	{
 		if (individual->getFitness() > bestIndividual->getFitness())
 		{
