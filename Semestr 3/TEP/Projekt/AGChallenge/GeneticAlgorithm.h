@@ -8,14 +8,14 @@ private:
 	float _crossProbability;
 	float _mutationProbability;
 
-	vector<Individual> _population;
+	vector<Individual *> _population;
 	CLFLnetEvaluator *_evaluator;
 
-	Individual getRandomParent();
+	Individual *getRandomParent();
 	void initPopulation();
 public:
 	GeneticAlgorithm(int populationSize, float crossProbability, float mutationProbability, CLFLnetEvaluator *evaluator);
 	void runAlgorithm(int iterationCount);
 	void runIteration();
-	Individual getBestIndividual();
+	Individual *getBestIndividual();
 };

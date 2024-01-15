@@ -1,9 +1,9 @@
 #include "GeneticAlgorithm.h"
 
-Individual GeneticAlgorithm::getRandomParent()
+Individual *GeneticAlgorithm::getRandomParent()
 {
 	int firstIndex = rand() % _population.size();
-	Individual firstIndividual = _population[firstIndex];
+	Individual *firstIndividual = _population[firstIndex];
 
 	int secondIndex = rand() % _population.size();
 	while (secondIndex == firstIndex)
@@ -11,9 +11,9 @@ Individual GeneticAlgorithm::getRandomParent()
 		secondIndex = rand() % _population.size();
 	}
 
-	Individual secondIndividual = _population[secondIndex];
+	Individual *secondIndividual = _population[secondIndex];
 
-	if (firstIndividual.getFitness() > secondIndividual.getFitness())
+	if (firstIndividual->getFitness() > secondIndividual->getFitness())
 	{
 		return firstIndividual;
 	}
@@ -31,7 +31,7 @@ void GeneticAlgorithm::initPopulation()
 			genotype.push_back(lRand(_evaluator->iGetNumberOfValues(j)));
 		}
 
-		_population.push_back(Individual(genotype, _evaluator));
+		_population.push_back(new Individual(genotype, _evaluator));
 	}
 }
 
@@ -49,23 +49,23 @@ void GeneticAlgorithm::runAlgorithm(int iterationCount)
 
 	for (int i = 0; i < iterationCount; i++)
 	{
-		cout << "Iteration " << i + 1 << "\t Best fitness: " << getBestIndividual().getFitness() << endl;
+		cout << "Iteration " << i + 1 << "\t Best fitness: " << getBestIndividual()->getFitness() << endl;
 		runIteration();
 	}
 }
 
 void GeneticAlgorithm::runIteration()
 {
-	vector<Individual> newPopulation;
+	vector<Individual *> newPopulation;
 
 	while (newPopulation.size() < _populationSize)
 	{
-		Individual firstParent = getRandomParent();
-		Individual secondParent = getRandomParent();
+		Individual *firstParent = getRandomParent();
+		Individual *secondParent = getRandomParent();
 
 		if (dRand() < _crossProbability)
 		{
-			vector<Individual> crossChildren = firstParent.crossover(secondParent);
+			vector<Individual *> crossChildren = firstParent->crossover(*secondParent);
 
 			for (auto &child : crossChildren)
 			{
@@ -83,20 +83,20 @@ void GeneticAlgorithm::runIteration()
 	{
 		if (dRand() < _mutationProbability)
 		{
-			individual.mutate(_mutationProbability);
+			individual->mutate(_mutationProbability);
 		}
 	}
 
 	_population = newPopulation;
 }
 
-Individual GeneticAlgorithm::getBestIndividual()
+Individual *GeneticAlgorithm::getBestIndividual()
 {
-	Individual bestIndividual = _population[0];
+	Individual *bestIndividual = _population[0];
 
 	for (auto &individual : _population)
 	{
-		if (individual.getFitness() > bestIndividual.getFitness())
+		if (individual->getFitness() > bestIndividual->getFitness())
 		{
 			bestIndividual = individual;
 		}

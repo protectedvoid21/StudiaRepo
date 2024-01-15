@@ -11,8 +11,8 @@ class Individual
 	float *_fitness;
 
 public:
-	Individual(vector<int> genotype, CLFLnetEvaluator *evaluator);
+	Individual(const vector<int> &genotype, CLFLnetEvaluator *evaluator);
 	double getFitness();
 	void mutate(float mutationProbability);
-	std::vector<Individual> crossover(const Individual &other);
+	std::vector<Individual *> crossover(const Individual &other);
 };

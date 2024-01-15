@@ -2,7 +2,7 @@
 
 #include "Evaluator.h"
 
-Individual::Individual(vector<int> genotype, CLFLnetEvaluator *evaluator) : _genotype(genotype), _evaluator(evaluator), _fitness(nullptr)
+Individual::Individual(const vector<int> &genotype, CLFLnetEvaluator *evaluator) : _genotype(genotype), _evaluator(evaluator), _fitness(nullptr)
 { }
 
 double Individual::getFitness()
@@ -25,7 +25,7 @@ void Individual::mutate(float mutationProbability)
 	}
 }
 
-std::vector<Individual> Individual::crossover(const Individual &other)
+std::vector<Individual *> Individual::crossover(const Individual &other)
 {
 	const int crossoverPoint = iRand() % (_genotype.size() - 1) + 1;
 
@@ -37,8 +37,8 @@ std::vector<Individual> Individual::crossover(const Individual &other)
 
 	return
 	{
-		Individual(genotype1, _evaluator),
-		Individual(genotype2, _evaluator)
+		new Individual(genotype1, _evaluator),
+		new Individual(genotype2, _evaluator)
 	};
 }
 

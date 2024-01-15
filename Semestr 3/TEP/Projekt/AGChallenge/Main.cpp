@@ -51,7 +51,7 @@ void  vRunLFLExperiment(CString  sNetName)
 	CLFLnetEvaluator c_lfl_eval;
 	c_lfl_eval.bConfigure(sNetName);
 	vRunExperiment(c_lfl_eval);
-	
+
 }//void vRunRastriginExperiment(int iNumberOfBits, int iBitsPerFloat, int iMaskSeed)
 
 void runGeneticAlgorithm(CString netName)
@@ -62,7 +62,7 @@ void runGeneticAlgorithm(CString netName)
 	GeneticAlgorithm geneticAlgorithm(500, 0.3, 0.03, &evaluator);
 	geneticAlgorithm.runAlgorithm(100);
 
-	cout << "Best fitness: " << geneticAlgorithm.getBestIndividual().getFitness() << endl;
+	cout << "Best fitness: " << geneticAlgorithm.getBestIndividual()->getFitness() << endl;
 }
 
 
