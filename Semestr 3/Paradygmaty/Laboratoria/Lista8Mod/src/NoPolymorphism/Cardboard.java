@@ -29,6 +29,10 @@ public class Cardboard
             {
                 return Math.PI * Math.pow(_sizes[0], 2) * _sizes[1];
             }
+            case Cone ->
+            {
+                return Math.PI * Math.pow(_sizes[0], 2) * (_sizes[1] / 3);
+            }
         }
         return 0;
     }
@@ -51,6 +55,12 @@ public class Cardboard
                 var cuboidWidth = (2 * _sizes[0]) / Math.sqrt(2);
                 return new Cuboid(cuboidWidth, _sizes[1], cuboidWidth);
             }
+            case Cone ->
+            {
+                var cuboidWidth = 2 * Math.sqrt(2) / 3 * _sizes[0];
+                var cuboidHeight = _sizes[1] / 3;
+                return new Cuboid(cuboidWidth, cuboidWidth, cuboidHeight);
+            }
         }
         return null;
     }
@@ -69,6 +79,10 @@ public class Cardboard
                 return new Cuboid(diameter, diameter, diameter);
             }
             case Tube ->
+            {
+                return new Cuboid(_sizes[0] * 2, _sizes[0] * 2, _sizes[1]);
+            }
+            case Cone ->
             {
                 return new Cuboid(_sizes[0] * 2, _sizes[0] * 2, _sizes[1]);
             }

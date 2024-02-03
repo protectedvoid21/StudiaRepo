@@ -5,4 +5,5 @@ public enum CardboardType
     Rect,
     Ball,
     Tube,
+    Cone
 }

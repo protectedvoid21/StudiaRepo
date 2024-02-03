@@ -26,8 +26,8 @@ public class Elf
                 .flatMap(Collection::stream)
                 .sorted((a, b) -> Double.compare(b.getVolume(), a.getVolume()))
                 .toList());
-        
-        var biggestCardboard = new ArrayList<>(List.of(cardboardsList.removeFirst()));
+
+        ArrayList<Cardboard> biggestCardboard = new ArrayList<>(List.of(cardboardsList.removeFirst()));
 
         var sortedCardboards = new ArrayList<ArrayList<Cardboard>>();
         sortedCardboards.add(biggestCardboard);
