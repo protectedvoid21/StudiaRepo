@@ -25,6 +25,40 @@ void Individual::mutate(float mutationProbability)
 	}
 }
 
+std::vector<int> *cloneIntVector(const std::vector<int> &vec)
+{
+	std::vector<int> *clonedVector = new std::vector<int>();
+	for (auto num : vec)
+	{
+		clonedVector->push_back(num);
+	}
+	return clonedVector;
+}
+
+std::vector<Individual *> Individual::przewoMutate()
+{
+	std::vector<Individual *> mutatedIndividuals;
+
+	const int genIndex = iRand() % _genotype.size();
+	const int excludedGenValue = _genotype[genIndex];
+	const int numberOfValues = _evaluator->iGetNumberOfValues(genIndex);
+
+	for (int i = 0; i < numberOfValues; i++)
+	{
+		if (i == excludedGenValue)
+		{
+			continue;
+		}
+
+		std::vector<int> clonedGenotype = *cloneIntVector(_genotype);
+
+		clonedGenotype[genIndex] = i;
+		mutatedIndividuals.push_back(new Individual(clonedGenotype, _evaluator));
+	}
+
+	return mutatedIndividuals;
+}
+
 std::vector<Individual *> Individual::crossover(const Individual &other)
 {
 	const int crossoverPoint = iRand() % (_genotype.size() - 1) + 1;

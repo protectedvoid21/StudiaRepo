@@ -77,17 +77,25 @@ void GeneticAlgorithm::runIteration()
 			newPopulation.push_back(firstParent);
 			newPopulation.push_back(secondParent);
 		}
-	}
 
-	for (auto &individual : newPopulation)
-	{
 		if (dRand() < _mutationProbability)
 		{
-			individual->mutate(_mutationProbability);
+			int randomIndex = lRand(_populationSize);
+			Individual randomIndividual = *_population[randomIndex];
+
+			std::vector<Individual *> mutatedNewPopulation = randomIndividual.przewoMutate();
+
+			for (auto mutatedIndividual : mutatedNewPopulation)
+			{
+				newPopulation.push_back(mutatedIndividual);
+			}
 		}
 	}
 
+	newPopulation.resize(_populationSize);
+
 	_population = newPopulation;
+	cout << _population.size() << endl;
 }
 
 Individual *GeneticAlgorithm::getBestIndividual()
