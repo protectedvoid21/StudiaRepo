@@ -70,10 +70,3 @@ def print_log(log: Log):
     else:
         logging.info(log.message)
 
-
-if __name__ == "__main__":
-    logs_text = sys.stdin.readlines()
-    logs = read_logs(logs_text)
-    
-    print(avg_ssh_time(logs))
-    
