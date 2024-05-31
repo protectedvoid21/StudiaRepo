@@ -3,9 +3,9 @@ using System.Net.Http.Json;
 
 namespace Scrapers;
 
-public class NflScraper(HttpClient httpClient, SqlConnection connection, DatabaseService databaseService)
+public class NflScraper(HttpClient httpClient, SqlConnection connection, DatabaseService databaseService) : IScraper
 {
-    public async Task ScrapeNflOffers()
+    public async Task RunAsync()
     {
         int counter = 0;
         const int offersToScrape = 100;

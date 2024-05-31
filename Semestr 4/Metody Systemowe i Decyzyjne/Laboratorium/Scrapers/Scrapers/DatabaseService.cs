@@ -1,5 +1,4 @@
 using System.Data.SqlClient;
-using System.Net.Http.Json;
 
 namespace Scrapers;
 
@@ -40,7 +39,7 @@ public class DatabaseService(SqlConnection connection)
         }
         catch (SqlException ex)
         {
-            
+            Console.WriteLine(ex.Message);
         }
     }
 }
