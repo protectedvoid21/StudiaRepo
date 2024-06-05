@@ -1,9 +1,9 @@
 # Fdb version 3
-["xdvipdfmx"] 1717490284 "raport.xdv" "raport.pdf" "raport" 1717490286
-  "raport.xdv" 1717490284 143392 6ce36ecc361b9edc90b0900902a32772 "xelatex"
+["xdvipdfmx"] 1717534185 "raport.xdv" "raport.pdf" "raport" 1717534186
+  "raport.xdv" 1717534185 160796 df1eedb80968936763da4d68e6b06960 "xelatex"
   (generated)
   "raport.pdf"
-["xelatex"] 1717490284 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 4/Metody Systemowe i Decyzyjne/Laboratorium/Projekt/raport.tex" "raport.xdv" "raport" 1717490286
+["xelatex"] 1717534184 "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 4/Metody Systemowe i Decyzyjne/Laboratorium/Projekt/raport.tex" "raport.xdv" "raport" 1717534186
   "C:/Users/niezn/AppData/Local/MiKTeX/miktex/data/le/xetex/xelatex.fmt" 1703331717 24055910 11dddb2dd07c08a7505dc5aec573f222 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/generic/iftex/iftex.sty" 1644000708 7237 bdd120a32c8fdb4b433cf9ca2e7cd98a ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/generic/iftex/ifvtex.sty" 1644000708 1057 525c2192b5febbd8c1f662c9468335bb ""
@@ -33,23 +33,23 @@
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/niezn/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "WITlogo.png" 1716740895 111657 681cb9347214eb83d5a9e4bbc96a366f ""
-  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 4/Metody Systemowe i Decyzyjne/Laboratorium/Projekt/raport.tex" 1717490283 23541 161fe45d01206887529f627dd9a911a3 ""
+  "c:/Users/niezn/OneDrive/Pulpit/Studia/StudiaRepo/Semestr 4/Metody Systemowe i Decyzyjne/Laboratorium/Projekt/raport.tex" 1717534183 25188 46b317ed99b87f83f69f08461f514198 ""
   "img/box_zarobki_exp.png" 1717350820 34709 6453fdf8989f0c7476e274dd208908bd ""
   "img/corr_matrix.png" 1717488566 50878 abb24f240258f8c2e3f9e351af08347f ""
   "img/corr_matrix_zero_salary.png" 1717489763 50814 7b3ba232816a91be8b3d2fcc80095fd0 ""
   "img/czytanie_wykres.png" 1717445109 123288 6578e25f02247ace95bb89b919edc800 ""
-  "img/exp_importance.png" 1717240046 26853 7d1d84966d2f915287e99a5b843ea82e ""
-  "img/exp_importance_abs.png" 1717240053 30297 5e2ea7334a09a02ba689b0b60909e67f ""
+  "img/exp_importance.png" 1717524255 27120 a00d5cc44c1154747a00f87634cd2bbe ""
+  "img/exp_importance_abs.png" 1717528179 34839 a99c98da38238224bdfd46cc58bf936e ""
   "img/hist_zarobki_bez_zer.png" 1717184510 22276 4d532c2ede079b68ea6dd430fe624b83 ""
   "img/hist_zarobki_z_zerami.png" 1717184515 18564 423bd63f41eb63dd3fce3c8534376310 ""
-  "img/location_hist.png" 1717180668 42216 301afb0619db8c37d242a73c6d8b6831 ""
+  "img/location_hist.png" 1717532148 41777 fac38800584a12d2f3464415bc392d05 ""
   "img/location_job_per_pop.png" 1717189479 42714 5b125f27e2a8ee4e7a60672c7c15c899 ""
   "img/location_with_pop.png" 1717187133 62096 1f393a43e1c456afe5aedb955e759fb7 ""
   "img/model_pred_1.png" 1717184494 76180 776365a37c5f0bb8d0b368066f1ff0da ""
-  "img/zero_location_hist.png" 1717482744 39458 8626ec04ac343f7e858dacef10e2ecd9 ""
+  "img/zero_location_hist.png" 1717532336 40891 883fa8cbb9a4f4b19181daf3553c641f ""
   "img/zero_salary_hist.png" 1717482846 22603 6fc0fdc1694b78c0470c85c486414978 ""
-  "raport.aux" 1717490284 2147 57b04f6e26aaa2dd7dc1e5ccdab2056d "xelatex"
-  "raport.tex" 1717490283 23541 161fe45d01206887529f627dd9a911a3 ""
+  "raport.aux" 1717534185 2157 4e5da457e76507e507fb41670a6b2b80 "xelatex"
+  "raport.tex" 1717534183 25188 46b317ed99b87f83f69f08461f514198 ""
   "title_page.tex" 1717362999 944 e6b9a9a63e05bf81866aee86e6824450 ""
   (generated)
   "raport.aux"

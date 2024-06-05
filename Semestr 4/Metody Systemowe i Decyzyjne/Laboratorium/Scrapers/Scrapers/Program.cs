@@ -24,7 +24,7 @@ var host = new HostBuilder()
 
 var scrapers = new IScraper[]
 {
-    // host.Services.GetRequiredService<NflScraper>(),
+    host.Services.GetRequiredService<NflScraper>(),
     host.Services.GetRequiredService<PracujScraper>()
 };
 
